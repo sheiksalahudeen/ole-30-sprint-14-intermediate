@@ -1,6 +1,7 @@
 package org.kuali.ole.oleng.scheduler;
 
 import org.apache.commons.collections.CollectionUtils;
+import org.apache.commons.io.FileUtils;
 import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
 import org.kuali.ole.constants.OleNGConstants;
@@ -11,6 +12,7 @@ import org.kuali.ole.oleng.util.OleNGSchedulerHelperUtil;
 import org.kuali.ole.spring.batch.processor.*;
 import org.kuali.ole.utility.OleHttpRestGet;
 import org.kuali.ole.utility.OleHttpRestGetImpl;
+import org.kuali.rice.core.api.config.property.ConfigContext;
 import org.kuali.rice.krad.UserSession;
 import org.kuali.rice.krad.util.GlobalVariables;
 import org.quartz.*;
@@ -18,8 +20,11 @@ import org.quartz.impl.StdSchedulerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.io.File;
+import java.io.IOException;
 import java.sql.Timestamp;
 import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
@@ -56,6 +61,8 @@ public class OleNGBatchJobScheduler extends OleNGSchedulerHelperUtil {
     
     public void initializeAllJobs() {
         LOG.info("-- initializing batch jobs --");
+        StringBuffer stringBuffer = new StringBuffer();
+        stringBuffer.append("\n");
         List<BatchProcessJob> batchProcessJobs = getDescribeDAO().fetchAllBatchProcessJobs();
         if(CollectionUtils.isNotEmpty(batchProcessJobs)) {
             for (Iterator<BatchProcessJob> iterator = batchProcessJobs.iterator(); iterator.hasNext(); ) {
@@ -68,12 +75,25 @@ public class OleNGBatchJobScheduler extends OleNGSchedulerHelperUtil {
 
                     if (StringUtils.isNotBlank(cron)) {
                         Date nextValidTimeAfter = getNextValidTimeAfter(cron);
+
+                        SimpleDateFormat dateFormat = new SimpleDateFormat("MM-dd-yyyy hh:mm:ss a");
+                        stringBuffer
+                                .append(dateFormat.format(new Date()))
+                                .append(" --> Job Id : " +id)
+                                .append(", Job Name : " + batchProcessJob.getJobName())
+                                .append(", Cron : " + cron)
+                                .append(", Next execution Time : " + nextValidTimeAfter);
+
+                        boolean scheduled = false;
                         if(null != nextValidTimeAfter) {
                             batchProcessJob.setNextRunTime(new Timestamp(nextValidTimeAfter.getTime()));
                             batchProcessJob.setJobType(OleNGConstants.SCHEDULED);
                             getBusinessObjectService().save(batchProcessJob);
                             scheduleOrRescheduleJob(id, profileId, type, cron);
+                            scheduled = true;
                         }
+                        stringBuffer.append(", Successfully Scheduled : " + scheduled)
+                                .append("\n");
                     }
                 } catch (Exception e) {
                     LOG.info("Failed to Schedule Job: " + batchProcessJob.getJobName());
@@ -81,6 +101,7 @@ public class OleNGBatchJobScheduler extends OleNGSchedulerHelperUtil {
                 }
             }
         }
+        printLogForBugFix(stringBuffer.toString());
     }
 
     public void scheduleOrRescheduleJob(long id, long profileId, String jobType, String cron) {
@@ -216,5 +237,19 @@ public class OleNGBatchJobScheduler extends OleNGSchedulerHelperUtil {
 
     public void setDescribeDAO(DescribeDAO describeDAO) {
         this.describeDAO = describeDAO;
+    }
+
+    private void printLogForBugFix(String content) {
+        String bugFixLogDirectory = ConfigContext.getCurrentContextConfig().getProperty("bugfix.log.directory");
+        File file = new File(bugFixLogDirectory);
+        if(!file.exists()) {
+            file.mkdirs();
+        }
+        try {
+            FileUtils.write(new File(file,"scheduler.log"),content, true);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
     }
 }
