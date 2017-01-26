@@ -1,0 +1,209 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<chapter xmlns:xlink="http://www.w3.org/1999/xlink" xmlns="http://docbook.org/ns/docbook"
+    version="5.0" xml:lang="en-US">
+    <title>Technical Documentation</title>
+    <itemizedlist>
+        <listitem>
+            <para><emphasis role="bold">Select and Acquire</emphasis></para>
+        </listitem>
+        <listitem>
+            <para>
+                <itemizedlist>
+                    <listitem>
+                        <para><link xlink:href="../../../pdfs/BudgetTechDoc.pdf">Budget
+                                Construction/Adjustment</link></para>
+                    </listitem>
+                    <listitem>
+                        <para><link xlink:href="../../../pdfs/COATechnicalDocument.pdf">Chart of
+                                Accounts (COA)</link></para>
+                    </listitem>
+                    <listitem>
+                        <para><link xlink:href="../../../pdfs/GlobalEditsTechnicalDocument.pdf"
+                                >Global Edits (Account, Account Delegate, Object Code, Sub Object
+                                Code, Organization Reversion)</link></para>
+                    </listitem>
+                    <listitem>
+                        <para><link xlink:href="../../../pdfs/EncumbranceMatrix.pdf">Encumbrance Matrix</link></para>
+                    </listitem>
+                    <listitem>
+                        <para><link xlink:href="../../../pdfs/eResourceTechnicalDocument.pdf">E-Resource</link></para>
+                    </listitem>
+                    <listitem>
+                        <para><link xlink:href="../../../pdfs/FYMakerJobTechDoc.pdf">Fiscal Year
+                                Maker Job</link></para>
+                    </listitem>
+                    <listitem>
+                        <para><link xlink:href="../../../pdfs/ErrorCorrection.pdf">General Ledger
+                                Error Correction</link></para>
+                    </listitem>
+                    <listitem>
+                        <para><link xlink:href="../../../pdfs/InvoiceTechnicalDocument.pdf">Invoice, PREQ, and CM</link></para>
+                    </listitem>
+                    <listitem>
+                        <para><link xlink:href="../../../pdfs/LicensingTechnicalDocument.pdf"
+                                >Licensing</link></para>
+                    </listitem>
+                    <listitem>
+                        <para><link xlink:href="../../../pdfs/POBulkAmend.pdf">PO Bulk
+                            Amend</link></para>
+                    </listitem>
+                    <listitem>
+                        <para><link xlink:href="../../../pdfs/ReceivingTechnicalDocument.pdf"
+                            >Receiving</link></para>
+                    </listitem>
+                    <listitem>
+                        <para><link xlink:href="../../../pdfs/RequisitionPurchaseOrder.pdf"
+                            >Requisitions / Purchase Orders</link></para>
+                    </listitem>
+                    <listitem>
+                        <para><link xlink:href="../../../pdfs/TransferofFundsTechnicalDocument.pdf"
+                            >Transfer of Funds</link></para>
+                    </listitem>
+                    <listitem>
+                        <para><link xlink:href="../../../pdfs/VendorTechnicalDocument.pdf"
+                            >Vendor</link></para>
+                    </listitem>
+                </itemizedlist>
+            </para>
+        </listitem>
+        <listitem>
+            <para><emphasis role="bold">Describe</emphasis></para>
+            <itemizedlist>
+                <listitem>
+                    <para><link xlink:href="../../../pdfs/DescribeFunctionalitiesTechDoc.pdf"
+                            >Describe Functionalities</link>  This contains:</para>
+                    <itemizedlist>
+                        <listitem>
+                            <para>Editor</para>
+                        </listitem>
+                        <listitem>
+                            <para>Analytics</para>
+                        </listitem>
+                        <listitem>
+                            <para>Bound-With</para>
+                        </listitem>
+                        <listitem>
+                            <para>Transfer</para>
+                        </listitem>
+                        <listitem>
+                            <para>Single Record Import</para>
+                        </listitem>
+                    </itemizedlist>
+                </listitem>
+                <listitem>
+                    <para><link xlink:href="../../../pdfs/SearchWorkbenchTechnicalDocument.pdf"
+                            >Search Workbench</link></para>
+                </listitem>
+                <listitem>
+                    <para><link xlink:href="../../../pdfs/SOLRinOLETechDoc.pdf">SOLR in
+                        OLE</link></para>
+                </listitem>
+            </itemizedlist>
+        </listitem>
+        <listitem>
+            <para><emphasis role="bold">Deliver</emphasis></para>
+            <itemizedlist>
+                <listitem>
+                    <para><link xlink:href="../../../pdfs/OLECirculationProcessesTechDoc.pdf"
+                            >Circulation Processes</link>  This contains</para>
+                    <itemizedlist>
+                        <listitem>
+                            <para>Loan, Return, Renew</para>
+                        </listitem>
+                        <listitem>
+                            <para>Request</para>
+                        </listitem>
+                        <listitem>
+                            <para>Notice</para>
+                        </listitem>
+                        <listitem>
+                            <para>Patron Bill</para>
+                        </listitem>
+                    </itemizedlist>
+                </listitem>
+                <listitem>
+                    <para><link xlink:href="../../../pdfs/DroolsTechnicalDocument.pdf">Drools for
+                            Circulation Rules</link></para>
+                </listitem>
+                <listitem>
+                    <para><link xlink:href="../../../pdfs/LoanTechnicalDocument.pdf">KRMS for
+                        Circulation Rules</link></para>
+                </listitem>
+                <listitem>
+                    <para><link xlink:href="../../../pdfs/EDIinOLETechnicalDocument.pdf">EDI in
+                            OLE</link></para>
+                </listitem>
+                <listitem>
+                    <para><link xlink:href="../../../pdfs/LocationTechnicalDocument.pdf"
+                            >Location</link></para>
+                </listitem>
+                <listitem>
+                    <para><link xlink:href="../../../pdfs/PatronTechnicalDocument.pdf"
+                        >Patron</link></para>
+                </listitem>
+                <listitem>
+                    <para><link xlink:href="../../../pdfs/OLERESTServicesTechDoc.pdf">REST
+                            Services</link></para>
+                </listitem>
+            </itemizedlist>
+        </listitem>
+        <listitem>
+            <para><emphasis role="bold">Admin</emphasis></para>
+            <itemizedlist>
+                <listitem>
+                    <para><link xlink:href="../../../pdfs/BatchProcessTechnicalDocument.pdf">Batch
+                            Process</link></para>
+                </listitem>
+                <listitem>
+                    <para><link xlink:href="../../../pdfs/BatchProcessProfileTechnicalDocument.pdf"
+                            >Batch Process Profile</link></para>
+                </listitem>
+                <listitem>
+                    <para><link xlink:href="../../../pdfs/NewBatchProcessTechnicalDocument.pdf">New
+                            Batch Process</link> (Bib, Invoice, and Order Record Import)</para>
+                </listitem>
+                <listitem>
+                    <para><link xlink:href="../../../pdfs/ScheduledJobsTechnicalDocument.pdf"
+                            >Scheduled Jobs</link></para>
+                </listitem>
+            </itemizedlist>
+        </listitem>
+        <listitem>
+            <para><emphasis role="bold">Reports</emphasis></para>
+            <itemizedlist>
+                <listitem>
+                    <para><link xlink:href="../../../pdfs/ReportsTechnicalDocument.pdf"
+                            >Reports</link></para>
+                </listitem>
+            </itemizedlist>
+        </listitem>
+        <listitem>
+            <para><emphasis role="bold">Integration</emphasis></para>
+            <itemizedlist>
+                <listitem>
+                    <para><link xlink:href="../../../pdfs/OLE-SIP2Document.pdf">3M
+                            Integration</link></para>
+                </listitem>
+                <listitem>
+                    <para><link xlink:href="../../../pdfs/DataLoadAtStartupTechDoc.pdf">Data Load at
+                            Startup</link> (Includes patrons, circulation policies, ingest profiles,
+                        and e-resources)</para>
+                </listitem>
+                <listitem>
+                    <para><link xlink:href="../../../pdfs/InternationalizationTechnicalDocument.pdf"
+                            >Internationalization</link></para>
+                </listitem>
+                <listitem>
+                    <para><link xlink:href="../../../pdfs/LoadBalancinginOLE.pdf"
+                        >Load Balancing (LB) in OLE</link></para>
+                </listitem>
+            </itemizedlist>
+        </listitem>
+    </itemizedlist>
+    <para>If you have technical questions, please contact our collaboration community at <link
+            xlink:href="mailto:ole.technical.usergroup@kuali.org"
+            >ole.technical.usergroup@kuali.org</link>.</para>
+    <para>For functional questions, please contact our collaboration community at <link
+            xlink:href="mailto:ole.functional.usergroup@kuali.org"
+            >ole.functional.usergroup@kuali.org</link>.</para>
+</chapter>

@@ -1,0 +1,127 @@
+.uif-documentView .uif-viewHeader {
+    height: 20px;
+    padding: 1;
+}
+
+.uif-viewHeader div.uif-docheader table {
+    height: 20px;
+}
+
+.uif-viewHeader .uif-headerText .uif-headerText-span {
+    display: block;
+    float: inherit;
+    width: inherit;
+    clear: both;
+    font-size: 25px;
+    margin: 0;
+    padding: 0;
+    padding-top: 6px;
+}
+
+div#popupToDisplayLinkedRecords{
+    display:none;
+    background: #DDDDDD;
+    padding: 10px;
+    border: 2px solid #ddd;
+    float: left;
+    width: auto;
+    height: auto;
+    position: fixed;
+    top: 20%; left: 50%;
+    z-index: 99999;
+    box-shadow: 0px 0px 20px #999;
+    -moz-box-shadow: 0px 0px 20px #999;
+    -webkit-box-shadow: 0px 0px 20px #999;
+    border-radius:3px 3px 3px 3px;
+    -moz-border-radius: 3px;
+    -webkit-border-radius: 3px;
+}
+div#popupToDisplayGOKBMessage{
+    display:none;
+    background: #DDDDDD;
+    padding: 10px;
+    border: 2px solid #ddd;
+    float: left;
+    width: auto;
+    height: auto;
+    position: fixed;
+    top: 20%; left: 50%;
+    z-index: 99999;
+    box-shadow: 0px 0px 20px #999;
+    -moz-box-shadow: 0px 0px 20px #999;
+    -webkit-box-shadow: 0px 0px 20px #999;
+    border-radius:3px 3px 3px 3px;
+    -moz-border-radius: 3px;
+    -webkit-border-radius: 3px;
+}
+div#popupToDisplayPlatformProviderMessage{
+    display:none;
+    background: #DDDDDD;
+    padding: 10px;
+    border: 2px solid #ddd;
+    float: left;
+    width: auto;
+    height: auto;
+    position: fixed;
+    top: 20%; left: 50%;
+    z-index: 99999;
+    box-shadow: 0px 0px 20px #999;
+    -moz-box-shadow: 0px 0px 20px #999;
+    -webkit-box-shadow: 0px 0px 20px #999;
+    border-radius:3px 3px 3px 3px;
+    -moz-border-radius: 3px;
+    -webkit-border-radius: 3px;
+}
+div#OLEPlatformEventLogTab-Event{
+    display:none;
+    background: #DDDDDD;
+    padding: 10px;
+    border: 2px solid #ddd;
+    float: left;
+    width: auto;
+    height: auto;
+    position: fixed;
+    top: 20%; left: 50%;
+    z-index: 99999;
+    box-shadow: 0px 0px 20px #999;
+    -moz-box-shadow: 0px 0px 20px #999;
+    -webkit-box-shadow: 0px 0px 20px #999;
+    border-radius:3px 3px 3px 3px;
+    -moz-border-radius: 3px;
+    -webkit-border-radius: 3px;
+}
+#mask {
+    display: none;
+    background: #000;
+    position: fixed; left: 0; top: 0;
+    z-index: 10;
+    width: 100%; height: 100%;
+    opacity: 0.8;
+    z-index: 999;
+}
+
+.InactiveVendorForHiperLink A:Visited {
+    font-weight: normal;
+    color: red;
+    font-style: italic;
+    background:yellow;
+}
+
+.InactiveVendorForHiperLink A:link {
+    font-weight: normal;
+    color: red;
+    font-style: italic;
+}
+
+.InactiveVendorForHiperLink A:active {
+    font-weight: normal;
+    color: red;
+    font-style: italic;
+    background:yellow;
+}
+
+.InactiveVendor{
+    font-weight: normal;
+    color: red;
+    font-style: italic;
+}

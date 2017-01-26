@@ -1,0 +1,149 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+                    http://www.springframework.org/schema/beans/spring-beans-3.1.xsd">
+
+    <bean id="OLEDeliverNoticeSearchView" parent="OLEDeliverNoticeSearchView-parentBean"/>
+    <bean id="OLEDeliverNoticeSearchView-parentBean" parent="Uif-OLEFormView">
+        <property name="headerText" value="Deliver Notices Search"/>
+        <property name="items">
+            <list>
+                <bean id="deliverNoticeSearchPage" parent="Uif-Page">
+                    <property name="items">
+                        <list>
+                            <ref bean="deliverNoticeSearchPanel"/>
+                            <ref bean="deliverNoticeSearchButtons"/>
+                            <ref bean="deliverNoticeSearchResults"/>
+                            <ref bean="deliverNoticeSearchCriteria"/>
+                        </list>
+                    </property>
+                </bean>
+            </list>
+        </property>
+        <property name="additionalScriptFiles">
+            <list merge="true">
+                <value>ole/deliver/request/scripts/noticesSearch.js</value>
+            </list>
+        </property>
+        <property name="formClass" value="org.kuali.ole.deliver.form.OLEDeliverNoticeSearchForm"/>
+    </bean>
+
+    <bean id="deliverNoticeSearchPanel" parent="Uif-GridSection" p:layoutManager.numberOfColumns="2">
+        <property name="items">
+            <list>
+                <bean id="deliverNoticeSearch-patronBarcode" parent="Uif-InputField" p:propertyName="patronBarcode"
+                      p:label="Patron Barcode">
+                    <property name="quickfinder">
+                        <bean parent="Uif-QuickFinder"
+                              p:dataObjectClassName="org.kuali.ole.deliver.bo.OlePatronDocument"
+                              p:fieldConversions="barcode:patronBarcode" p:lookupParameters="patronBarcode:barcode"/>
+                    </property>
+                    <property name="control">
+                        <bean parent="Uif-TextControl" p:size="25" p:maxLength="100"/>
+                    </property>
+                </bean>
+
+                <bean id="deliverNoticeSearch-itemBarcode" parent="Uif-InputField" p:propertyName="itemBarcode"
+                      p:label="Item Barcode">
+                    <property name="quickfinder">
+                        <bean parent="Uif-QuickFinder" p:dataObjectClassName="org.kuali.ole.deliver.bo.OleItemSearch"
+                              p:fieldConversions="itemBarCode:itemBarcode"
+                              p:lookupParameters="itemBarcode:itemBarCode"/>
+                    </property>
+                    <property name="control">
+                        <bean parent="Uif-TextControl" p:size="25" p:maxLength="30"/>
+                    </property>
+                </bean>
+
+                <bean id="deliverNoticeSearch-dateSentFrom" parent="Uif-InputField" p:propertyName="dateSentFrom"
+                      p:label="Date Sent From">
+                    <property name="control">
+                        <bean parent="Uif-DateControl" p:size="10"/>
+                    </property>
+                    <property name="validCharactersConstraint">
+                        <bean parent="BasicDatePatternConstraint"/>
+                    </property>
+                </bean>
+
+                <bean id="deliverNoticeSearch-dateSentTo" parent="Uif-InputField" p:propertyName="dateSentTo"
+                      p:label="Date Sent To">
+                    <property name="control">
+                        <bean parent="Uif-DateControl" p:size="10"/>
+                    </property>
+                    <property name="validCharactersConstraint">
+                        <bean parent="BasicDatePatternConstraint"/>
+                    </property>
+                </bean>
+
+                <bean id="deliverNoticeSearch-noticeType" parent="Uif-InputField" p:propertyName="noticeType"
+                      p:label="Notice Type">
+                    <property name="optionsFinder">
+                        <bean class="org.kuali.ole.deliver.notice.valuesFinder.OleNoticeTypeKeyValuesFinder"/>
+                    </property>
+                    <property name="control">
+                        <bean parent="Uif-DropdownControl" p:cssClasses="fixed-size-100-select"/>
+                    </property>
+                </bean>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="deliverNoticeSearchButtons" parent="Uif-HorizontalBoxSection" p:style="text-align:center;">
+        <property name="items">
+            <list>
+                <bean id="notice_search_button" parent="Uif-SecondaryActionButton"
+                      p:style="margin-left:50%;"
+                      p:actionScript="
+                            var dateSentFrom = jq.trim(jq('#deliverNoticeSearch-dateSentFrom_control').val())!='' ? jq('#deliverNoticeSearch-dateSentFrom_control').valid() : true;
+                            var dateSentTo = jq.trim(jq('#deliverNoticeSearch-dateSentTo_control').val())!='' ? jq('#deliverNoticeSearch-dateSentTo_control').valid() : true;
+                            if(dateSentFrom &amp; dateSentTo){
+                                submitForm('search',null,null,null,null);
+                            }else{
+                                submitForm('clearResults',null,null,null,null);
+                            }"
+                      p:actionLabel="Search"/>
+                <bean id="notice_clear_button" parent="Uif-SecondaryActionButton"
+                      p:methodToCall="clearSearch" p:actionLabel="Clear"/>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="deliverNoticeSearchResults" parent="Uif-TableCollectionSection">
+        <property name="propertyName" value="oleDeliverNoticeSearchResult"/>
+        <property name="renderAddLine" value="false"/>
+        <property name="renderLineActions" value="false"/>
+        <property name="layoutManager.renderSequenceField" value="false"/>
+        <property name="collectionObjectClass"
+                  value="org.kuali.ole.deliver.bo.OLEDeliverNoticeSearchResult" />
+        <property name="items">
+            <list>
+                <bean id="searchResult-patronId" parent="Uif-DataField" p:propertyName="patronId"
+                      p:label="Patron Barcode"/>
+                <bean id="searchResult-noticeType" parent="Uif-DataField" p:propertyName="noticeType"
+                      p:label="Notice Type"/>
+                <bean id="searchResult-sentDate" parent="Uif-DataField" p:propertyName="dateSentTo"
+                      p:label="Notice Sent Date"/>
+
+                <bean id="searchResult-noticeContentLinkGroup" parent="Uif-HorizontalFieldGroup">
+                    <property name="items">
+                        <list>
+                            <bean id="searchResult-noticeContentLink" parent="Uif-ActionLink" p:actionScript="
+                submitForm('showDialogWithNoticeContent',{contentIndex:'@{#index}'},null,null,null);" p:actionLabel="View Notice Content"/>
+                        </list>
+                    </property>
+                </bean>
+
+
+            </list>
+        </property>
+    </bean>
+
+
+    <bean id="deliverNoticeSearchCriteria" parent="Uif-HorizontalBoxSection" p:style="text-align:center;">
+    <property name="items">
+        <list>
+        <bean id="pageSize" parent="Uif-DataField" p:propertyName="pageSize" p:hidden="true"/>
+        </list>
+    </property>
+    </bean>
+</beans>

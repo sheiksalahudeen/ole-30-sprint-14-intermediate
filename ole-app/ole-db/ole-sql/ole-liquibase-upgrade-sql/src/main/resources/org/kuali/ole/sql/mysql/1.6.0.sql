@@ -1,0 +1,617 @@
+--  *********************************************************************
+--  Update Database Script
+--  *********************************************************************
+--  Change Log: org/kuali/ole/1.6.0/db.changelog-20141207.xml
+--  *********************************************************************
+
+--  Lock Database
+--  Changeset org/kuali/ole/1.6.0/db.changelog-20141207.xml::OLE_LOAD_KRCR_PARM_T_mysql::ole
+SET sql_mode='NO_BACKSLASH_ESCAPES'
+/
+
+INSERT INTO KRCR_PARM_T (NMSPC_CD, CMPNT_CD, PARM_NM, OBJ_ID, VER_NBR, PARM_TYP_CD, VAL, PARM_DESC_TXT, EVAL_OPRTR_CD, APPL_ID) VALUES ('OLE-SELECT', 'Select', 'REENCUMBER_RECURRING_ORDERS', 'OLE6575', '1', 'CONFG', 'PO,+ 0 $', 'This parameter is having option for to calculate either reencumber recurring Purchase Orders amounts or Invoice amounts, By default it calculate for PO', 'A', 'OLE')
+/
+
+INSERT INTO KRCR_PARM_T (NMSPC_CD, CMPNT_CD, PARM_NM, OBJ_ID, VER_NBR, PARM_TYP_CD, VAL, PARM_DESC_TXT, EVAL_OPRTR_CD, APPL_ID) VALUES ('OLE-SELECT', 'Select', 'SYSTEM_USER', 'OLE6576', '1', 'CONFG', 'ole-quickstart', 'Default System User', 'A', 'KUALI')
+/
+
+INSERT INTO KRCR_PARM_T (NMSPC_CD, CMPNT_CD, PARM_NM, OBJ_ID, VER_NBR, PARM_TYP_CD, VAL, PARM_DESC_TXT, EVAL_OPRTR_CD, APPL_ID) VALUES ('OLE-SELECT', 'Select', 'ACCOUNT_DOCUMENT_INTIATOR', 'OLE6577', '1', 'CONFG', 'ole-quickstart', 'Default Account Document Intiator', 'A', 'KUALI')
+/
+
+INSERT INTO KRCR_PARM_T (NMSPC_CD, CMPNT_CD, PARM_NM, OBJ_ID, VER_NBR, PARM_TYP_CD, VAL, PARM_DESC_TXT, EVAL_OPRTR_CD, APPL_ID) VALUES ('OLE-SELECT', 'Select', 'NCIP_EMAILADDRESS_TYPE', 'OLE6578', '1', 'CONFG', 'electronic mail address', 'Parameter is used to set the value for NCIP Email Address Type', 'A', 'KUALI')
+/
+
+INSERT INTO KRCR_PARM_T (NMSPC_CD, CMPNT_CD, PARM_NM, OBJ_ID, VER_NBR, PARM_TYP_CD, VAL, PARM_DESC_TXT, EVAL_OPRTR_CD, APPL_ID) VALUES ('OLE-DLVR', 'Deliver', 'PAYMENT_MODE_FORGIVE', 'OLE6579', '1', 'CONFG', 'Forgive', 'The forgive value can be configured.(e.g) SOAS needs Waived instead of Forgive. So Universities can have the value whatever is appropriate to them', 'A', 'OLE')
+/
+
+INSERT INTO KRCR_PARM_T (NMSPC_CD, CMPNT_CD, PARM_NM, OBJ_ID, VER_NBR, PARM_TYP_CD, VAL, PARM_DESC_TXT, EVAL_OPRTR_CD, APPL_ID) VALUES ('OLE-DLVR', 'Deliver', 'PAYMENT_MODE_FORGIVE_MESSAGE', 'OLE6580', '1', 'CONFG', 'has been forgiven', 'The forgive message can be configured.(e.g) SOAS needs has been waived instead of has been forgiven. So Universities can have the value whatever is appropriate to them', 'A', 'OLE')
+/
+
+INSERT INTO KRCR_PARM_T (NMSPC_CD, CMPNT_CD, PARM_NM, OBJ_ID, VER_NBR, PARM_TYP_CD, VAL, PARM_DESC_TXT, EVAL_OPRTR_CD, APPL_ID) VALUES ('OLE-DLVR', 'Deliver', 'DEFAULT_REQUEST_LEVEL', 'OLE6581', '1', 'CONFG', 'Item', 'This for setting the default request level while placing a request .Allowed values were Item and Title', 'A', 'OLE')
+/
+
+INSERT INTO KRCR_PARM_T (NMSPC_CD, CMPNT_CD, PARM_NM, OBJ_ID, VER_NBR, PARM_TYP_CD, VAL, PARM_DESC_TXT, EVAL_OPRTR_CD, APPL_ID) VALUES ('OLE-DLVR', 'Deliver', 'TITLE_LEVEL_REQUEST_INDICATOR', 'OLE6582', '1', 'CONFG', 'Y', 'This is to decide whether the title request can be placed on an item or not.Allowed values were Y and N', 'A', 'OLE')
+/
+
+INSERT INTO KRCR_PARM_T (NMSPC_CD, CMPNT_CD, PARM_NM, OBJ_ID, VER_NBR, PARM_TYP_CD, VAL, PARM_DESC_TXT, EVAL_OPRTR_CD, APPL_ID) VALUES ('OLE-DLVR', 'Deliver', 'DEFAULT_CIRCULATION_DESK', 'OLE6583', '1', 'CONFG', 'BL_EDUC', 'This parameter value wil be used as the default circulation desk value if the item owning location is not mapped to any circulation desk', 'A', 'OLE')
+/
+
+INSERT INTO KRCR_PARM_T (NMSPC_CD, CMPNT_CD, PARM_NM, OBJ_ID, VER_NBR, PARM_TYP_CD, VAL, PARM_DESC_TXT, EVAL_OPRTR_CD, APPL_ID) VALUES ('OLE-DLVR', 'Deliver', 'SIP2_INSTITUTION_NAME', 'OLE6584', '1', 'CONFG', 'OLE', 'This parameter hold the Institution name for 3M machine', 'A', 'OLE')
+/
+
+INSERT INTO KRCR_PARM_T (NMSPC_CD, CMPNT_CD, PARM_NM, OBJ_ID, VER_NBR, PARM_TYP_CD, VAL, PARM_DESC_TXT, EVAL_OPRTR_CD, APPL_ID) VALUES ('OLE-DLVR', 'Deliver', 'SIP2_REQUEST_TYPE', 'OLE6585', '1', 'CONFG', 'Hold/Hold Request', 'This parameter hold the request type for 3M machine', 'A', 'OLE')
+/
+
+INSERT INTO KRCR_PARM_T (NMSPC_CD, CMPNT_CD, PARM_NM, OBJ_ID, VER_NBR, PARM_TYP_CD, VAL, PARM_DESC_TXT, EVAL_OPRTR_CD, APPL_ID) VALUES ('OLE-DLVR', 'Deliver', 'SIP2_OPERATOR_ID', 'OLE6586', '1', 'CONFG', 'olequickstart', 'This parameter hold the operator id for 3M machine to perform checking/checkout operation', 'A', 'OLE')
+/
+
+INSERT INTO KRCR_PARM_T (NMSPC_CD, CMPNT_CD, PARM_NM, OBJ_ID, VER_NBR, PARM_TYP_CD, VAL, PARM_DESC_TXT, EVAL_OPRTR_CD, APPL_ID) VALUES ('OLE-PURAP', 'AutoClosePurchaseOrdersStep', 'AUTO_CLOSE_PO_FROM_DATE', 'OLEPO001', '1', 'CONFG', 'mm/dd/yyyy', 'Date used by batch job to automatically close POs starting from this date. Parameter is defaulted to "mm/dd/yyyy" when job will close any orders irrespective of PO Created Date. User should set the date when they want to close the PO''s created from this date.', 'A', 'OLE')
+/
+
+INSERT INTO KRCR_PARM_T (NMSPC_CD, CMPNT_CD, PARM_NM, OBJ_ID, VER_NBR, PARM_TYP_CD, VAL, PARM_DESC_TXT, EVAL_OPRTR_CD, APPL_ID) VALUES ('OLE-PURAP', 'AutoClosePurchaseOrdersStep', 'AUTO_CLOSE_PO_TO_DATE', 'OLEPO002', '1', 'CONFG', 'mm/dd/yyyy', 'Date used by batch job to automatically close POs up to this date. Parameter is defaulted to "mm/dd/yyyy" when job will close any orders irrespective of PO Created Date. User should set the date when they want to close the PO''s created up to this date.', 'A', 'OLE')
+/
+
+INSERT INTO KRCR_PARM_T (NMSPC_CD, CMPNT_CD, PARM_NM, OBJ_ID, VER_NBR, PARM_TYP_CD, VAL, PARM_DESC_TXT, EVAL_OPRTR_CD, APPL_ID) VALUES ('OLE-SELECT', 'Select', 'REENCUMBER_RECURRING_FROM_DATE', 'OLE6587', '1', 'CONFG', 'mm/dd/yyyy', 'Date used by reencumberRecurringOrdersJob to retrieve recurring Purchase Orders starting from this date. Parameter is defaulted to "mm/dd/yyyy"', 'A', 'OLE')
+/
+
+INSERT INTO KRCR_PARM_T (NMSPC_CD, CMPNT_CD, PARM_NM, OBJ_ID, VER_NBR, PARM_TYP_CD, VAL, PARM_DESC_TXT, EVAL_OPRTR_CD, APPL_ID) VALUES ('OLE-SELECT', 'Select', 'REENCUMBER_RECURRING_TO_DATE', 'OLE6588', '1', 'CONFG', 'mm/dd/yyyy', 'Date used by reencumberRecurringOrdersJob to retrieve recurring Purchase Orders up to this date. Parameter is defaulted to "mm/dd/yyyy"', 'A', 'OLE')
+/
+
+INSERT INTO KRCR_PARM_T (NMSPC_CD, CMPNT_CD, PARM_NM, OBJ_ID, VER_NBR, PARM_TYP_CD, VAL, PARM_DESC_TXT, EVAL_OPRTR_CD, APPL_ID) VALUES ('OLE-DLVR', 'Deliver', 'OVERDUE_NOTICE_TO_DATE', 'OLE7001', '1', 'CONFG', '07/04/2015', 'The overdue notices will be send to the patron who are having the overdue date falling on or before the date specified in this parameter while running the notice job', 'A', 'OLE')
+/
+
+INSERT INTO KRCR_PARM_T (NMSPC_CD, CMPNT_CD, PARM_NM, OBJ_ID, VER_NBR, PARM_TYP_CD, VAL, PARM_DESC_TXT, EVAL_OPRTR_CD, APPL_ID) VALUES ('OLE-DLVR', 'Deliver', 'COURTESY_NOTICE_TO_DATE', 'OLE7002', '1', 'CONFG', '07/04/2015', 'The courtesy notices will be send to the patron who are having the courtesy date falling on or before the date specified in this parameter while running the notice job', 'A', 'OLE')
+/
+
+INSERT INTO KRCR_PARM_T (NMSPC_CD, CMPNT_CD, PARM_NM, OBJ_ID, VER_NBR, PARM_TYP_CD, VAL, PARM_DESC_TXT, EVAL_OPRTR_CD, APPL_ID) VALUES ('OLE-DLVR', 'Deliver', 'NOTICE_THREAD_POOL_SIZE', 'OLE7003', '1', 'CONFG', '10', 'This parameter provides the number of parallel execution to be applied on the notice generation process', 'A', 'OLE')
+/
+
+INSERT INTO KRCR_PARM_T (NMSPC_CD, CMPNT_CD, PARM_NM, OBJ_ID, VER_NBR, PARM_TYP_CD, VAL, PARM_DESC_TXT, EVAL_OPRTR_CD, APPL_ID) VALUES ('OLE-DLVR', 'Deliver', 'LOST_NOTICE_TO_DATE', 'OLE7004', '1', 'CONFG', '07/04/2015', 'The replacement fee will be generated and item status is updated to lost for the items have the lost date falling on or before the date specified in this parameter', 'A', 'OLE')
+/
+
+INSERT INTO KRCR_PARM_T (NMSPC_CD, CMPNT_CD, PARM_NM, OBJ_ID, VER_NBR, PARM_TYP_CD, VAL, PARM_DESC_TXT, EVAL_OPRTR_CD, APPL_ID) VALUES ('OLE-DESC', 'Describe', 'PROCESS_SOLR_IND', 'OLE7006', '1', 'CONFG', 'true', 'This parameter is added for docstore API process for solr indexing', 'A', 'OLE')
+/
+
+INSERT INTO DATABASECHANGELOG (ID, AUTHOR, FILENAME, DATEEXECUTED, ORDEREXECUTED, MD5SUM, DESCRIPTION, COMMENTS, EXECTYPE, LIQUIBASE) VALUES ('OLE_LOAD_KRCR_PARM_T_mysql', 'ole', 'org/kuali/ole/1.6.0/db.changelog-20141207.xml', NOW(), 1, '7:80d7199392ff5f79dd3d48f5d3194f71', 'sql, loadData', '', 'EXECUTED', '3.2.0')
+/
+
+--  Changeset org/kuali/ole/1.6.0/db.changelog-20141207.xml::OLE_LOAN_INTRANSIT_HISTORY_T::ole
+CREATE TABLE ole.OLE_LOAN_INTRANSIT_HISTORY_T (ID VARCHAR(40) NULL, ITEM_BARCODE VARCHAR(40) NULL, ITEM_UUID VARCHAR(40) NULL, ITEM_RETURNED_DT TIMESTAMP NULL, OPERATOR VARCHAR(36) NULL, CIR_DESK_LOC VARCHAR(100) NULL, CIR_DESK_ROUTE_TO VARCHAR(100) NULL, VER_NBR DECIMAL(8) NULL, OBJ_ID VARCHAR(36) NULL)
+/
+
+INSERT INTO DATABASECHANGELOG (ID, AUTHOR, FILENAME, DATEEXECUTED, ORDEREXECUTED, MD5SUM, DESCRIPTION, COMMENTS, EXECTYPE, LIQUIBASE) VALUES ('OLE_LOAN_INTRANSIT_HISTORY_T', 'ole', 'org/kuali/ole/1.6.0/db.changelog-20141207.xml', NOW(), 2, '7:b878192d7300f3642a142a8c2ca0038e', 'createTable', '', 'EXECUTED', '3.2.0')
+/
+
+--  Changeset org/kuali/ole/1.6.0/db.changelog-20141207.xml::OLE_LOAN_INTRANSIT_HISTORY_T_PK::ole
+ALTER TABLE ole.OLE_LOAN_INTRANSIT_HISTORY_T ADD PRIMARY KEY (ID)
+/
+
+INSERT INTO DATABASECHANGELOG (ID, AUTHOR, FILENAME, DATEEXECUTED, ORDEREXECUTED, MD5SUM, DESCRIPTION, COMMENTS, EXECTYPE, LIQUIBASE) VALUES ('OLE_LOAN_INTRANSIT_HISTORY_T_PK', 'ole', 'org/kuali/ole/1.6.0/db.changelog-20141207.xml', NOW(), 3, '7:4439136436a92a0311595b06eea74413', 'addPrimaryKey', '', 'EXECUTED', '3.2.0')
+/
+
+--  Changeset org/kuali/ole/1.6.0/db.changelog-20141207.xml::OLE_LOAN_INTRANSIT_HISTORY_S::ole
+CREATE TABLE ole.OLE_LOAN_INTRANSIT_HISTORY_S (ID VARCHAR(40) NULL)
+/
+
+INSERT INTO DATABASECHANGELOG (ID, AUTHOR, FILENAME, DATEEXECUTED, ORDEREXECUTED, MD5SUM, DESCRIPTION, COMMENTS, EXECTYPE, LIQUIBASE) VALUES ('OLE_LOAN_INTRANSIT_HISTORY_S', 'ole', 'org/kuali/ole/1.6.0/db.changelog-20141207.xml', NOW(), 4, '7:449bb987329206f7492a831ff363ca0d', 'createTable', '', 'EXECUTED', '3.2.0')
+/
+
+--  Changeset org/kuali/ole/1.6.0/db.changelog-20141207.xml::OLE_DS_DOC_FIELD_T::ole
+INSERT INTO OLE_DS_DOC_FIELD_T (DISPLAY_LABEL,DOC_FIELD_ID,DOC_FORMAT_ID,DOC_TYPE_ID,IS_DISPLAY,IS_EXPORT,IS_FACET,IS_GLOBAL_EDIT,IS_SEARCH,NAME,OBJ_ID,VER_NBR) VALUES ('Title','357','9','4','N','Y','N','N','Y','Title_search','357','1')
+/
+
+INSERT INTO OLE_DS_DOC_FIELD_T (DISPLAY_LABEL,DOC_FIELD_ID,DOC_FORMAT_ID,DOC_TYPE_ID,IS_DISPLAY,IS_EXPORT,IS_FACET,IS_GLOBAL_EDIT,IS_SEARCH,NAME,OBJ_ID,VER_NBR) VALUES ('Author','358','9','4','N','Y','N','N','Y','Author_search','358','1')
+/
+
+INSERT INTO OLE_DS_DOC_FIELD_T (DISPLAY_LABEL,DOC_FIELD_ID,DOC_FORMAT_ID,DOC_TYPE_ID,IS_DISPLAY,IS_EXPORT,IS_FACET,IS_GLOBAL_EDIT,IS_SEARCH,NAME,OBJ_ID,VER_NBR) VALUES ('Publisher','359','9','4','N','Y','N','N','Y','Publisher_search','359','1')
+/
+
+INSERT INTO OLE_DS_DOC_FIELD_T (DISPLAY_LABEL,DOC_FIELD_ID,DOC_FORMAT_ID,DOC_TYPE_ID,IS_DISPLAY,IS_EXPORT,IS_FACET,IS_GLOBAL_EDIT,IS_SEARCH,NAME,OBJ_ID,VER_NBR) VALUES ('ISSN','360','9','4','N','Y','N','N','Y','ISSN_search','360','1')
+/
+
+INSERT INTO OLE_DS_DOC_FIELD_T (DISPLAY_LABEL,DOC_FIELD_ID,DOC_FORMAT_ID,DOC_TYPE_ID,IS_DISPLAY,IS_EXPORT,IS_FACET,IS_GLOBAL_EDIT,IS_SEARCH,NAME,OBJ_ID,VER_NBR) VALUES ('ISBN','361','9','4','N','Y','N','N','Y','ISBN_search','361','1')
+/
+
+INSERT INTO OLE_DS_DOC_FIELD_T (DISPLAY_LABEL,DOC_FIELD_ID,DOC_FORMAT_ID,DOC_TYPE_ID,IS_DISPLAY,IS_EXPORT,IS_FACET,IS_GLOBAL_EDIT,IS_SEARCH,NAME,OBJ_ID,VER_NBR) VALUES ('Format','362','9','4','N','Y','N','N','Y','Format_search','362','1')
+/
+
+INSERT INTO OLE_DS_DOC_FIELD_T (DISPLAY_LABEL,DOC_FIELD_ID,DOC_FORMAT_ID,DOC_TYPE_ID,IS_DISPLAY,IS_EXPORT,IS_FACET,IS_GLOBAL_EDIT,IS_SEARCH,NAME,OBJ_ID,VER_NBR) VALUES ('Language','363','9','4','N','Y','N','N','Y','Language_search','363','1')
+/
+
+INSERT INTO OLE_DS_DOC_FIELD_T (DISPLAY_LABEL,DOC_FIELD_ID,DOC_FORMAT_ID,DOC_TYPE_ID,IS_DISPLAY,IS_EXPORT,IS_FACET,IS_GLOBAL_EDIT,IS_SEARCH,NAME,OBJ_ID,VER_NBR) VALUES ('Date of Publication','364','9','4','N','Y','N','N','Y','PublicationDate_search','364','1')
+/
+
+INSERT INTO OLE_DS_DOC_FIELD_T (DISPLAY_LABEL,DOC_FIELD_ID,DOC_FORMAT_ID,DOC_TYPE_ID,IS_DISPLAY,IS_EXPORT,IS_FACET,IS_GLOBAL_EDIT,IS_SEARCH,NAME,OBJ_ID,VER_NBR) VALUES ('OCLC No','365','1','1','N','N','N','N','Y','mdf_035a','365','1')
+/
+
+INSERT INTO OLE_DS_DOC_FIELD_T (DISPLAY_LABEL,DOC_FIELD_ID,DOC_FORMAT_ID,DOC_TYPE_ID,IS_DISPLAY,IS_EXPORT,IS_FACET,IS_GLOBAL_EDIT,IS_SEARCH,NAME,OBJ_ID,VER_NBR) VALUES ('Bib Local Identifier','366','9','4','N','Y','N','N','Y','bibIdentifier','366','1')
+/
+
+INSERT INTO DATABASECHANGELOG (ID, AUTHOR, FILENAME, DATEEXECUTED, ORDEREXECUTED, MD5SUM, DESCRIPTION, COMMENTS, EXECTYPE, LIQUIBASE) VALUES ('OLE_DS_DOC_FIELD_T', 'ole', 'org/kuali/ole/1.6.0/db.changelog-20141207.xml', NOW(), 5, '7:c3364f55f4d3aeef9eecd687e87433a0', 'sql (x10)', '', 'EXECUTED', '3.2.0')
+/
+
+--  Changeset org/kuali/ole/1.6.0/db.changelog-20141207.xml::OLE_CNCL_RSN_S::ole
+INSERT INTO OLE_CNCL_RSN_S values ()
+/
+
+set @last_id = last_insert_id()
+/
+
+INSERT INTO OLE_CNCL_RSN_T (CNCL_RSN_ID, CNCL_RSN_NM, CNCL_RSN_TXT, ROW_ACT_IND, OBJ_ID, VER_NBR) VALUES (@last_id,'Library Cancelled','Library Cancelled','Y','3ee62d0c-125e-46a9-acd9-ace57d63dc37','1')
+/
+
+INSERT INTO DATABASECHANGELOG (ID, AUTHOR, FILENAME, DATEEXECUTED, ORDEREXECUTED, MD5SUM, DESCRIPTION, COMMENTS, EXECTYPE, LIQUIBASE) VALUES ('OLE_CNCL_RSN_S', 'ole', 'org/kuali/ole/1.6.0/db.changelog-20141207.xml', NOW(), 6, '7:ea57e2c2fa022f63bbed7d50d13a6b7c', 'sql (x3)', '', 'EXECUTED', '3.2.0')
+/
+
+--  Changeset org/kuali/ole/1.6.0/db.changelog-20141207.xml::OLE_DLVR_BATCH_JOB_T::ole
+ALTER TABLE ole.OLE_DLVR_BATCH_JOB_T ADD PCK_UP_LOCN VARCHAR(100) NULL
+/
+
+INSERT INTO DATABASECHANGELOG (ID, AUTHOR, FILENAME, DATEEXECUTED, ORDEREXECUTED, MD5SUM, DESCRIPTION, COMMENTS, EXECTYPE, LIQUIBASE) VALUES ('OLE_DLVR_BATCH_JOB_T', 'ole', 'org/kuali/ole/1.6.0/db.changelog-20141207.xml', NOW(), 7, '7:d932bb31c5a3275c019554bf32823c45', 'addColumn', '', 'EXECUTED', '3.2.0')
+/
+
+--  Changeset org/kuali/ole/1.6.0/db.changelog-20141207.xml::OLE_BAT_PRCS_PRF_T::ole
+UPDATE OLE_BAT_PRCS_PRF_T SET BAT_PRCS_MATCH_PROFILE="matchBibs=false,noMatchBibs_addBibs=true,bibNotMatched_discardBib=false,bibNotMatched_addBib=true,bibMatched_addBib=false,bibMatched_discardBib=false,bibMatched_updateBib=true,matchHoldings=true,noMatchHoldings_discardHoldingsItems=true,noMatchHoldings_deleteAddHoldingsItems=false,noMatchHoldings_retainAddHoldingsItems=false,holdingsNotMatched_discardHoldings=false,holdingsNotMatched_addHoldings=true,holdingsNotMatched_addItems=false,holdingsMatched_addHoldings=false,holdingsMatched_addItems=false,holdingsMatched_discardHoldings=false,holdingsMatched_updateHoldings=true,matchItems=true,noMatchItem_discardItems=true,noMatchItem_deleteAddItems=false,noMatchItem_retainAddItems=false,itemNotMatched_discardItem=false,itemNotMatched_addItem=true,itemMatched_addItem=false,itemMatched_updateItem=true" WHERE BAT_PRCS_PRF_ID="3"
+/
+
+UPDATE OLE_BAT_PRCS_PRF_T SET BAT_PRCS_MATCH_PROFILE="matchBibs=false,noMatchBibs_addBibs=true,bibNotMatched_discardBib=false,bibNotMatched_addBib=true,bibMatched_addBib=false,bibMatched_discardBib=false,bibMatched_updateBib=true,matchHoldings=true,noMatchHoldings_discardHoldingsItems=true,noMatchHoldings_deleteAddHoldingsItems=false,noMatchHoldings_retainAddHoldingsItems=false,holdingsNotMatched_discardHoldings=false,holdingsNotMatched_addHoldings=true,holdingsNotMatched_addItems=false,holdingsMatched_addHoldings=false,holdingsMatched_addItems=false,holdingsMatched_discardHoldings=false,holdingsMatched_updateHoldings=true,matchItems=true,noMatchItem_discardItems=true,noMatchItem_deleteAddItems=false,noMatchItem_retainAddItems=false,itemNotMatched_discardItem=false,itemNotMatched_addItem=true,itemMatched_addItem=false,itemMatched_updateItem=true" WHERE BAT_PRCS_PRF_ID="21"
+/
+
+INSERT INTO DATABASECHANGELOG (ID, AUTHOR, FILENAME, DATEEXECUTED, ORDEREXECUTED, MD5SUM, DESCRIPTION, COMMENTS, EXECTYPE, LIQUIBASE) VALUES ('OLE_BAT_PRCS_PRF_T', 'ole', 'org/kuali/ole/1.6.0/db.changelog-20141207.xml', NOW(), 8, '7:eed4405b70ab69090c0013fd1b80f3a7', 'sql (x2)', '', 'EXECUTED', '3.2.0')
+/
+
+--  Changeset org/kuali/ole/1.6.0/db.changelog-20141207.xml::OLE_DONOR_T::ole
+ALTER TABLE OLE_DONOR_T MODIFY DONOR_PUBLIC_DISPLAY varchar(4000)
+/
+
+INSERT INTO DATABASECHANGELOG (ID, AUTHOR, FILENAME, DATEEXECUTED, ORDEREXECUTED, MD5SUM, DESCRIPTION, COMMENTS, EXECTYPE, LIQUIBASE) VALUES ('OLE_DONOR_T', 'ole', 'org/kuali/ole/1.6.0/db.changelog-20141207.xml', NOW(), 9, '7:0950c6f9a4ef34ff4f956d96bc835942', 'sql', '', 'EXECUTED', '3.2.0')
+/
+
+--  Changeset org/kuali/ole/1.6.0/db.changelog-20141207.xml::KRCR_PARM_T_updateParmName::ole
+UPDATE KRCR_PARM_T SET PARM_NM = 'REQUEST_QUEUE' WHERE NMSPC_CD ='OLE-DLVR' and CMPNT_CD='Deliver' and PARM_NM='REQUEST QUEUE' and APPL_ID='KUALI'
+/
+
+INSERT INTO DATABASECHANGELOG (ID, AUTHOR, FILENAME, DATEEXECUTED, ORDEREXECUTED, MD5SUM, DESCRIPTION, COMMENTS, EXECTYPE, LIQUIBASE) VALUES ('KRCR_PARM_T_updateParmName', 'ole', 'org/kuali/ole/1.6.0/db.changelog-20141207.xml', NOW(), 10, '7:e75dff06befb2e024b1fc1eead054ca3', 'update', '', 'EXECUTED', '3.2.0')
+/
+
+--  Changeset org/kuali/ole/1.6.0/db.changelog-20141207.xml::KRCR_PARM_T_deleteParm::ole
+DELETE FROM KRCR_PARM_T  WHERE NMSPC_CD ='OLE-DLVR' and CMPNT_CD='Deliver' and PARM_NM='EXPIRED_BODY' and APPL_ID='KUALI'
+/
+
+DELETE FROM KRCR_PARM_T  WHERE NMSPC_CD ='OLE-DLVR' and CMPNT_CD='Deliver' and PARM_NM='COURTESY_BODY' and APPL_ID='KUALI'
+/
+
+DELETE FROM KRCR_PARM_T  WHERE NMSPC_CD ='OLE-DLVR' and CMPNT_CD='Deliver' and PARM_NM='OVERDUE_BODY' and APPL_ID='KUALI'
+/
+
+INSERT INTO DATABASECHANGELOG (ID, AUTHOR, FILENAME, DATEEXECUTED, ORDEREXECUTED, MD5SUM, DESCRIPTION, COMMENTS, EXECTYPE, LIQUIBASE) VALUES ('KRCR_PARM_T_deleteParm', 'ole', 'org/kuali/ole/1.6.0/db.changelog-20141207.xml', NOW(), 11, '7:2f16e8ebc2b59ab6edb45d5d4d39d16d', 'delete (x3)', '', 'EXECUTED', '3.2.0')
+/
+
+--  Changeset org/kuali/ole/1.6.0/db.changelog-20141207.xml::OLE_CRCL_DSK_T_replyToEmail::ole
+ALTER TABLE ole.OLE_CRCL_DSK_T ADD REPLY_TO_EMAIL VARCHAR(100) NULL
+/
+
+INSERT INTO DATABASECHANGELOG (ID, AUTHOR, FILENAME, DATEEXECUTED, ORDEREXECUTED, MD5SUM, DESCRIPTION, COMMENTS, EXECTYPE, LIQUIBASE) VALUES ('OLE_CRCL_DSK_T_replyToEmail', 'ole', 'org/kuali/ole/1.6.0/db.changelog-20141207.xml', NOW(), 12, '7:f28712e3e4562b97dffdf32f2350adb6', 'addColumn', '', 'EXECUTED', '3.2.0')
+/
+
+--  Changeset org/kuali/ole/1.6.0/db.changelog-20141207.xml::OLE_DLVR_RQST_T::ole
+ALTER TABLE ole.OLE_DLVR_RQST_T ADD RQST_LVL VARCHAR(40) NULL
+/
+
+ALTER TABLE ole.OLE_DLVR_RQST_T ADD BIB_ID VARCHAR(40) NULL
+/
+
+INSERT INTO DATABASECHANGELOG (ID, AUTHOR, FILENAME, DATEEXECUTED, ORDEREXECUTED, MD5SUM, DESCRIPTION, COMMENTS, EXECTYPE, LIQUIBASE) VALUES ('OLE_DLVR_RQST_T', 'ole', 'org/kuali/ole/1.6.0/db.changelog-20141207.xml', NOW(), 13, '7:b66ee6e9d6c28faa98c3f76866bf6729', 'addColumn (x2)', '', 'EXECUTED', '3.2.0')
+/
+
+--  Changeset org/kuali/ole/1.6.0/db.changelog-20141207.xml::OLE_CRCL_PICKUP_DSK_LOCN::ole
+ALTER TABLE ole.OLE_CRCL_DSK_LOCN_T ADD OLE_CRCL_PICKUP_DSK_LOCN VARCHAR(40) NULL
+/
+
+INSERT INTO DATABASECHANGELOG (ID, AUTHOR, FILENAME, DATEEXECUTED, ORDEREXECUTED, MD5SUM, DESCRIPTION, COMMENTS, EXECTYPE, LIQUIBASE) VALUES ('OLE_CRCL_PICKUP_DSK_LOCN', 'ole', 'org/kuali/ole/1.6.0/db.changelog-20141207.xml', NOW(), 14, '7:9a86ff36f768521300e16babc3196acb', 'addColumn', '', 'EXECUTED', '3.2.0')
+/
+
+--  Changeset org/kuali/ole/1.6.0/db.changelog-20141207.xml::OLE_DLVR_RQST_HSTRY_REC_T_ARCH_DT_TIME::ole
+ALTER TABLE ole.OLE_DLVR_RQST_HSTRY_REC_T MODIFY ARCH_DT_TIME date
+/
+
+INSERT INTO DATABASECHANGELOG (ID, AUTHOR, FILENAME, DATEEXECUTED, ORDEREXECUTED, MD5SUM, DESCRIPTION, COMMENTS, EXECTYPE, LIQUIBASE) VALUES ('OLE_DLVR_RQST_HSTRY_REC_T_ARCH_DT_TIME', 'ole', 'org/kuali/ole/1.6.0/db.changelog-20141207.xml', NOW(), 15, '7:992d1bd4848aff4a05ab2e67dd15acf1', 'modifyDataType', '', 'EXECUTED', '3.2.0')
+/
+
+--  Changeset org/kuali/ole/1.6.0/db.changelog-20141207.xml::ole_dlvr_loan_t_dropIndex::ole
+DROP INDEX loan_itm_index ON ole.ole_dlvr_loan_t
+/
+
+INSERT INTO DATABASECHANGELOG (ID, AUTHOR, FILENAME, DATEEXECUTED, ORDEREXECUTED, MD5SUM, DESCRIPTION, COMMENTS, EXECTYPE, LIQUIBASE) VALUES ('ole_dlvr_loan_t_dropIndex', 'ole', 'org/kuali/ole/1.6.0/db.changelog-20141207.xml', NOW(), 16, '7:3f21021d193a26da8c15767110521929', 'dropIndex', '', 'EXECUTED', '3.2.0')
+/
+
+--  Changeset org/kuali/ole/1.6.0/db.changelog-20141207.xml::ole_dlvr_loan_t::ole
+ALTER TABLE ole.ole_dlvr_loan_t ADD CONSTRAINT itm_id_const UNIQUE (itm_id)
+/
+
+INSERT INTO DATABASECHANGELOG (ID, AUTHOR, FILENAME, DATEEXECUTED, ORDEREXECUTED, MD5SUM, DESCRIPTION, COMMENTS, EXECTYPE, LIQUIBASE) VALUES ('ole_dlvr_loan_t', 'ole', 'org/kuali/ole/1.6.0/db.changelog-20141207.xml', NOW(), 17, '7:87bbf9c63e36f4de6238f2e70f9a56be', 'addUniqueConstraint', '', 'EXECUTED', '3.2.0')
+/
+
+--  Changeset org/kuali/ole/1.6.0/db.changelog-20141207.xml::OLE_DLVR_ADD_T::ole
+ALTER TABLE ole.OLE_DLVR_ADD_T ADD PTRN_DLVR_ADD VARCHAR(1) NULL
+/
+
+INSERT INTO DATABASECHANGELOG (ID, AUTHOR, FILENAME, DATEEXECUTED, ORDEREXECUTED, MD5SUM, DESCRIPTION, COMMENTS, EXECTYPE, LIQUIBASE) VALUES ('OLE_DLVR_ADD_T', 'ole', 'org/kuali/ole/1.6.0/db.changelog-20141207.xml', NOW(), 18, '7:5d253b0650f8b4fbd898b6e909370505', 'addColumn', '', 'EXECUTED', '3.2.0')
+/
+
+--  Changeset org/kuali/ole/1.6.0/db.changelog-20141207.xml::OLE_CRCL_DSK_T::ole
+ALTER TABLE ole.OLE_CRCL_DSK_T ADD RQST_EXPIRTIN_DAYS DECIMAL(8) NULL
+/
+
+INSERT INTO DATABASECHANGELOG (ID, AUTHOR, FILENAME, DATEEXECUTED, ORDEREXECUTED, MD5SUM, DESCRIPTION, COMMENTS, EXECTYPE, LIQUIBASE) VALUES ('OLE_CRCL_DSK_T', 'ole', 'org/kuali/ole/1.6.0/db.changelog-20141207.xml', NOW(), 19, '7:a421ca771b016ca9dbbd19d2b326adbf', 'addColumn', '', 'EXECUTED', '3.2.0')
+/
+
+--  Changeset org/kuali/ole/1.6.0/db.changelog-20141207.xml::PATRON_VIEW_ALTER::ole
+CREATE OR REPLACE VIEW ole.OLE_PTRN_ENTITY_V AS (SELECT
+            P.OLE_PTRN_ID,
+            P.BARCODE AS PTRN_BRCD,
+            (SELECT COUNT(*) FROM OLE_DLVR_PTRN_BILL_T PB WHERE P.OLE_PTRN_ID = PB.OLE_PTRN_ID) AS BILL_CNT,
+            (SELECT COUNT(*) FROM OLE_DLVR_LOAN_T PLN WHERE P.OLE_PTRN_ID = PLN.OLE_PTRN_ID) AS LOAN_CNT,
+            (SELECT COUNT(*) FROM OLE_DLVR_RQST_T PRQST WHERE P.OLE_PTRN_ID = PRQST.OLE_PTRN_ID) AS RQST_CNT,
+            (SELECT COUNT(*) FROM OLE_DLVR_TEMP_CIRC_RECORD PTMPHSTY WHERE P.OLE_PTRN_ID = PTMPHSTY.OLE_PTRN_ID) AS TMP_CIR_HSTY_CNT,
+            (SELECT DLVR_BORR_TYP_NM FROM OLE_DLVR_BORR_TYP_T WHERE DLVR_BORR_TYP_ID=P.BORR_TYP) AS PTRN_TYP,
+            P.BORR_TYP AS PTRN_TYP_ID,
+            P.EXPIRATION_DATE AS EXPR_DT,
+            ENT.ENTITY_ID,
+            ENT_NM.FIRST_NM,
+            ENT_NM.MIDDLE_NM,
+            ENT_NM.LAST_NM,
+            ENT_NM.SUFFIX_NM,
+            ENT_NM.PREFIX_NM,
+            (SELECT ENT_EM.EMAIL_ADDR FROM KRIM_ENTITY_EMAIL_T ENT_EM WHERE ENT.ENTITY_ID = ENT_EM.ENTITY_ID AND DFLT_IND='Y') AS EMAIL,
+            (SELECT ENT_PH.PHONE_NBR FROM KRIM_ENTITY_PHONE_T ENT_PH WHERE ENT.ENTITY_ID = ENT_PH.ENTITY_ID AND DFLT_IND='Y') AS PHONE,
+            concat(concat(ENT_NM.LAST_NM,', '),ENT_NM.FIRST_NM) AS NAME,
+            P.ACTV_IND AS ACTV_IND
+            FROM
+            OLE_PTRN_T P,
+            KRIM_ENTITY_T ENT,
+            KRIM_ENTITY_NM_T ENT_NM
+            WHERE
+            P.OLE_PTRN_ID = ENT.ENTITY_ID
+            AND ENT.ENTITY_ID = ENT_NM.ENTITY_ID)
+/
+
+INSERT INTO DATABASECHANGELOG (ID, AUTHOR, FILENAME, DATEEXECUTED, ORDEREXECUTED, MD5SUM, DESCRIPTION, COMMENTS, EXECTYPE, LIQUIBASE) VALUES ('PATRON_VIEW_ALTER', 'ole', 'org/kuali/ole/1.6.0/db.changelog-20141207.xml', NOW(), 20, '7:7a372a904df92603789f33e5b943fcdb', 'createView', '', 'EXECUTED', '3.2.0')
+/
+
+--  Changeset org/kuali/ole/1.6.0/db.changelog-20141207.xml::OLE_DLVR_RQST_T_ADD_HOLD_EXP_DATE::ole
+ALTER TABLE ole.OLE_DLVR_RQST_T ADD HOLD_EXP_DATE date NULL
+/
+
+INSERT INTO DATABASECHANGELOG (ID, AUTHOR, FILENAME, DATEEXECUTED, ORDEREXECUTED, MD5SUM, DESCRIPTION, COMMENTS, EXECTYPE, LIQUIBASE) VALUES ('OLE_DLVR_RQST_T_ADD_HOLD_EXP_DATE', 'ole', 'org/kuali/ole/1.6.0/db.changelog-20141207.xml', NOW(), 21, '7:ea25a7b63a71d508ca08fb33636a5e06', 'addColumn', '', 'EXECUTED', '3.2.0')
+/
+
+--  Changeset org/kuali/ole/1.6.0/db.changelog-20141207.xml::OLE_DLVR_RQST_HSTRY_REC_T::ole
+ALTER TABLE ole.OLE_DLVR_RQST_HSTRY_REC_T ADD OLE_REQ_OUTCOME_STATUS VARCHAR(80) NULL
+/
+
+ALTER TABLE ole.OLE_DLVR_RQST_HSTRY_REC_T MODIFY OLE_LOAN_ID VARCHAR(80) NULL
+/
+
+INSERT INTO DATABASECHANGELOG (ID, AUTHOR, FILENAME, DATEEXECUTED, ORDEREXECUTED, MD5SUM, DESCRIPTION, COMMENTS, EXECTYPE, LIQUIBASE) VALUES ('OLE_DLVR_RQST_HSTRY_REC_T', 'ole', 'org/kuali/ole/1.6.0/db.changelog-20141207.xml', NOW(), 22, '7:b710d5151859217647fa3b60f3ce4e52', 'addColumn, dropNotNullConstraint', '', 'EXECUTED', '3.2.0')
+/
+
+--  Changeset org/kuali/ole/1.6.0/db.changelog-20141207.xml::PUR_PO_V_ALTER::ole
+CREATE OR REPLACE VIEW ole.PUR_PO_V AS (SELECT P.AP_PUR_DOC_LNK_ID,
+        P.PO_ID,
+        P.PO_CUR_IND,
+        P.FDOC_NBR,
+        P.OBJ_ID,
+        D.APP_DOC_STAT,
+        P.RECUR_PMT_TYP_CD,
+        P.PO_VNDR_CHC_CD,
+        P.PO_END_DT,
+        E.TOTAL_ENCUMBRANCE,
+        SUMMATION.TOTAL_AMOUNT,
+            P.PO_CRTE_DT AS PO_CRTE_DT
+        FROM
+        PUR_PO_T P,
+        KREW_DOC_HDR_T D,
+        PUR_PO_ITM_TOT_ENC_V E,
+        PUR_PO_ITM_TOT_AMT_V SUMMATION
+        WHERE
+        P.FDOC_NBR = E.FDOC_NBR
+        AND
+        P.FDOC_NBR=D.DOC_HDR_ID
+        AND P.FDOC_NBR = SUMMATION.FDOC_NBR)
+/
+
+INSERT INTO DATABASECHANGELOG (ID, AUTHOR, FILENAME, DATEEXECUTED, ORDEREXECUTED, MD5SUM, DESCRIPTION, COMMENTS, EXECTYPE, LIQUIBASE) VALUES ('PUR_PO_V_ALTER', 'ole', 'org/kuali/ole/1.6.0/db.changelog-20141207.xml', NOW(), 23, '7:10d6272fa1e492b1eca37d272cdedf85', 'createView', '', 'EXECUTED', '3.2.0')
+/
+
+--  Changeset org/kuali/ole/1.6.0/db.changelog-20141207.xml::OLE_DLVR_RQST_HSTRY_REC_T_ADD_PATRON_ID::ole
+ALTER TABLE ole.ole_dlvr_rqst_hstry_rec_t ADD OLE_PTRN_ID VARCHAR(40) NULL
+/
+
+INSERT INTO DATABASECHANGELOG (ID, AUTHOR, FILENAME, DATEEXECUTED, ORDEREXECUTED, MD5SUM, DESCRIPTION, COMMENTS, EXECTYPE, LIQUIBASE) VALUES ('OLE_DLVR_RQST_HSTRY_REC_T_ADD_PATRON_ID', 'ole', 'org/kuali/ole/1.6.0/db.changelog-20141207.xml', NOW(), 24, '7:09fc20b1285b2cee92c04b2e95cf5b9d', 'addColumn', '', 'EXECUTED', '3.2.0')
+/
+
+--  Changeset org/kuali/ole/1.6.0/db.changelog-20141207.xml::OLE_ITM_CLM_RTND_HSTRY_T::ole
+CREATE TABLE ole.OLE_ITM_CLM_RTND_HSTRY_T (CLAIMS_RETURNED_ID INT NULL, CLAIMS_RETURNED_DATE_CREATED TIMESTAMP NULL, CLAIMS_RETURNED_NOTE VARCHAR(400) NULL, CLAIMS_RETURNED_PATRON_BARCODE VARCHAR(100) NULL, CLAIMS_RETURNED_OPERATOR_ID VARCHAR(40) NULL, ITEM_ID INT NULL)
+/
+
+INSERT INTO DATABASECHANGELOG (ID, AUTHOR, FILENAME, DATEEXECUTED, ORDEREXECUTED, MD5SUM, DESCRIPTION, COMMENTS, EXECTYPE, LIQUIBASE) VALUES ('OLE_ITM_CLM_RTND_HSTRY_T', 'ole', 'org/kuali/ole/1.6.0/db.changelog-20141207.xml', NOW(), 25, '7:eb5414e730cefee1ddfb7fbc0e600d4b', 'createTable', '', 'EXECUTED', '3.2.0')
+/
+
+--  Changeset org/kuali/ole/1.6.0/db.changelog-20141207.xml::OLE_ITM_CLM_RTND_HSTRY_PK::ole
+ALTER TABLE ole.OLE_ITM_CLM_RTND_HSTRY_T ADD PRIMARY KEY (CLAIMS_RETURNED_ID)
+/
+
+INSERT INTO DATABASECHANGELOG (ID, AUTHOR, FILENAME, DATEEXECUTED, ORDEREXECUTED, MD5SUM, DESCRIPTION, COMMENTS, EXECTYPE, LIQUIBASE) VALUES ('OLE_ITM_CLM_RTND_HSTRY_PK', 'ole', 'org/kuali/ole/1.6.0/db.changelog-20141207.xml', NOW(), 26, '7:8b13f68bdb6a24827c8836895681a052', 'addPrimaryKey', '', 'EXECUTED', '3.2.0')
+/
+
+--  Changeset org/kuali/ole/1.6.0/db.changelog-20141207.xml::OLE_ITM_CLM_RTND_HSTRY_T_FK::ole
+ALTER TABLE ole.OLE_ITM_CLM_RTND_HSTRY_T ADD CONSTRAINT OLE_ITM_CLM_RTND_HSTRY_FK FOREIGN KEY (ITEM_ID) REFERENCES OLE_DS_ITEM_T (ITEM_ID) ON UPDATE RESTRICT ON DELETE CASCADE
+/
+
+INSERT INTO DATABASECHANGELOG (ID, AUTHOR, FILENAME, DATEEXECUTED, ORDEREXECUTED, MD5SUM, DESCRIPTION, COMMENTS, EXECTYPE, LIQUIBASE) VALUES ('OLE_ITM_CLM_RTND_HSTRY_T_FK', 'ole', 'org/kuali/ole/1.6.0/db.changelog-20141207.xml', NOW(), 27, '7:896a300531b32558c75c2f26c9e52646', 'addForeignKeyConstraint', '', 'EXECUTED', '3.2.0')
+/
+
+--  Changeset org/kuali/ole/1.6.0/db.changelog-20141207.xml::OLE_ITM_CLM_RTND_HSTRY_T_I::ole
+CREATE INDEX OLE_ITM_CLM_RTND_HSTRY_T_I ON ole.OLE_ITM_CLM_RTND_HSTRY_T(CLAIMS_RETURNED_PATRON_BARCODE, CLAIMS_RETURNED_OPERATOR_ID)
+/
+
+INSERT INTO DATABASECHANGELOG (ID, AUTHOR, FILENAME, DATEEXECUTED, ORDEREXECUTED, MD5SUM, DESCRIPTION, COMMENTS, EXECTYPE, LIQUIBASE) VALUES ('OLE_ITM_CLM_RTND_HSTRY_T_I', 'ole', 'org/kuali/ole/1.6.0/db.changelog-20141207.xml', NOW(), 28, '7:1d9530fd0b7dd59f66f1ad4b86f54f3a', 'createIndex', '', 'EXECUTED', '3.2.0')
+/
+
+--  Changeset org/kuali/ole/1.6.0/db.changelog-20141207.xml::OLE_ITM_CLM_RTND_HSTRY_S::ole
+CREATE TABLE ole.OLE_ITM_CLM_RTND_HSTRY_S (ID BIGINT(19) NULL)
+/
+
+INSERT INTO DATABASECHANGELOG (ID, AUTHOR, FILENAME, DATEEXECUTED, ORDEREXECUTED, MD5SUM, DESCRIPTION, COMMENTS, EXECTYPE, LIQUIBASE) VALUES ('OLE_ITM_CLM_RTND_HSTRY_S', 'ole', 'org/kuali/ole/1.6.0/db.changelog-20141207.xml', NOW(), 29, '7:2a470b3e77e4d79617370346bfa5071d', 'createTable', '', 'EXECUTED', '3.2.0')
+/
+
+--  Changeset org/kuali/ole/1.6.0/db.changelog-20141207.xml::OLE_ITM_CLM_RTND_HSTRY_S_PK::ole
+ALTER TABLE ole.OLE_ITM_CLM_RTND_HSTRY_S ADD PRIMARY KEY (ID)
+/
+
+INSERT INTO DATABASECHANGELOG (ID, AUTHOR, FILENAME, DATEEXECUTED, ORDEREXECUTED, MD5SUM, DESCRIPTION, COMMENTS, EXECTYPE, LIQUIBASE) VALUES ('OLE_ITM_CLM_RTND_HSTRY_S_PK', 'ole', 'org/kuali/ole/1.6.0/db.changelog-20141207.xml', NOW(), 30, '7:72c7607f55e82790c36b4c3af482970d', 'addPrimaryKey', '', 'EXECUTED', '3.2.0')
+/
+
+--  Changeset org/kuali/ole/1.6.0/db.changelog-20141207.xml::OLE_ITM_CLM_RTND_HSTRY_S_AUTO_INCREMENT::ole
+ALTER TABLE ole.OLE_ITM_CLM_RTND_HSTRY_S MODIFY ID BIGINT(19) AUTO_INCREMENT
+/
+
+ALTER TABLE ole.OLE_ITM_CLM_RTND_HSTRY_S AUTO_INCREMENT=1
+/
+
+INSERT INTO DATABASECHANGELOG (ID, AUTHOR, FILENAME, DATEEXECUTED, ORDEREXECUTED, MD5SUM, DESCRIPTION, COMMENTS, EXECTYPE, LIQUIBASE) VALUES ('OLE_ITM_CLM_RTND_HSTRY_S_AUTO_INCREMENT', 'ole', 'org/kuali/ole/1.6.0/db.changelog-20141207.xml', NOW(), 31, '7:fb80b961a2a81fdc524c3cd0fe1223eb', 'addAutoIncrement', '', 'EXECUTED', '3.2.0')
+/
+
+--  Changeset org/kuali/ole/1.6.0/db.changelog-20141207.xml::OLE_DS_DMGD_ITM_HSTRY_T::ole
+CREATE TABLE ole.OLE_DS_DMGD_ITM_HSTRY_T (ITM_DMGD_ID INT NULL, DMGD_ITM_DATE TIMESTAMP NULL, DMGD_ITM_NOTE VARCHAR(400) NULL, PATRON_BARCODE VARCHAR(100) NULL, OPERATOR_ID VARCHAR(40) NULL, ITEM_ID INT NULL)
+/
+
+INSERT INTO DATABASECHANGELOG (ID, AUTHOR, FILENAME, DATEEXECUTED, ORDEREXECUTED, MD5SUM, DESCRIPTION, COMMENTS, EXECTYPE, LIQUIBASE) VALUES ('OLE_DS_DMGD_ITM_HSTRY_T', 'ole', 'org/kuali/ole/1.6.0/db.changelog-20141207.xml', NOW(), 32, '7:9bd632293a1767185ab59403ce5c7fda', 'createTable', '', 'EXECUTED', '3.2.0')
+/
+
+--  Changeset org/kuali/ole/1.6.0/db.changelog-20141207.xml::OLE_DS_DMGD_ITM_HSTRY_T_PK::ole
+ALTER TABLE ole.OLE_DS_DMGD_ITM_HSTRY_T ADD PRIMARY KEY (ITM_DMGD_ID)
+/
+
+INSERT INTO DATABASECHANGELOG (ID, AUTHOR, FILENAME, DATEEXECUTED, ORDEREXECUTED, MD5SUM, DESCRIPTION, COMMENTS, EXECTYPE, LIQUIBASE) VALUES ('OLE_DS_DMGD_ITM_HSTRY_T_PK', 'ole', 'org/kuali/ole/1.6.0/db.changelog-20141207.xml', NOW(), 33, '7:3c1f6f176f4ee3d82eb9042a7e3321f2', 'addPrimaryKey', '', 'EXECUTED', '3.2.0')
+/
+
+--  Changeset org/kuali/ole/1.6.0/db.changelog-20141207.xml::OLE_DS_DMGD_ITM_HSTRY_T_FK::ole
+ALTER TABLE ole.OLE_DS_DMGD_ITM_HSTRY_T ADD CONSTRAINT OLE_DS_DMGD_ITM_HSTRY_T_FK FOREIGN KEY (ITEM_ID) REFERENCES OLE_DS_ITEM_T (ITEM_ID) ON UPDATE RESTRICT ON DELETE CASCADE
+/
+
+INSERT INTO DATABASECHANGELOG (ID, AUTHOR, FILENAME, DATEEXECUTED, ORDEREXECUTED, MD5SUM, DESCRIPTION, COMMENTS, EXECTYPE, LIQUIBASE) VALUES ('OLE_DS_DMGD_ITM_HSTRY_T_FK', 'ole', 'org/kuali/ole/1.6.0/db.changelog-20141207.xml', NOW(), 34, '7:44f034fd14b5e168bdb78323ecf46a9f', 'addForeignKeyConstraint', '', 'EXECUTED', '3.2.0')
+/
+
+--  Changeset org/kuali/ole/1.6.0/db.changelog-20141207.xml::OLE_DS_DMGD_ITM_HSTRY_T_I::ole
+CREATE INDEX OLE_DS_DMGD_ITM_HSTRY_T_I ON ole.OLE_DS_DMGD_ITM_HSTRY_T(PATRON_BARCODE, OPERATOR_ID)
+/
+
+INSERT INTO DATABASECHANGELOG (ID, AUTHOR, FILENAME, DATEEXECUTED, ORDEREXECUTED, MD5SUM, DESCRIPTION, COMMENTS, EXECTYPE, LIQUIBASE) VALUES ('OLE_DS_DMGD_ITM_HSTRY_T_I', 'ole', 'org/kuali/ole/1.6.0/db.changelog-20141207.xml', NOW(), 35, '7:439b05ec5b7dcfbfa45c9d6bdb4abb1a', 'createIndex', '', 'EXECUTED', '3.2.0')
+/
+
+--  Changeset org/kuali/ole/1.6.0/db.changelog-20141207.xml::OLE_DS_DMGD_ITM_HSTRY_S::ole
+CREATE TABLE ole.OLE_DS_DMGD_ITM_HSTRY_S (ID BIGINT(19) NULL)
+/
+
+INSERT INTO DATABASECHANGELOG (ID, AUTHOR, FILENAME, DATEEXECUTED, ORDEREXECUTED, MD5SUM, DESCRIPTION, COMMENTS, EXECTYPE, LIQUIBASE) VALUES ('OLE_DS_DMGD_ITM_HSTRY_S', 'ole', 'org/kuali/ole/1.6.0/db.changelog-20141207.xml', NOW(), 36, '7:e73a316451ad40f70f85d38a22d34a1e', 'createTable', '', 'EXECUTED', '3.2.0')
+/
+
+--  Changeset org/kuali/ole/1.6.0/db.changelog-20141207.xml::OLE_DS_DMGD_ITM_HSTRY_S_PK::ole
+ALTER TABLE ole.OLE_DS_DMGD_ITM_HSTRY_S ADD PRIMARY KEY (ID)
+/
+
+INSERT INTO DATABASECHANGELOG (ID, AUTHOR, FILENAME, DATEEXECUTED, ORDEREXECUTED, MD5SUM, DESCRIPTION, COMMENTS, EXECTYPE, LIQUIBASE) VALUES ('OLE_DS_DMGD_ITM_HSTRY_S_PK', 'ole', 'org/kuali/ole/1.6.0/db.changelog-20141207.xml', NOW(), 37, '7:cf2f498a6de47710f1ddb0d791d94550', 'addPrimaryKey', '', 'EXECUTED', '3.2.0')
+/
+
+--  Changeset org/kuali/ole/1.6.0/db.changelog-20141207.xml::OLE_DS_DMGD_ITM_HSTRY_S_AUTO_INCREMENT::ole
+ALTER TABLE ole.OLE_DS_DMGD_ITM_HSTRY_S MODIFY ID BIGINT(19) AUTO_INCREMENT
+/
+
+ALTER TABLE ole.OLE_DS_DMGD_ITM_HSTRY_S AUTO_INCREMENT=1
+/
+
+INSERT INTO DATABASECHANGELOG (ID, AUTHOR, FILENAME, DATEEXECUTED, ORDEREXECUTED, MD5SUM, DESCRIPTION, COMMENTS, EXECTYPE, LIQUIBASE) VALUES ('OLE_DS_DMGD_ITM_HSTRY_S_AUTO_INCREMENT', 'ole', 'org/kuali/ole/1.6.0/db.changelog-20141207.xml', NOW(), 38, '7:33b948ac68da5a817eea6ea7560aa350', 'addAutoIncrement', '', 'EXECUTED', '3.2.0')
+/
+
+--  Changeset org/kuali/ole/1.6.0/db.changelog-20141207.xml::OLE_MISS_PCE_ITM_HSTRY_T::ole
+CREATE TABLE ole.OLE_MISS_PCE_ITM_HSTRY_T (ITEM_ID INT NULL, MISSING_PIECE_ID VARCHAR(50) NULL, OPERATOR_ID VARCHAR(40) NULL, PATRON_BARCODE VARCHAR(100) NULL, MISSING_PIECE_NOTE VARCHAR(400) NULL, MISSING_PIECE_COUNT INT NULL, MISSING_PIECE_DATE TIMESTAMP NULL)
+/
+
+INSERT INTO DATABASECHANGELOG (ID, AUTHOR, FILENAME, DATEEXECUTED, ORDEREXECUTED, MD5SUM, DESCRIPTION, COMMENTS, EXECTYPE, LIQUIBASE) VALUES ('OLE_MISS_PCE_ITM_HSTRY_T', 'ole', 'org/kuali/ole/1.6.0/db.changelog-20141207.xml', NOW(), 39, '7:fc94df6df62384552e6211c1c5dc902e', 'createTable', '', 'EXECUTED', '3.2.0')
+/
+
+--  Changeset org/kuali/ole/1.6.0/db.changelog-20141207.xml::OLE_MISS_PCE_ITM_HSTRY_T_PK::ole
+ALTER TABLE ole.OLE_MISS_PCE_ITM_HSTRY_T ADD PRIMARY KEY (MISSING_PIECE_ID)
+/
+
+INSERT INTO DATABASECHANGELOG (ID, AUTHOR, FILENAME, DATEEXECUTED, ORDEREXECUTED, MD5SUM, DESCRIPTION, COMMENTS, EXECTYPE, LIQUIBASE) VALUES ('OLE_MISS_PCE_ITM_HSTRY_T_PK', 'ole', 'org/kuali/ole/1.6.0/db.changelog-20141207.xml', NOW(), 40, '7:edca9b0f4ec018fbdd762cdc5adec68e', 'addPrimaryKey', '', 'EXECUTED', '3.2.0')
+/
+
+--  Changeset org/kuali/ole/1.6.0/db.changelog-20141207.xml::OLE_MISS_PCE_ITM_HSTRY_T_FK::ole
+ALTER TABLE ole.OLE_MISS_PCE_ITM_HSTRY_T ADD CONSTRAINT ITEM_MISS_PCE_CNSRT_FK FOREIGN KEY (ITEM_ID) REFERENCES OLE_DS_ITEM_T (ITEM_ID) ON UPDATE RESTRICT ON DELETE CASCADE
+/
+
+INSERT INTO DATABASECHANGELOG (ID, AUTHOR, FILENAME, DATEEXECUTED, ORDEREXECUTED, MD5SUM, DESCRIPTION, COMMENTS, EXECTYPE, LIQUIBASE) VALUES ('OLE_MISS_PCE_ITM_HSTRY_T_FK', 'ole', 'org/kuali/ole/1.6.0/db.changelog-20141207.xml', NOW(), 41, '7:bd7471303b121c3c8850e4493a04a6d6', 'addForeignKeyConstraint', '', 'EXECUTED', '3.2.0')
+/
+
+--  Changeset org/kuali/ole/1.6.0/db.changelog-20141207.xml::OLE_MISS_PCE_ITM_HSTRY_T_I::ole
+CREATE INDEX OLE_MISS_PCE_ITM_HSTRY_I ON ole.OLE_MISS_PCE_ITM_HSTRY_T(PATRON_BARCODE, OPERATOR_ID)
+/
+
+INSERT INTO DATABASECHANGELOG (ID, AUTHOR, FILENAME, DATEEXECUTED, ORDEREXECUTED, MD5SUM, DESCRIPTION, COMMENTS, EXECTYPE, LIQUIBASE) VALUES ('OLE_MISS_PCE_ITM_HSTRY_T_I', 'ole', 'org/kuali/ole/1.6.0/db.changelog-20141207.xml', NOW(), 42, '7:81e9493ab405790eeb5ec1684f25edf1', 'createIndex', '', 'EXECUTED', '3.2.0')
+/
+
+--  Changeset org/kuali/ole/1.6.0/db.changelog-20141207.xml::OLE_MISS_PCE_ITM_HSTRY_S::ole
+CREATE TABLE ole.OLE_MISS_PCE_ITM_HSTRY_S (MISSING_PIECE_ID BIGINT(19) NULL)
+/
+
+INSERT INTO DATABASECHANGELOG (ID, AUTHOR, FILENAME, DATEEXECUTED, ORDEREXECUTED, MD5SUM, DESCRIPTION, COMMENTS, EXECTYPE, LIQUIBASE) VALUES ('OLE_MISS_PCE_ITM_HSTRY_S', 'ole', 'org/kuali/ole/1.6.0/db.changelog-20141207.xml', NOW(), 43, '7:a072dc4d53e5841c252c0442f72ba738', 'createTable', '', 'EXECUTED', '3.2.0')
+/
+
+--  Changeset org/kuali/ole/1.6.0/db.changelog-20141207.xml::OLE_MISS_PCE_ITM_HSTRY_S_PK::ole
+ALTER TABLE ole.OLE_MISS_PCE_ITM_HSTRY_S ADD PRIMARY KEY (MISSING_PIECE_ID)
+/
+
+INSERT INTO DATABASECHANGELOG (ID, AUTHOR, FILENAME, DATEEXECUTED, ORDEREXECUTED, MD5SUM, DESCRIPTION, COMMENTS, EXECTYPE, LIQUIBASE) VALUES ('OLE_MISS_PCE_ITM_HSTRY_S_PK', 'ole', 'org/kuali/ole/1.6.0/db.changelog-20141207.xml', NOW(), 44, '7:46b5b6c5877c95ff0b542d5ce6f27afb', 'addPrimaryKey', '', 'EXECUTED', '3.2.0')
+/
+
+--  Changeset org/kuali/ole/1.6.0/db.changelog-20141207.xml::OLE_MISS_PCE_ITM_HSTRY_S_AUTO_INCREMENT::ole
+ALTER TABLE ole.OLE_MISS_PCE_ITM_HSTRY_S MODIFY MISSING_PIECE_ID BIGINT(19) AUTO_INCREMENT
+/
+
+ALTER TABLE ole.OLE_MISS_PCE_ITM_HSTRY_S AUTO_INCREMENT=1
+/
+
+INSERT INTO DATABASECHANGELOG (ID, AUTHOR, FILENAME, DATEEXECUTED, ORDEREXECUTED, MD5SUM, DESCRIPTION, COMMENTS, EXECTYPE, LIQUIBASE) VALUES ('OLE_MISS_PCE_ITM_HSTRY_S_AUTO_INCREMENT', 'ole', 'org/kuali/ole/1.6.0/db.changelog-20141207.xml', NOW(), 45, '7:ba43735c0621e5846e8de62c7002acdd', 'addAutoIncrement', '', 'EXECUTED', '3.2.0')
+/
+
+--  Changeset org/kuali/ole/1.6.0/db.changelog-20141207.xml:: KRIM_ROLE_RSP_ACTN_T::ole
+UPDATE KRIM_ROLE_RSP_ACTN_T SET ACTN_PLCY_CD = 'F' WHERE ROLE_RSP_ID = 'OLE1163'
+/
+
+INSERT INTO DATABASECHANGELOG (ID, AUTHOR, FILENAME, DATEEXECUTED, ORDEREXECUTED, MD5SUM, DESCRIPTION, COMMENTS, EXECTYPE, LIQUIBASE) VALUES (' KRIM_ROLE_RSP_ACTN_T', 'ole', 'org/kuali/ole/1.6.0/db.changelog-20141207.xml', NOW(), 46, '7:1c58bf5bcfc78f7a9b197fdb630d6e61', 'update', '', 'EXECUTED', '3.2.0')
+/
+
+--  Changeset org/kuali/ole/1.6.0/db.changelog-20141207.xml::krim_role_mbr_t_delete::ole
+DELETE FROM krim_role_mbr_t  WHERE role_id = 'OLE10072' and mbr_id = 'olequickstart'
+/
+
+INSERT INTO DATABASECHANGELOG (ID, AUTHOR, FILENAME, DATEEXECUTED, ORDEREXECUTED, MD5SUM, DESCRIPTION, COMMENTS, EXECTYPE, LIQUIBASE) VALUES ('krim_role_mbr_t_delete', 'ole', 'org/kuali/ole/1.6.0/db.changelog-20141207.xml', NOW(), 47, '7:a1e74d0988a5872589fd432a8b7bc594', 'delete', '', 'EXECUTED', '3.2.0')
+/
+
+--  Changeset org/kuali/ole/1.6.0/db.changelog-20141207.xml::OLE_DLVR_LOAN_NOTICE_HSTRY_T_AddColumn::ole
+ALTER TABLE ole.OLE_DLVR_LOAN_NOTICE_HSTRY_T ADD NTC_CNTNT BLOB NULL
+/
+
+INSERT INTO DATABASECHANGELOG (ID, AUTHOR, FILENAME, DATEEXECUTED, ORDEREXECUTED, MD5SUM, DESCRIPTION, COMMENTS, EXECTYPE, LIQUIBASE) VALUES ('OLE_DLVR_LOAN_NOTICE_HSTRY_T_AddColumn', 'ole', 'org/kuali/ole/1.6.0/db.changelog-20141207.xml', NOW(), 48, '7:665b68122a384db094fbd5b57eff5d09', 'addColumn', '', 'EXECUTED', '3.2.0')
+/
+
+--  Changeset org/kuali/ole/1.6.0/db.changelog-20141207.xml::OLE_DLVR_BATCH_JOB_T_Delete::ole
+DELETE FROM OLE_DLVR_BATCH_JOB_T  WHERE JOB_ID = '2' and JOB_TRG_NM = 'generateNoticesJob'
+/
+
+INSERT INTO DATABASECHANGELOG (ID, AUTHOR, FILENAME, DATEEXECUTED, ORDEREXECUTED, MD5SUM, DESCRIPTION, COMMENTS, EXECTYPE, LIQUIBASE) VALUES ('OLE_DLVR_BATCH_JOB_T_Delete', 'ole', 'org/kuali/ole/1.6.0/db.changelog-20141207.xml', NOW(), 49, '7:328bbd6bd95ffecec9b23d4e1407c696', 'delete', '', 'EXECUTED', '3.2.0')
+/
+
+--  Changeset org/kuali/ole/1.6.0/db.changelog-20141207.xml::OLE_DLVR_BATCH_JOB_T_Insert::ole
+INSERT INTO OLE_DLVR_BATCH_JOB_T (JOB_CRON_EXPRSN,JOB_ID,JOB_TRG_NM,OBJ_ID,ROW_ACT_IND,VER_NBR) VALUES ('0 0 2 * * ?','9','generateCourtesyNoticesJob','9','Y',1)
+/
+
+INSERT INTO OLE_DLVR_BATCH_JOB_T (JOB_CRON_EXPRSN,JOB_ID,JOB_TRG_NM,OBJ_ID,ROW_ACT_IND,VER_NBR) VALUES ('0 0 2 * * ?','10','generateOverdueNoticesJob','10','Y',1)
+/
+
+INSERT INTO OLE_DLVR_BATCH_JOB_T (JOB_CRON_EXPRSN,JOB_ID,JOB_TRG_NM,OBJ_ID,ROW_ACT_IND,VER_NBR) VALUES ('0 0 2 * * ?','11','generateLostNoticesJob','11','Y',1)
+/
+
+INSERT INTO DATABASECHANGELOG (ID, AUTHOR, FILENAME, DATEEXECUTED, ORDEREXECUTED, MD5SUM, DESCRIPTION, COMMENTS, EXECTYPE, LIQUIBASE) VALUES ('OLE_DLVR_BATCH_JOB_T_Insert', 'ole', 'org/kuali/ole/1.6.0/db.changelog-20141207.xml', NOW(), 50, '7:0dbd1827dff1e6d968b5759f2a10825e', 'sql (x3)', '', 'EXECUTED', '3.2.0')
+/
+
+--  Changeset org/kuali/ole/1.6.0/db.changelog-20141207.xml::PATRON_VIEW_MODIFIED::ole
+CREATE OR REPLACE VIEW ole.OLE_PTRN_ENTITY_V AS (SELECT
+            P.OLE_PTRN_ID,
+            P.BARCODE AS PTRN_BRCD,
+            P.BORR_TYP AS PTRN_TYP_ID,
+            ENT.ENTITY_ID,
+            ENT_NM.FIRST_NM,
+            ENT_NM.MIDDLE_NM,
+            ENT_NM.LAST_NM,
+            ENT_NM.SUFFIX_NM,
+            ENT_NM.PREFIX_NM,
+            (SELECT ENT_EM.EMAIL_ADDR FROM KRIM_ENTITY_EMAIL_T ENT_EM WHERE ENT.ENTITY_ID = ENT_EM.ENTITY_ID AND DFLT_IND='Y') AS EMAIL,
+            (SELECT ENT_PH.PHONE_NBR FROM KRIM_ENTITY_PHONE_T ENT_PH WHERE ENT.ENTITY_ID = ENT_PH.ENTITY_ID AND DFLT_IND='Y') AS PHONE,
+            concat(concat(ENT_NM.LAST_NM,', '),ENT_NM.FIRST_NM) AS NAME,
+            P.ACTV_IND AS ACTV_IND
+            FROM OLE_PTRN_T P,
+            KRIM_ENTITY_T ENT,
+            KRIM_ENTITY_NM_T ENT_NM
+            WHERE
+            P.OLE_PTRN_ID = ENT.ENTITY_ID
+            AND
+            ENT.ENTITY_ID = ENT_NM.ENTITY_ID)
+/
+
+INSERT INTO DATABASECHANGELOG (ID, AUTHOR, FILENAME, DATEEXECUTED, ORDEREXECUTED, MD5SUM, DESCRIPTION, COMMENTS, EXECTYPE, LIQUIBASE) VALUES ('PATRON_VIEW_MODIFIED', 'ole', 'org/kuali/ole/1.6.0/db.changelog-20141207.xml', NOW(), 51, '7:cf968b369107076cef561114f1ce728f', 'createView', '', 'EXECUTED', '3.2.0')
+/
+
+--  Changeset org/kuali/ole/1.6.0/db.changelog-20141207.xml::UPDATE_HELP_LINK::ole
+UPDATE KREW_DOC_TYP_T SET HELP_DEF_URL = '${ole.externalizable.help.url}/reference/webhelp/OLE/content/ch06s06.html#_documentType' WHERE DOC_TYP_NM = 'DocumentTypeDocument'
+/
+
+UPDATE KREW_DOC_TYP_T SET HELP_DEF_URL = '${ole.externalizable.help.url}/reference/webhelp/OLE/content/ch06s05.html#_namespace' WHERE DOC_TYP_NM = 'NamespaceMaintenanceDocument'
+/
+
+UPDATE KREW_DOC_TYP_T SET HELP_DEF_URL = '${ole.externalizable.help.url}/reference/webhelp/OLE/content/ch06s05.html#_parameterType' WHERE DOC_TYP_NM = 'ParameterTypeMaintenanceDocument'
+/
+
+UPDATE KREW_DOC_TYP_T SET HELP_DEF_URL = '${ole.externalizable.help.url}/reference/webhelp/OLE/content/ch06s05.html#_parameterComponent' WHERE DOC_TYP_NM = 'ParameterDetailTypeMaintenanceDocument'
+/
+
+UPDATE KREW_DOC_TYP_T SET HELP_DEF_URL = '${ole.externalizable.help.url}/reference/webhelp/OLE/content/ch06s05.html#_parameter' WHERE DOC_TYP_NM = 'ParameterMaintenanceDocument'
+/
+
+UPDATE KREW_DOC_TYP_T SET HELP_DEF_URL = '${ole.externalizable.help.url}/reference/webhelp/OLE/content/ch06s09.html#_campus' WHERE DOC_TYP_NM = 'CampusMaintenanceDocument'
+/
+
+UPDATE KREW_DOC_TYP_T SET HELP_DEF_URL = '${ole.externalizable.help.url}/reference/webhelp/OLE/content/ch06s09.html#_campusType' WHERE DOC_TYP_NM = 'CampusTypeMaintenanceDocument'
+/
+
+UPDATE KREW_DOC_TYP_T SET HELP_DEF_URL = '${ole.externalizable.help.url}/reference/webhelp/OLE/content/ch06s09.html#_country' WHERE DOC_TYP_NM = 'CountryMaintenanceDocument'
+/
+
+UPDATE KREW_DOC_TYP_T SET HELP_DEF_URL = '${ole.externalizable.help.url}/reference/webhelp/OLE/content/ch06s09.html#_county' WHERE DOC_TYP_NM = 'CountyMaintenanceDocument'
+/
+
+UPDATE KREW_DOC_TYP_T SET HELP_DEF_URL = '${ole.externalizable.help.url}/reference/webhelp/OLE/content/ch06s09.html#_postalCode' WHERE DOC_TYP_NM = 'PostalCodeMaintenanceDocument'
+/
+
+UPDATE KREW_DOC_TYP_T SET HELP_DEF_URL = '${ole.externalizable.help.url}/reference/webhelp/OLE/content/ch06s09.html#_state' WHERE DOC_TYP_NM = 'StateMaintenanceDocument'
+/
+
+UPDATE KREW_DOC_TYP_T SET HELP_DEF_URL = 'reference/webhelp/OLE/content/ch06s08.html#_role' WHERE DOC_TYP_NM = 'IdentityManagementRoleDocument'
+/
+
+UPDATE KREW_DOC_TYP_T SET HELP_DEF_URL = '${ole.externalizable.help.url}/reference/webhelp/OLE/content/ch06s08.html#_group' WHERE DOC_TYP_NM = 'IdentityManagementGroupDocument'
+/
+
+UPDATE KREW_DOC_TYP_T SET HELP_DEF_URL = '${ole.externalizable.help.url}/reference/webhelp/OLE/content/ch06s08.html#_responsibility' WHERE DOC_TYP_NM = 'IdentityManagementReviewResponsibilityMaintenanceDocument'
+/
+
+UPDATE KREW_DOC_TYP_T SET HELP_DEF_URL = '${ole.externalizable.help.url}/reference/webhelp/OLE/content/ch06s08.html#_permission' WHERE DOC_TYP_NM = 'IdentityManagementGenericPermissionMaintenanceDocument'
+/
+
+UPDATE KREW_DOC_TYP_T SET HELP_DEF_URL = '${ole.externalizable.help.url}/reference/webhelp/OLE/content/ch06s05.html#_parameterComponent' WHERE DOC_TYP_NM = 'ComponentMaintenanceDocument'
+/
+
+UPDATE KRCR_PARM_T SET VAL = 'customerLoadInputFileType=/reference/webhelp/OLE/content/ch05s20.html#_paymentFileBatchUpload;procurementCardInputFileType=/reference/webhelp/OLE/content/ch05s20.html#_paymentFileBatchUpload;collectorFlatFileInputFileType=/reference/webhelp/OLE/content/ch05s20.html#_paymentFileBatchUpload;collectorXmlInputFileType=/reference/webhelp/OLE/content/ch05s20.html#_paymentFileBatchUpload;enterpriseFeederFileSetType=/reference/webhelp/OLE/content/ch05s20.html#_paymentFileBatchUpload;laborEnterpriseFeederFileSetType=/reference/webhelp/OLE/content/ch05s20.html#_paymentFileBatchUpload;assetBarcodeInventoryInputFileType=/reference/webhelp/OLE/content/ch05s20.html#_paymentFileBatchUpload;paymentInputFileType=/reference/webhelp/OLE/content/ch05s20.html#_paymentFileBatchUpload' WHERE parm_nm = 'BATCH_UPLOAD_HELP_URL'
+/
+
+UPDATE KREW_DOC_TYP_T SET HELP_DEF_URL = '${ole.externalizable.help.url}/reference/webhelp/OLE/content/ch06s08.html#_person' WHERE DOC_TYP_NM = 'IdentityManagementPersonDocument'
+/
+
+INSERT INTO DATABASECHANGELOG (ID, AUTHOR, FILENAME, DATEEXECUTED, ORDEREXECUTED, MD5SUM, DESCRIPTION, COMMENTS, EXECTYPE, LIQUIBASE) VALUES ('UPDATE_HELP_LINK', 'ole', 'org/kuali/ole/1.6.0/db.changelog-20141207.xml', NOW(), 52, '7:e674d01db36f5c613fea09a925166478', 'update (x18)', '', 'EXECUTED', '3.2.0')
+/
+
+--  Release Database Lock
+--  Release Database Lock

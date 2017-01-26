@@ -1,0 +1,2020 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+
+    Copyright 2005-2012 The Kuali Foundation
+
+    Licensed under the Educational Community License, Version 2.0 (the "License");
+    you may not use this file except in compliance with the License.
+    You may obtain a copy of the License at
+
+    http://www.opensource.org/licenses/ecl2.php
+
+    Unless required by applicable law or agreed to in writing, software
+    distributed under the License is distributed on an "AS IS" BASIS,
+    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+    See the License for the specific language governing permissions and
+    limitations under the License.
+
+-->
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:p="http://www.springframework.org/schema/p"  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.springframework.org/schema/beans         http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
+    <bean id="OlePatronDocumentMaintenanceDocument-workflowProperties-parentBean" abstract="true" parent="WorkflowProperties">
+        <property name="workflowPropertyGroups">
+            <list>
+                <bean parent="WorkflowPropertyGroup">
+                    <property name="workflowProperties">
+                        <list>
+                            <bean parent="WorkflowProperty" p:path="oldMaintainableObject.businessObject"/>
+                            <bean parent="WorkflowProperty" p:path="newMaintainableObject.businessObject"/>
+                        </list>
+                    </property>
+                </bean>
+            </list>
+        </property>
+    </bean>
+    <bean id="OlePatronDocumentMaintenanceDocument" parent="uifMaintenanceDocumentEntry">
+        <property name="dataObjectClass" value="org.kuali.ole.deliver.bo.OlePatronDocument"/>
+        <property name="maintainableClass" value="org.kuali.ole.deliver.maintenance.OlePatronMaintenanceImpl"/>
+        <property name="documentTypeName" value="OLE_PTRN"/>
+        <property name="documentAuthorizerClass" value="org.kuali.rice.kns.document.authorization.MaintenanceDocumentAuthorizerBase"/>
+        <property name="businessRulesClass" value="org.kuali.ole.deliver.rule.OlePatronDocumentRule" />
+        <property name="allowsRecordDeletion" value="true"/>
+        <property name="lockingKeys">
+            <list>
+                <value>olePatronId</value>
+            </list>
+        </property>
+    </bean>
+    <bean id="OlePatronDocument-MaintenanceView" parent="Patron-MaintenanceView">
+        <property name="dataObjectClassName" value="org.kuali.ole.deliver.bo.OlePatronDocument"/>
+        <property name="viewHelperServiceClass" value="org.kuali.ole.deliver.maintenance.OlePatronMaintenanceImpl"/>
+        <property name="authorizerClass" value="org.kuali.ole.deliver.maintenance.OlePatronMaintenanceViewAuthorizer"/>
+        <property name="header">
+            <bean parent="Uif-Ole-DocumentViewHeader"/>
+        </property>
+        <property name="headerText" value="Patron"/>
+        <property name="header.lowerGroup">
+            <bean parent="Uif-VerticalBoxGroup" >
+                <property name="items">
+                    <list>
+                        <ref bean="expandCollapse_OlePatronBtn"/>
+                        <!--<bean parent="Uif-Message" p:messageText="* indicates required field"/>-->
+                    </list>
+                </property>
+            </bean>
+        </property>
+	    <property name="formClass" value="org.kuali.ole.deliver.form.OlePatronMaintenanceDocumentForm"/>
+        <property name="help">
+            <bean parent="Uif-Help">
+                <property name="externalHelpUrl"
+                          value="@{#ConfigProperties['externalizable.help.url']}/reference/webhelp/OLE/content/ch03s03.html#_Patron"/>
+                <!--<property name="tooltipHelpContent" value="[Help] maintenance help"/>-->
+            </bean>
+        </property>
+        <property name="items" >
+            <list merge="true">
+                <!--<bean id="OlePatronDocument-OleDocumentOverviewSection" parent="Uif-DocumentOverviewSection" p:order="10" p:render="@{maintenanceAction ne 'Delete'}"/>-->
+                <ref bean="Patron_Edit_Bill_Section"/>
+                <ref bean="OlePatronDocument-OverviewSection"/>
+                <ref bean="OlePatronDocument-ContactsSection" />
+                <ref bean="OlePatronDocument-Affiliation-Wrapper" />
+                <ref bean="OlePatronDocument-LibraryPoliciesSection-Wrapper" />
+                <ref bean="OlePatronDocument-PatronLoanedRecords-Wrapper" />
+                <ref bean="OlePatronDocument-PatronRequestedRecords-Wrapper" />
+                <ref bean="OlePatronDocument-TemporaryCirculationHistoryRecords-Wrapper" />
+                <ref bean="OlePatronDocument-NotesSection-Wrapper" />
+                <ref bean="OlePatronDocument-ProxySection-Wrapper" />
+                <ref bean="OlePatronDocument-ProxyForSection-Wrapper" />
+                <ref bean="OlePatronDocument-PatronLocalIdSection-Wrapper" />
+                <ref bean="OlePatronDocument-InvalidOrLostBarcodeSection-Wrapper" />
+                <ref bean="OlePatronDocument-Barcode-Update-Section" />
+               <!-- <ref bean="OlePatronDocument-MissingPiecesItemInfo"/>-->
+                <ref bean="showUpdateBarcodeDialogBox"/>
+                <ref bean="showReinstateDialogBox"/>
+                <ref bean="OlePatronDocument-reinstateBarcode-section"/>
+                <ref bean="Refresh-OlePatronDocument-InvalidOrLostBarcodeSection"/>
+                <ref bean="OlePatronDocument-barcodeEditable"/>
+                <ref bean="OlePatronDocument-popupDialog"/>
+                <ref bean="OlePatronDocument-messagePopupSection"/>
+                <!--<bean id="OlePatronDocument-AdHocRecipientsSection" parent="Uif-DocumentAdHocRecipientsSection" p:disclosure.defaultOpen="false" p:order="40" p:render="@{maintenanceAction ne 'Delete'}"/>
+                <bean id="OlePatronDocument-RouteLogSection" parent="Uif-DocumentRouteLogSection" p:disclosure.defaultOpen="false" p:order="50" p:render="@{maintenanceAction ne 'Delete'}"/>-->
+
+                <ref bean ="patronLoan_hdnBtn"/>
+            </list>
+        </property>
+        <property name="page.footer">
+            <bean id="Patron-FooterBase" parent="Uif-OleDocumentPageFooter" p:render="@{maintenanceAction ne 'Delete'}">
+                <property name="items">
+                    <list merge="false">
+                        <bean id="olePatronRouteReport" parent="Uif-SecondaryActionButton" p:ajaxSubmit="false" p:methodToCall="performRouteReport" p:actionLabel="Route Report"
+                              p:render="@{#actionFlags[#Constants.KUALI_ACTION_PERFORM_ROUTE_REPORT]}" p:focusOnIdAfterSubmit="TOP" p:jumpToIdAfterSubmit="TOP"/>
+                        <bean id="olePatronSendAdHoc" parent="Uif-SecondaryActionButton" p:ajaxSubmit="false" p:methodToCall="sendAdHocRequests" p:actionLabel="Send Adhoc"
+                              p:render="@{#actionFlags[#Constants.KUALI_ACTION_CAN_SEND_ADHOC_REQUESTS]}" p:focusOnIdAfterSubmit="TOP" p:jumpToIdAfterSubmit="TOP"/>
+                        <bean id="olePatronSubmit" parent="Uif-SecondaryActionButton" p:ajaxSubmit="false" p:methodToCall="route" p:actionLabel="Submit" p:performClientSideValidation="true"
+                              p:render="@{#actionFlags[#Constants.KUALI_ACTION_CAN_ROUTE]}" p:focusOnIdAfterSubmit="TOP" p:jumpToIdAfterSubmit="TOP"/>
+                        <bean id="olePatronSave" parent="OlePatron-Uif-SaveAction" p:ajaxSubmit="false" p:render="@{#actionFlags[#Constants.KUALI_ACTION_CAN_SAVE]}" p:focusOnIdAfterSubmit="TOP" p:jumpToIdAfterSubmit="TOP"/>
+                        <bean id="olePatronReload" parent="Uif-SecondaryActionButton" p:ajaxSubmit="false" p:methodToCall="reload" p:actionLabel="Reload"
+                              p:render="@{#actionFlags[#Constants.KUALI_ACTION_CAN_RELOAD]}" p:focusOnIdAfterSubmit="TOP" p:jumpToIdAfterSubmit="TOP"/>
+                        <bean id="olePatronBlanketApprove" parent="Uif-SecondaryActionButton" p:ajaxSubmit="false" p:methodToCall="blanketApprove" p:actionLabel="Blanket Approve" p:performClientSideValidation="true"
+                              p:render="@{#actionFlags[#Constants.KUALI_ACTION_CAN_BLANKET_APPROVE]}" p:focusOnIdAfterSubmit="TOP" p:jumpToIdAfterSubmit="TOP"/>
+                        <bean id="olePatronApprove" parent="Uif-SecondaryActionButton" p:ajaxSubmit="false" p:methodToCall="approve" p:actionLabel="Approve"  p:performClientSideValidation="true"
+                              p:render="@{#actionFlags[#Constants.KUALI_ACTION_CAN_APPROVE]}" p:focusOnIdAfterSubmit="TOP" p:jumpToIdAfterSubmit="TOP"/>
+                        <bean id="olePatronDisapprove" parent="Uif-SecondaryActionButton" p:ajaxSubmit="false" p:methodToCall="disapprove" p:actionLabel="Disapprove"
+                              p:render="@{#actionFlags[#Constants.KUALI_ACTION_CAN_DISAPPROVE]}" p:focusOnIdAfterSubmit="TOP" p:jumpToIdAfterSubmit="TOP"/>
+                        <bean id="olePatronFYI" parent="Uif-SecondaryActionButton" p:ajaxSubmit="false" p:methodToCall="fyi" p:actionLabel="FYI"
+                              p:render="@{#actionFlags[#Constants.KUALI_ACTION_CAN_FYI]}" p:focusOnIdAfterSubmit="TOP" p:jumpToIdAfterSubmit="TOP"/>
+                        <bean id="olePatronAcknowledge" parent="Uif-SecondaryActionButton" p:ajaxSubmit="false" p:methodToCall="acknowledge" p:actionLabel="Acknowledge"
+                              p:render="@{#actionFlags[#Constants.KUALI_ACTION_CAN_ACKNOWLEDGE]}" p:focusOnIdAfterSubmit="TOP" p:jumpToIdAfterSubmit="TOP"/>
+                        <bean id="olePatronClose" parent="Uif-BackAction" p:ajaxSubmit="false" p:actionLabel="Close" p:render="@{#actionFlags[#Constants.KUALI_ACTION_CAN_CLOSE]}" p:focusOnIdAfterSubmit="TOP" p:jumpToIdAfterSubmit="TOP"/>
+
+                        <bean id="olePatronCancel" parent="OlePatron-Uif-CancelAction" p:ajaxSubmit="false" p:render="@{#actionFlags[#Constants.KUALI_ACTION_CAN_CANCEL]}" p:focusOnIdAfterSubmit="TOP" p:jumpToIdAfterSubmit="TOP"/>
+                        <bean id="olePatronCopy" parent="Uif-ActionLink" p:ajaxSubmit="false" p:methodToCall="copy" p:actionLabel="Copy"
+                              p:render="@{#actionFlags[#Constants.KUALI_ACTION_CAN_COPY]}" p:focusOnIdAfterSubmit="TOP" p:jumpToIdAfterSubmit="TOP">
+                            <property name="cssClasses">
+                                <list merge="false">
+                                    <value>uif-secondaryActionButton</value>
+                                </list>
+                            </property>
+                        </bean>
+                        <bean id="lostBarcode_edit" parent="Uif-SecondaryActionButton" p:methodToCall="lostBarcode" p:actionLabel="Update Barcode" p:ajaxSubmit="true"  p:successCallback="showBarcodeUpdateDialogBox();"  p:focusOnIdAfterSubmit="TOP" p:jumpToIdAfterSubmit="TOP" p:render="@{#actionFlags[#Constants.KUALI_ACTION_CAN_ROUTE]}" />
+                        <!--p:render="@{(#actionFlags[#Constants.KUALI_ACTION_CAN_ROUTE]) and (document.newMaintainableObject.dataObject.olePatronId ne null)}"-->
+                        <!--<bean parent="Uif-PrimaryActionButton" p:methodToCall="route" p:actionLabel="submit" p:performClientSideValidation="true"
+                              p:render="@{#actionFlags[#Constants.KUALI_ACTION_CAN_ROUTE]}" p:focusOnIdAfterSubmit="TOP" p:jumpToIdAfterSubmit="TOP"  />
+                        <bean parent="Uif-PrimaryActionButton" p:methodToCall="save" p:actionLabel="save" p:performClientSideValidation="true"
+                              p:render="@{#actionFlags[#Constants.KUALI_ACTION_CAN_SAVE]}" p:focusOnIdAfterSubmit="TOP" p:jumpToIdAfterSubmit="TOP"  />-->
+                        <!--<bean parent="Uif-PrimaryActionButton" p:methodToCall="blanketApprove" p:actionLabel="blanket approve" p:performClientSideValidation="true"
+                              p:render="@{#actionFlags[#Constants.KUALI_ACTION_CAN_BLANKET_APPROVE]}"/>
+                        <bean parent="Uif-SecondaryActionButton" p:methodToCall="close" p:actionLabel="close"
+                              p:render="@{#actionFlags[#Constants.KUALI_ACTION_CAN_CLOSE]}"/>
+                        <bean parent="Uif-PrimaryActionButton" p:methodToCall="cancel" p:actionLabel="cancel"
+                              p:render="@{#actionFlags[#Constants.KUALI_ACTION_CAN_CANCEL]}"/>-->
+                    </list>
+                </property>
+            </bean>
+        </property>
+        <property name="additionalCssFiles">
+            <list>
+                <value>ole/ingest/css/patron.css</value>
+            </list>
+        </property>
+        <property name="additionalScriptFiles">
+            <list merge="true">
+                <value>ole/patron/script/olePatron.js</value>
+            </list>
+        </property>
+        <property name="dialogs">
+            <list>
+                <ref bean="deleteConfirmationMessage"/>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="deleteConfirmationMessage"  parent="Uif-VerticalBoxSection">
+        <property name="hidden" value="true"/>
+        <property name="items">
+            <list>
+                <bean id="confirmationMessage" parent="Uif-MessageField" p:messageText='message'/>
+                <bean id="confirmationButton" parent="Uif-HorizontalBoxSection" p:style="position: relative;top:39%;left: 50%;margin-right: 74%;transform: translate(-50%, 0%);justify-content: center;align-items: center;">
+                    <property name="items">
+                        <list>
+                            <bean id="confirmationSubmit" parent="Uif-SecondaryActionButton" p:actionScript="submitForm('deleteDocument',null,null,true,function(){
+                            });" p:actionLabel="Submit" />
+                            <bean id="confirmationCancel" parent="Uif-SecondaryActionButton"  p:methodToCall="cancel" p:actionLabel="Cancel" />
+                        </list>
+                    </property>
+                </bean>
+            </list>
+        </property>
+    </bean>
+    <!--<bean id="Uif-OlePatron-DocumentViewHeader" abstract="true" parent="Uif-ViewHeader">
+        <property name="rightGroup">
+                <bean parent="Uif-OlePatron-DocumentInfoGroup">
+                    <property name="cssClasses">
+                        <list merge="true">
+                            <value>uif-docheader</value>
+                        </list>
+                    </property>
+                </bean>
+        </property>
+    </bean>
+
+    <bean id="Uif-OlePatron-DocumentInfoGroup" parent="Uif-GridGroup" p:style="height:30px;overflow:hidden" p:readOnly="true">
+        <property name="items">
+            <list>
+                <bean parent="Uif-DocumentNumber"/>
+                <bean parent="Uif-DocumentStatus"/>
+                <bean parent="Uif-DocumentInitiatorNetworkId"/>
+                <bean parent="Uif-DocumentCreateDate"/>
+            </list>
+        </property>
+        <property name="layoutManager">
+            <bean parent="Uif-GridLayoutBase" p:numberOfColumns="8" p:applyDefaultCellWidths="false"/>
+        </property>
+        <property name="fieldBindingObjectPath" value="document"/>
+    </bean>-->
+
+    <bean id="expandCollapse_OlePatronBtn" parent="Uif-HorizontalBoxSection"  p:style="float:right;margin-top:0%;margin-right:1%">
+        <property name="items">
+            <list>
+                <bean id="olePatron_Expand_All" parent="Uif-SecondaryActionButton"  p:actionLabel="expand all" p:actionScript="expandAll();"/>
+                <bean id="olePatron_Collapse_All" parent="Uif-SecondaryActionButton"  p:actionLabel="collapse all" p:actionScript="collapseAll();"/>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="OlePatron-Uif-SaveAction" parent="Uif-SecondaryActionButton" p:methodToCall="save" p:actionLabel="Save"
+          p:performClientSideValidation="true" p:focusOnIdAfterSubmit="FIRST" p:jumpToIdAfterSubmit="TOP"
+          p:loadingMessageText="Saving..." p:clearDirtyOnAction="true" p:id="usave"/>
+
+    <bean id="OlePatron-Uif-CancelAction" parent="Uif-SecondaryActionButton" p:methodToCall="cancel"
+          p:actionLabel="Cancel" p:performDirtyValidation="true" p:id="ucancel"/>
+
+    <bean id="Patron-MaintenanceView" abstract="true" parent="Patron-MaintenanceView-parentBean"/>
+    <bean id="Patron-MaintenanceView-parentBean"  parent="Uif-OLEMaintenanceView">
+        <property name="page">
+            <bean parent="Patron-Uif-OleMaintenancePage"/>
+        </property>
+    </bean>
+
+    <bean id="Patron-Uif-OleMaintenancePage" abstract="true" parent="Patron-Uif-OleMaintenancePage-parentBean"/>
+    <bean id="Patron-Uif-OleMaintenancePage-parentBean" parent="Patron-Uif-OleDocumentPage">
+        <property name="cssClasses">
+            <list merge="true">
+                <value>uif-maintenancePage</value>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="Patron-Uif-OleDocumentPage" parent="Uif-Disclosure-Page">
+        <property name="cssClasses">
+            <list merge="true">
+                <value>uif-documentPage</value>
+            </list>
+        </property>
+        <property name="defaultItemPosition" value="11"/>
+        <property name="items">
+            <list>
+                <ref bean="Patron-FooterBase-Header"/>
+                <ref bean="OlePatronDocument-FooterBase-Header"/>
+                <bean id="note" parent="Uif-OleDocumentOverviewSection" p:order="13"/>
+                <bean id="notesec" parent="Uif-OleDocumentNotesSection" p:disclosure.defaultOpen="false" p:order="30" p:render="false"/>
+                <bean id="adhoc" parent="Uif-OleDocumentAdHocRecipientsSection" p:disclosure.defaultOpen="false" p:order="40"/>
+                <bean id="routesection" parent="Uif-OleDocumentRouteLogSection" p:disclosure.defaultOpen="false" p:order="50"/>
+                <bean id="OlePatronDocument-FooterBase" parent="Uif-FooterBase" p:render="@{maintenanceAction eq 'Delete'}" p:order="60">
+                    <property name="items">
+                        <list>
+                            <bean id="deleteButton" parent="Uif-SecondaryActionButton" p:actionScript="unloadPage(true);" p:actionLabel="Delete"/>
+                            <bean id="cancelButton" parent="Uif-SecondaryActionButton" p:methodToCall="cancel" p:actionLabel="Cancel"/>
+                        </list>
+                    </property>
+                </bean>
+            </list>
+        </property>
+        <property name="footer">
+            <bean parent="Uif-OleDocumentPageFooter"/>
+        </property>
+    </bean>
+
+    <bean id="Patron-FooterBase-Header" parent="Patron-FooterBase" p:render="@{maintenanceAction ne 'Delete'}" p:order="10"/>
+
+    <bean id="OlePatronDocument-FooterBase-Header" parent="OlePatronDocument-FooterBase" p:render="@{maintenanceAction eq 'Delete'}" p:order="11"/>
+
+    <bean id="Patron_Edit_Bill_Section" parent="Uif-HorizontalFieldGroup" p:render="@{maintenanceAction eq 'Edit'}"
+          p:order="12">
+        <property name="items">
+            <list>
+                <bean id="createPatronBillLink_edit" parent="Uif-LinkField" p:style="font-weight:bold;font-size:15px;margin-left:1.5em;" p:href="@{#dp.createBillUrl}"  p:linkText="Create Bill"  p:target="_blank"/>
+                <bean id="viewPatronBillLink_edit" parent="Uif-LinkField" p:style="font-weight:bold;font-size:15px;margin-left:1.5em;" p:href="@{#dp.viewBillUrl}"  p:linkText="@{#dp.patronBillFileName}"  p:target="_blank"/>
+            </list>
+        </property>
+    </bean>
+
+	<bean abstract="true" id="OlePatron-InputField" parent="Uif-InputField" 
+		p:enableAutoQuickfinder="false"	p:enableAutoDirectInquiry="false" />
+	<bean abstract="true" id="OlePatron-DataField" parent="Uif-DataField"
+		p:enableAutoInquiry="false" />
+
+    <bean id="OlePatronDocument-PatronLoanedRecords-Wrapper" p:disclosure.defaultOpen="false" parent="Uif-VerticalBoxSection">
+    	<property name="items">
+    		<list>
+		      <bean parent="Uif-SectionHeader">
+		      	<property name="inlineComponents">
+		      		<list>
+		      			<bean parent="Uif-ActionImage" p:hidden="@{filterLoanedRecords}"
+		      					p:methodToCall="refresh"
+			      				p:refreshId="OlePatronDocument-PatronLoanedRecords-Wrapper">
+		      				<property name="actionImage">
+				      			<bean parent="Uif-Image" p:source="@{#ThemeImages}h2_expand.png"/>
+		      				</property>
+		      				<property name="additionalSubmitData">
+		      					<map>
+		      						<entry key="filterLoanedRecords" value="true" />
+		      					</map>
+		      				</property>
+		      			</bean>
+		      			<bean parent="Uif-ActionImage" p:hidden="@{!filterLoanedRecords}"
+		      					p:methodToCall="refresh"
+			      				p:refreshId="OlePatronDocument-PatronLoanedRecords-Wrapper">
+		      				<property name="actionImage">
+				      			<bean parent="Uif-Image" p:source="@{#ThemeImages}h2_collapse.png"/>
+		      				</property>
+		      				<property name="additionalSubmitData">
+		      					<map>
+		      						<entry key="filterLoanedRecords" value="false" />
+		      					</map>
+		      				</property>
+		      			</bean>
+		      			<bean parent="Uif-ActionLink" p:actionLabel="Loaned Records (@{document.newMaintainableObject.dataObject ne null and document.newMaintainableObject.dataObject.loanCount ne 0?document.newMaintainableObject.dataObject.loanCount:0})"
+		      					p:methodToCall="refresh"
+			      				p:refreshId="OlePatronDocument-PatronLoanedRecords-Wrapper" p:cssClasses="@{document.newMaintainableObject.dataObject ne null and document.newMaintainableObject.dataObject.loanCount &lt; 1?'disableColor':'enableColor'}">
+		      				<property name="additionalSubmitData">
+		      					<map>
+		      						<entry key="filterLoanedRecords" value="@{!filterLoanedRecords}" />
+		      					</map>
+		      				</property>
+		      			</bean>
+		      		</list>
+		      	</property>
+		      	<property name="headerText" value="[0][1] [2]" />
+		      </bean>
+              <ref bean="OlePatronDocument-PatronLoanedRecords" />
+    		</list>
+    	</property>
+    </bean>
+    
+    <bean id="OlePatronDocument-PatronLoanedRecords" parent="Uif-VerticalBoxSection"
+    		p:filterModelProperty="filterLoanedRecords" p:disclosure.defaultOpen="false" ><!--p:render="@{document.newMaintainableObject.dataObject.loanFlag}"-->
+        <!--<property name="headerText" value="Loaned Records (@{document.newMaintainableObject.dataObject.olePatronEntityViewBo ne null and document.newMaintainableObject.dataObject.olePatronEntityViewBo.loanCount ne 0?document.newMaintainableObject.dataObject.olePatronEntityViewBo.loanCount:0})" />-->
+        <property name="items">
+            <list>
+                <bean id="Show-OlePatronDocument-LoanedItems-TotalNoCount" parent="Uif-MessageField" p:render="@{document.newMaintainableObject.dataObject ne null and document.newMaintainableObject.dataObject.loanCount ne 0 and !document.newMaintainableObject.dataObject.showLoanedRecords}"/>
+                <bean id="Show-OlePatronDocument-LoanedItems" parent="Uif-SecondaryActionButton-Small" p:methodToCall="showPatronLoanedItem" p:actionLabel="Show Loaned Items"  p:render="@{!document.newMaintainableObject.dataObject.showLoanedRecords}" p:ajaxSubmit="true" p:successCallback="disableLink();"/>
+                <bean id="Hide-OlePatronDocument-LoanedItems" parent="Uif-SecondaryActionButton-Small" p:methodToCall="hidePatronLoanedItem" p:actionLabel="Hide Loaned Items"  p:render="@{document.newMaintainableObject.dataObject.showLoanedRecords}" p:ajaxSubmit="true" p:successCallback="disableLink();"/>
+                <ref bean="OlePatronDocument-LoanedItems"/>
+                <bean id="viewLoanedRecordLink" parent="Uif-LinkField" p:style="font-weight:bold;" p:href="@{#ViewHelper.getLoanedRecords(document.newMaintainableObject.dataObject.olePatronId)}"  p:linkText="View Loaned Items in a New Window"  p:target="_blank" >
+                    <property name="cssClasses" value="uif-secondaryActionButton"/>
+                </bean>
+            </list>
+        </property>
+    </bean>
+    <bean id="OlePatronDocument-LoanedItems" parent="Uif-TableCollectionSection" p:layoutManager.numberOfColumns="21" p:render="@{document.newMaintainableObject.dataObject.oleLoanDocuments ne null and document.newMaintainableObject.dataObject.oleLoanDocuments.size()>0 and document.newMaintainableObject.dataObject.showLoanedRecords}" >
+        <!-- <property name="headerText" value="Loaned Items" /> -->
+        <property name="collectionObjectClass" value="org.kuali.ole.deliver.bo.OleLoanDocument"/>
+        <property name="propertyName" value="oleLoanDocuments"/>
+        <property name="layoutManager.renderSequenceField" value="false"/>
+        <property name="renderAddLine" value="false"/>
+        <!--<property name="addLineLabel" value="false"/>-->
+        <property name="layoutManager.richTable.render" value="true"/>
+        <property name="layoutManager.richTable.disableTableSort" value="false" />
+        <property name="layoutManager.richTable.templateOptions">
+            <map merge="true">
+                <entry key="aoColumnDefs" value="[{'bVisible': true,'aTargets': [0]},{'bVisible': true,'aTargets': [1]}]"/>
+                <entry key="sPaginationType" value="full_numbers"/>
+            </map>
+        </property>
+        <property name="items">
+            <list>
+                <bean id="checkIdRenewal" parent="OlePatron-DataField" p:propertyName="checkNo" p:defaultValue="false" p:hidden="true"/>
+                <bean id="patronLoan_isModified" parent="OlePatron-InputField" p:label=" " p:propertyName="loanModified" p:hidden="true"/>
+                <bean id="patronLoan_itemId" parent="Uif-LinkField" p:label="Barcode" p:linkText="@{#line.itemId}" p:target="_blank" p:href="editorcontroller?viewId=EditorView&amp;methodToCall=load&amp;docCategory=work&amp;docType=item&amp;editable=false&amp;docFormat=oleml&amp;docId=@{#line.itemUuid}&amp;instanceId=@{#line.instanceUuid}&amp;bibId=@{#line.bibUuid}"/>
+                <bean id="patronLoan_title" parent="OlePatron-DataField" p:label="Title" p:propertyName="title" />
+                <bean id="patronLoan_author" parent="OlePatron-DataField" p:label="Author" p:propertyName="author" />
+                <bean id="patronLoan_itemLocation" parent="OlePatron-DataField" p:label="Location" p:propertyName="location"/>
+                <bean id="patronLoan_itemCallNumberId" parent="OlePatron-DataField" p:label="Call Number" p:propertyName="itemCallNumber"/>
+                <bean id="patronLoan_itemCopyNumberId" parent="OlePatron-DataField" p:label="Copy Number" p:propertyName="itemCopyNumber"/>
+                <bean id="patronLoan_enumeration" parent="OlePatron-DataField" p:label="Enumeration" p:propertyName="enumeration"/>
+                <bean id="patronLoan_chronology" parent="OlePatron-DataField" p:label="Chronology" p:propertyName="chronology"/>
+                <bean id="patronLoan_realPatronName" parent="OlePatron-DataField" p:label="Proxy Borrower Name" p:width="10%" p:propertyName="realPatronName"/>
+                <bean id="patronLoan_realPatronBarcode" parent="Uif-LinkField" p:target="_blank" p:label="Proxy Borrower Barcode" p:href="@{#line.proxyPatronBarcodeUrl}" p:linkText="@{#line.proxyPatronBarcode}"/>
+                <bean id="patronLoan_itemStatus" parent="OlePatron-DataField" p:label="Item Status" p:propertyName="itemStatus"/>
+                <bean id="patronLoan_itemType" parent="OlePatron-DataField" p:label="Item Type" p:propertyName="itemType"/>
+                <bean id="patronLoan_loanDueDate" parent="OlePatron-DataField" p:label="Due Date" p:propertyName="loanDueDate" p:render="@{#line.loanDueDate ne null}"/>
+                <bean id="patronLoan_loanDueDateType" parent="OlePatron-DataField" p:label="Due Date" p:propertyName="dueDateType" p:render="@{#line.loanDueDate eq null}"/>
+                <bean id="patronLoan_claimsReturnedFlag" parent="OlePatron-InputField" p:label="Claims Returned Flag" p:propertyName="claimsReturnedIndicator" p:readOnly="@{!document.newMaintainableObject.dataObject.expirationFlag}">
+                    <property name="control">
+                        <bean parent="Uif-CheckboxControl" p:onClickScript="setLoanModified(this);refreshClaimsReturnNote();"/>
+                    </property>
+                </bean>
+                <bean id="patronLoan_claimsReturnedNote" parent="OlePatron-InputField" p:label="Claims Returned Note" p:propertyName="claimsReturnNote" p:Render="@{#line.claimsReturnedIndicator}" p:readOnly="@{!document.newMaintainableObject.dataObject.expirationFlag}">
+                    <property name="control">
+                        <bean parent="Uif-TextControl" p:size="10" p:onChangeScript="setLoanModified(this)"/>
+                    </property>
+                </bean>
+                <bean id="patronLoan_missingPieceFlag" parent="OlePatron-InputField" p:label="Missing Piece Flag" p:propertyName="missingPieceFlag">
+                    <property name="control">
+                        <bean parent="Uif-CheckboxControl" p:onClickScript="setLoanModified(this);refreshMissingPieceNote();"/>
+                    </property>
+                </bean>
+                <bean id="patronLoan_missingPieceNote" parent="OlePatron-InputField" p:label="Missing Piece Note" p:propertyName="missingPieceNote" p:Render="@{#line.missingPieceFlag}">
+                    <property name="control">
+                        <bean parent="Uif-TextControl" p:size="10" p:onChangeScript="setLoanModified(this)"/>
+                    </property>
+                </bean>
+                <bean id="patronLoan_missingPiecesCount" parent="OlePatron-InputField" p:label="Missing Piece Count" p:propertyName="missingPiecesCount" p:Render="@{#line.missingPieceFlag}" p:readOnly="@{!#line.noOfMissingPiecesEditable}">
+                    <property name="control">
+                        <bean parent="Uif-TextControl" p:size="10" p:onChangeScript="setLoanModified(this)"/>
+                    </property>
+                    <property name="validCharactersConstraint">
+                        <bean parent="NumericPatternConstraint"/>
+                    </property>
+                </bean>
+                <bean id="patronLoan_itemNumberOfPieces" parent="OlePatron-InputField" p:label="Item no of Pieces" p:propertyName="itemNumberOfPieces" p:Render="@{#line.missingPieceFlag}" p:readOnly="@{!#line.noOfPiecesEditable}">
+                    <property name="control">
+                        <bean parent="Uif-TextControl" p:size="10" p:onChangeScript="setLoanModified(this)"/>
+                    </property>
+                    <property name="validCharactersConstraint">
+                        <bean parent="NumericPatternConstraint"/>
+                    </property>
+                </bean>
+                <bean id="patronLoan_itemDamagedStatus" parent="OlePatron-InputField" p:label="Damaged Item Flag" p:propertyName="itemDamagedStatus">
+                    <property name="control">
+                        <bean parent="Uif-CheckboxControl" p:onClickScript="setLoanModified(this);refreshItemDamagedNote();"/>
+                    </property>
+                </bean>
+                <bean id="patronLoan_itemDamagedNote" parent="OlePatron-InputField" p:label="Damaged Item Note" p:propertyName="itemDamagedNote" p:Render="@{#line.itemDamagedStatus}">
+                    <property name="control">
+                        <bean parent="Uif-TextControl" p:size="10" p:onChangeScript="setLoanModified(this)"/>
+                    </property>
+                </bean>
+
+                <bean id="viewPendingRequestRecordLink" parent="Uif-LinkField" p:style="font-weight:bold;" p:href="lookup?methodToCall=search&amp;itemId=@{#line.itemId}&amp;flag=true&amp;dataObjectClassName=org.kuali.ole.deliver.bo.OleDeliverRequestBo" p:linkText="@{#ViewHelper.getCountOfPendingRequests(#line.itemId)}"  p:target="_blank"  p:label="Pending Requests">
+                    <property name="cssClasses" value="uif-secondaryActionButton"/>
+                </bean>
+                <bean id="viewSendNotices" parent="Uif-LinkField" p:style="font-weight:bold;" p:href="@{#line.sentNoticesUrl}"  p:linkText="View Sent Notices in a New Window"  p:target="_blank" p:label="Send Notices">
+                    <property name="cssClasses" value="uif-secondaryActionButton"/>
+                </bean>
+            </list>
+        </property>
+        <property name="renderLineActions" value="false"/>
+    </bean>
+
+    <bean id="OlePatronDocument-PatronRequestedRecords-Wrapper" p:disclosure.defaultOpen="false" parent="Uif-VerticalBoxSection">
+    	<property name="items">
+    		<list>
+		      <bean parent="Uif-SectionHeader">
+		      	<property name="inlineComponents">
+		      		<list>
+		      			<bean parent="Uif-ActionImage" p:hidden="@{filterRequestedRecords}"
+		      					p:methodToCall="refresh"
+			      				p:refreshId="OlePatronDocument-PatronRequestedRecords-Wrapper">
+		      				<property name="actionImage">
+				      			<bean parent="Uif-Image" p:source="@{#ThemeImages}h2_expand.png"/>
+		      				</property>
+		      				<property name="additionalSubmitData">
+		      					<map>
+		      						<entry key="filterRequestedRecords" value="true" />
+		      					</map>
+		      				</property>
+		      			</bean>
+		      			<bean parent="Uif-ActionImage" p:hidden="@{!filterRequestedRecords}"
+		      					p:methodToCall="refresh"
+			      				p:refreshId="OlePatronDocument-PatronRequestedRecords-Wrapper">
+		      				<property name="actionImage">
+				      			<bean parent="Uif-Image" p:source="@{#ThemeImages}h2_collapse.png"/>
+		      				</property>
+		      				<property name="additionalSubmitData">
+		      					<map>
+		      						<entry key="filterRequestedRecords" value="false" />
+		      					</map>
+		      				</property>
+		      			</bean>
+		      			<bean parent="Uif-ActionLink" p:actionLabel="Requested Records (@{document.newMaintainableObject.dataObject ne null and document.newMaintainableObject.dataObject.requestedItemRecordsCount ne 0?document.newMaintainableObject.dataObject.requestedItemRecordsCount:0})"
+		      					p:methodToCall="refresh"
+			      				p:refreshId="OlePatronDocument-PatronRequestedRecords-Wrapper" p:cssClasses="@{document.newMaintainableObject.dataObject ne null and document.newMaintainableObject.dataObject.requestedItemRecordsCount &lt; 1?'disableColor':'enableColor'}">
+		      				<property name="additionalSubmitData">
+		      					<map>
+		      						<entry key="filterRequestedRecords" value="@{!filterRequestedRecords}" />
+		      					</map>
+		      				</property>
+		      			</bean>
+		      		</list>
+		      	</property>
+		      	<property name="headerText" value="[0][1] [2]" />
+		      </bean>
+              <ref bean="OlePatronDocument-PatronRequestedRecords" />
+    		</list>
+    	</property>
+    </bean>
+    
+    <bean id="OlePatronDocument-PatronRequestedRecords" parent="Uif-VerticalBoxSection" p:componentSecurity.viewAuthz="true"
+    		p:filterModelProperty="filterRequestedRecords" p:disclosure.defaultOpen="false" ><!--p:render="@{document.newMaintainableObject.dataObject.requestFlag}"-->
+        <property name="items">
+            <list>
+                <bean id="Show-OlePatronDocument-RequestedItems-TotalCount" parent="Uif-MessageField" p:render="@{document.newMaintainableObject.dataObject ne null and document.newMaintainableObject.dataObject.requestedItemRecordsCount ne 0 and !document.newMaintainableObject.dataObject.showRequestedItems}" />
+                <bean id="Show-OlePatronDocument-RequestedItems" parent="Uif-SecondaryActionButton-Small" p:methodToCall="showPatronRequestedRecords" p:actionLabel="Show Requested Items"  p:render="@{!document.newMaintainableObject.dataObject.showRequestedItems}" p:ajaxSubmit="true" p:successCallback="disableLink();"/>
+                <bean id="Hide-OlePatronDocument-RequestedItems" parent="Uif-SecondaryActionButton-Small" p:methodToCall="hidePatronRequestedRecords" p:actionLabel="Hide Requested Items"  p:render="@{document.newMaintainableObject.dataObject.showRequestedItems}" p:ajaxSubmit="true" p:successCallback="disableLink();" />
+                <ref bean="OlePatronDocument-RequestedItems" />
+                <bean id="viewRequestedRecordLink" parent="Uif-LinkField" p:style="font-weight:bold;" p:href="@{#ViewHelper.getRequestedRecords(document.newMaintainableObject.dataObject.olePatronId)}"  p:linkText="View Requested Items in a New Window"  p:target="_blank" >
+                    <property name="cssClasses" value="uif-secondaryActionButton"/>
+                </bean>
+            </list>
+        </property>
+    </bean>
+
+
+    <bean id="patronLoan_hdnBtn" parent="Uif-PrimaryActionButton" p:methodToCall="refreshProgGroup" p:hidden="true"
+          p:refreshId="OlePatronDocument-LoanedItems" />
+
+    <bean id="OlePatronDocument-RequestedItems" parent="Uif-TableCollectionSection" p:layoutManager.numberOfColumns="12" p:render="@{document.newMaintainableObject.dataObject.oleDeliverRequestBos ne null and document.newMaintainableObject.dataObject.oleDeliverRequestBos.size()>0 and document.newMaintainableObject.dataObject.showRequestedItems}">
+        <property name="collectionObjectClass" value="org.kuali.ole.deliver.bo.OleDeliverRequestBo"/>
+        <property name="propertyName" value="oleDeliverRequestBos"/>
+        <property name="layoutManager.renderSequenceField" value="false"/>
+        <property name="renderAddLine" value="false"/>
+        <property name="layoutManager.richTable.render" value="true"/>
+        <property name="layoutManager.richTable.disableTableSort" value="false" />
+        <property name="items">
+            <list>
+                <bean id="patronRequest_itemId" parent="OlePatron-DataField" p:label="Item Barcode" p:propertyName="itemId"/>
+                <bean id="patronRequest_requestId" parent="OlePatron-DataField" p:label="Request Id" p:propertyName="requestId" />
+                <bean id="patronRequest_requestType" parent="OlePatron-DataField" p:label="Request Type" p:propertyName="oleDeliverRequestType.requestTypeCode" />
+                <bean id="patronRequest_borrowerQueuePosition" parent="OlePatron-DataField" p:label="Borrower Queue Position" p:propertyName="borrowerQueuePosition"/>
+                <bean id="patronRequest_itemTitle" parent="OlePatron-DataField" p:label="Title" p:propertyName="title" />
+                <bean id="patronRequest_author" parent="OlePatron-DataField" p:label="Author" p:propertyName="author" />
+                <bean id="patronRequest_copyNumber" parent="OlePatron-DataField" p:label="Copy Number" p:propertyName="copyNumber" />
+                <bean id="patronRequest_shelvingLocation" parent="OlePatron-DataField" p:label="Shelving Location" p:propertyName="shelvingLocation" />
+                <bean id="patronRequest_callNumber" parent="OlePatron-DataField" p:label="Call Number" p:propertyName="callNumber" />
+                <bean id="patronRequest_volumeNumber" parent="OlePatron-DataField" p:label="Volume Number" p:propertyName="volumeNumber" />
+                <bean id="patronRequest_itemType" parent="OlePatron-DataField" p:label="Item Type" p:propertyName="itemType" />
+                <bean id="patronRequest_itemStatus" parent="OlePatron-DataField" p:label="Item Status" p:propertyName="itemStatus" />
+                <bean id="patronRequest_pickUpLocationCode" parent="OlePatron-DataField" p:label="Pickup Location" p:propertyName="pickUpLocationCode"/>
+                <bean id="patronRequest_requestExpirationDate" parent="Uif-DataField" p:label="Request Expiration Date" p:propertyName="requestExpiryDate"/>
+                <bean id="patronRequest_onHoldExpirationDate" parent="Uif-DataField" p:label="OnHold Expiration Date" p:propertyName="holdExpirationDate"/>
+            </list>
+        </property>
+        <property name="renderLineActions" value="false"/>
+    </bean>
+
+    <bean id="OlePatronDocument-TemporaryCirculationHistoryRecords-Wrapper" p:disclosure.defaultOpen="false" parent="Uif-VerticalBoxSection">
+    	<property name="items">
+    		<list>
+		      <bean parent="Uif-SectionHeader">
+		      	<property name="inlineComponents">
+		      		<list>
+		      			<bean parent="Uif-ActionImage" p:hidden="@{filterTemporaryCirculationHistoryRecords}"
+		      					p:methodToCall="refresh"
+			      				p:refreshId="OlePatronDocument-TemporaryCirculationHistoryRecords-Wrapper">
+		      				<property name="actionImage">
+				      			<bean parent="Uif-Image" p:source="@{#ThemeImages}h2_expand.png"/>
+		      				</property>
+		      				<property name="additionalSubmitData">
+		      					<map>
+		      						<entry key="filterTemporaryCirculationHistoryRecords" value="true" />
+		      					</map>
+		      				</property>
+		      			</bean>
+		      			<bean parent="Uif-ActionImage" p:hidden="@{!filterTemporaryCirculationHistoryRecords}"
+		      					p:methodToCall="refresh"
+			      				p:refreshId="OlePatronDocument-TemporaryCirculationHistoryRecords-Wrapper">
+		      				<property name="actionImage">
+				      			<bean parent="Uif-Image" p:source="@{#ThemeImages}h2_collapse.png"/>
+		      				</property>
+		      				<property name="additionalSubmitData">
+		      					<map>
+		      						<entry key="filterTemporaryCirculationHistoryRecords" value="false" />
+		      					</map>
+		      				</property>
+		      			</bean>
+		      			<bean parent="Uif-ActionLink" p:actionLabel="Temporary Circulation History records (@{document.newMaintainableObject.dataObject ne null and document.newMaintainableObject.dataObject.tempCirculationHistoryCount ne 0?document.newMaintainableObject.dataObject.tempCirculationHistoryCount:0})"
+		      					p:methodToCall="refresh"
+			      				p:refreshId="OlePatronDocument-TemporaryCirculationHistoryRecords-Wrapper" p:cssClasses="@{document.newMaintainableObject.dataObject ne null and document.newMaintainableObject.dataObject.tempCirculationHistoryCount &lt; 1?'disableColor':'enableColor'}">
+		      				<property name="additionalSubmitData">
+		      					<map>
+		      						<entry key="filterTemporaryCirculationHistoryRecords" value="@{!filterTemporaryCirculationHistoryRecords}" />
+		      					</map>
+		      				</property>
+		      			</bean>
+		      		</list>
+		      	</property>
+		      	<property name="headerText" value="[0][1] [2]" />
+		      </bean>
+              <ref bean="OlePatronDocument-TemporaryCirculationHistoryRecords" />
+    		</list>
+    	</property>
+    </bean>
+    
+    <bean id="OlePatronDocument-TemporaryCirculationHistoryRecords" parent="Uif-VerticalBoxSection"
+          p:filterModelProperty="filterTemporaryCirculationHistoryRecords"  p:componentSecurity.viewAuthz="true"><!--p:render="@{document.newMaintainableObject.dataObject.tempCircHistoryFlag}"-->
+        <property name="items">
+            <list>
+                <bean id="Show-OlePatronDocument-TemporaryCirculationHistoryRecords-Count" parent="Uif-MessageField" p:render="@{document.newMaintainableObject.dataObject ne null and document.newMaintainableObject.dataObject.tempCirculationHistoryCount ne 0 and !document.newMaintainableObject.dataObject.showTemporaryCirculationHistoryRecords}" />
+                <bean id="Show-OlePatronDocument-TemporaryCirculationHistoryRecords" parent="Uif-SecondaryActionButton-Small" p:methodToCall="showTemporaryCirculationHistoryRecords" p:actionLabel="Show TemporaryCirculationHistory Items"  p:render="@{!document.newMaintainableObject.dataObject.showTemporaryCirculationHistoryRecords}" p:ajaxSubmit="true" p:successCallback="disableLink();"/>
+                <bean id="Hide-OlePatronDocument-TemporaryCirculationHistoryRecords" parent="Uif-SecondaryActionButton-Small" p:methodToCall="hideTemporaryCirculationHistoryRecords" p:actionLabel="Hide TemporaryCirculationHistory Items"  p:render="@{document.newMaintainableObject.dataObject.showTemporaryCirculationHistoryRecords}" p:ajaxSubmit="true" p:successCallback="disableLink();"/>
+                <ref bean="OlePatronDocument-TemporaryCirculationHistory"/>
+                <bean id="viewTempRecordsLink" parent="Uif-LinkField" p:style="font-weight:bold;"
+                      p:href="@{#ViewHelper.getTempCircRecords(document.newMaintainableObject.dataObject.olePatronId)}"
+                      p:linkText="View TemporaryCirculationHistory Items in a New Window" p:target="_blank">
+                    <property name="cssClasses" value="uif-secondaryActionButton"/>
+                </bean>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="OlePatronDocument-TemporaryCirculationHistory" parent="Uif-TableCollectionSection" p:layoutManager.numberOfColumns="13" p:render="@{document.newMaintainableObject.dataObject.oleTemporaryCirculationHistoryRecords ne null and document.newMaintainableObject.dataObject.oleTemporaryCirculationHistoryRecords.size()>0 and document.newMaintainableObject.dataObject.showTemporaryCirculationHistoryRecords}">
+        <property name="collectionObjectClass" value="org.kuali.ole.deliver.bo.OleTemporaryCirculationHistory"/>
+        <property name="propertyName" value="oleTemporaryCirculationHistoryRecords"/>
+        <property name="layoutManager.renderSequenceField" value="false"/>
+        <property name="renderAddLine" value="false"/>
+        <property name="layoutManager.richTable.render" value="true"/>
+        <property name="layoutManager.richTable.disableTableSort" value="false" />
+        <property name="items">
+            <list>
+                <bean id="patronTemp_itemTempId" parent="OlePatron-DataField" p:label="Barcode" p:propertyName="itemId"/>
+                <bean id="patronTemp_circulationLocationCode" parent="OlePatron-DataField" p:label="Circulation Location" p:propertyName="circulationLocationCode"/>
+                <bean id="patronTemp_title" parent="OlePatron-DataField" p:label="Title" p:propertyName="title"/>
+                <bean id="patronTemp_author" parent="OlePatron-DataField" p:label="Author" p:propertyName="author"/>
+                <bean id="patronTemp_callNumberId" parent="OlePatron-DataField" p:label="Call Number" p:propertyName="callNumber"/>
+                <bean id="patronTemp_copyNumberId" parent="OlePatron-DataField" p:label="Copy Number" p:propertyName="copyNumber"/>
+                <bean id="patronTemp_enumeration" parent="OlePatron-DataField" p:label="Enumeration" p:propertyName="enumeration"/>
+                <bean id="patronTemp_chronology" parent="OlePatron-DataField" p:label="Chronology" p:propertyName="chronology"/>
+                <bean id="patronTemp_realPatronName" parent="OlePatron-DataField" p:label="Proxy Borrower Name" p:width="10%" p:propertyName="proxyPatronName"/>
+                <bean id="patronTemp_realPatronBarcode" parent="Uif-LinkField" p:target="_blank" p:label="Proxy Borrower Barcode" p:href="@{#line.proxyPatronBarcodeUrl}" p:linkText="@{#line.proxyPatronBarcode}"/>
+                <bean id="patronTemp_shelvingLocation" parent="OlePatron-DataField" p:label="Shelving Location" p:propertyName="shelvingLocation" />
+                <bean id="patronTemp_itemStatus" parent="OlePatron-DataField" p:label="Item Status" p:propertyName="itemStatus"/>
+                <bean id="patronTemp_itemType" parent="OlePatron-DataField" p:label="Item Type" p:propertyName="itemType"/>
+                <bean id="patronTemp_checkOutDate" parent="OlePatron-DataField" p:label="Check-Out Date" p:propertyName="checkOutDate"/>
+                <bean id="patronTemp_dueDate" parent="OlePatron-DataField" p:label="Due Date" p:propertyName="dueDate"/>
+                <bean id="patronTemp_checkInDate" parent="OlePatron-DataField" p:label="Check-In Date" p:propertyName="checkInDate"/>
+            </list>
+        </property>
+        <property name="renderLineActions" value="false"/>
+    </bean>
+
+    <bean id="OlePatronDocument-OverviewSection" p:disclosure.defaultOpen="false" parent="Uif-Disclosure-VerticalBoxSection" p:componentSecurity.editAuthz="true">
+        <property name="headerText" value="Overview" />
+        <property name="items">
+            <list>
+                <bean id="overviewId"  parent="Uif-GridGroup" p:layoutManager.numberOfColumns="10" p:render="@{document.newMaintainableObject.dataObject.patronPhotograph eq null}">
+                    <property name="items">
+                        <list>
+                            <bean parent="OlePatron-InputField" p:propertyName="olePatronId" p:readOnly="true">
+                                <property name="control">
+                                    <bean parent="Uif-TextControl" p:size="10" p:maxLength="10"/>
+                                </property>
+                            </bean>
+                            <!--  <bean parent="OlePatron-InputField" p:propertyName="entityId" p:readOnly="true">
+                                <property name="control">
+                                    <bean parent="Uif-TextControl" p:size="10" p:maxLength="10"/>
+                                </property>
+                            </bean>-->
+                            <bean id="barcode" parent="OlePatron-InputField" p:propertyName="barcode" p:label="Barcode" p:required="true">
+                                <property name="control">
+                                    <bean parent="Uif-TextControl" p:size="20" p:maxLength="20"/>
+                                </property>
+                            </bean>
+                            <bean id="borrowerType" parent="OlePatron-InputField" p:propertyName="borrowerType" p:label="Patron Type" p:required="true" p:enableAutoDirectInquiry="false">
+                                <property name="optionsFinder">
+                                    <bean class="org.kuali.ole.deliver.keyvalue.OleBorrowerKeyValue" />
+                                </property>
+                                <property name="control">
+                                    <bean parent="Uif-DropdownControl" p:cssClasses="fixed-size-200-select"/>
+                                </property>
+                                <property name="enableAutoQuickfinder" value="false" />
+                                <!-- <property name="quickfinder">
+                                     <null></null>
+                                 </property>-->
+                            </bean>
+                            <bean id="sourceType" parent="OlePatron-InputField" p:propertyName="source" p:label="Source" p:enableAutoDirectInquiry="false">
+                                <property name="optionsFinder">
+                                    <bean class="org.kuali.ole.deliver.keyvalue.OleSourceKeyValue" />
+                                </property>
+                                <property name="control">
+                                    <bean parent="Uif-DropdownControl" p:cssClasses="fixed-size-200-select"/>
+                                </property>
+                                <property name="enableAutoQuickfinder" value="false" />
+                                <!-- <property name="quickfinder">
+                                     <null></null>
+                                 </property>-->
+                            </bean>
+                            <bean id="attachImageFile" parent="Uif-HorizontalFieldGroup" p:label="Upload Image"
+                                  p:rowSpan="2" p:fieldLabel.rowSpan="2">
+                                <property name="items">
+                                    <list>
+                                        <bean id="attachment_Files" parent="OlePatron-InputField"
+                                              p:propertyName="attachmentFile"
+                                              p:bindingInfo.bindingPath="attachmentFile" p:fieldLabel.render="false" p:render="@{#actionFlags[#Constants.KUALI_ACTION_CAN_ROUTE]}">
+                                            <property name="control">
+                                                <bean id="FileControlId" parent="Uif-FileControl" p:size="10"/>
+                                            </property>
+                                        </bean>
+                                        <bean id="uploadButton_patron" parent="Uif-SecondaryActionButton-Small" p:methodToCall="uploadImage" p:actionLabel="Upload" p:style="float:left;margin-left:2em" p:render="@{#actionFlags[#Constants.KUALI_ACTION_CAN_ROUTE]}" p:successCallback="disableEnableBarcode();"/>
+                                        <bean id="deleteButton_patron" parent="Uif-SecondaryActionButton-Small" p:methodToCall="deleteImage" p:actionLabel="Delete" p:style="float:left;margin-left:2em" p:render="@{#actionFlags[#Constants.KUALI_ACTION_CAN_ROUTE] and document.newMaintainableObject.dataObject.patronPhotograph ne null}"/>
+                                    </list>
+                                </property>
+                            </bean>
+
+                            <bean id="statisticalCategory" parent="OlePatron-InputField" p:propertyName="statisticalCategory" p:label="Statistical Category" p:enableAutoDirectInquiry="false">
+                                <property name="optionsFinder">
+                                    <bean class="org.kuali.ole.deliver.keyvalue.OleStatisticalCategoryKeyValue" />
+                                </property>
+                                <property name="control">
+                                    <bean parent="Uif-DropdownControl" p:cssClasses="fixed-size-200-select"/>
+                                </property>
+                                <property name="enableAutoQuickfinder" value="false" />
+                                <!--  <property name="quickfinder">
+                                      <null></null>
+                                  </property>-->
+                            </bean>
+                            <bean id="activationDate"  parent="OlePatron-InputField" p:propertyName="activationDate" p:required="true" p:label="Activation Date" >
+                                <property name="control">
+                                    <bean parent="Uif-DateControl" p:size="10"/>
+                                </property>
+                                <property name="validCharactersConstraint">
+                                    <bean parent="BasicDatePatternConstraint">
+                                        <property name="allowedFormats">
+                                            <list>
+                                                <value>${allowedFormats.dateFormat1}</value>
+                                                <value>${allowedFormats.dateFormat2}</value>
+                                                <value>${allowedFormats.dateFormat3}</value>
+                                                <value>${allowedFormats.dateFormat4}</value>
+                                            </list>
+                                        </property>
+                                    </bean>
+
+                                </property>
+                            </bean>
+                            <bean id="expirationDate" parent="OlePatron-InputField" p:propertyName="expirationDate" p:label="Expiration Date">
+                                <property name="control">
+                                    <bean parent="Uif-DateControl" p:size="10"/>
+                                </property>
+                                <property name="validCharactersConstraint">
+                                    <bean parent="BasicDatePatternConstraint">
+                                        <property name="allowedFormats">
+                                            <list>
+                                                <value>${allowedFormats.dateFormat1}</value>
+                                                <value>${allowedFormats.dateFormat2}</value>
+                                                <value>${allowedFormats.dateFormat3}</value>
+                                                <value>${allowedFormats.dateFormat4}</value>
+                                            </list>
+                                        </property>
+                                    </bean>
+
+                                </property>
+
+                            </bean>
+                            <bean id="activeIndicator" parent="OlePatron-InputField" p:propertyName="activeIndicator" p:label="Active">
+                                <property name="control">
+                                    <bean parent="Uif-CheckboxControl"/>
+                                </property>
+                            </bean>
+                        </list>
+                    </property>
+                </bean>
+                <bean id="overviewId_edit" parent="Uif-GridGroup" p:layoutManager.numberOfColumns="12" p:render="@{document.newMaintainableObject.dataObject.patronPhotograph ne null}">
+                    <property name="items">
+                        <list>
+                            <bean parent="OlePatron-InputField" p:propertyName="olePatronId" p:readOnly="true">
+                                <property name="control">
+                                    <bean parent="Uif-TextControl" p:size="10" p:maxLength="10"/>
+                                </property>
+                            </bean>
+                            <bean id="barcode_edit" parent="OlePatron-InputField" p:propertyName="barcode" p:label="Barcode" p:required="true">
+                                <property name="control">
+                                    <bean parent="Uif-TextControl" p:size="20" p:maxLength="20"/>
+                                </property>
+                            </bean>
+                            <bean id="borrowerType_edit" parent="OlePatron-InputField" p:propertyName="borrowerType" p:label="Borrower Type" p:required="true" p:enableAutoDirectInquiry="false">
+                                <property name="optionsFinder">
+                                    <bean class="org.kuali.ole.deliver.keyvalue.OleBorrowerKeyValue" />
+                                </property>
+                                <property name="control">
+                                    <bean parent="Uif-DropdownControl" p:cssClasses="fixed-size-200-select"/>
+                                </property>
+                                <property name="enableAutoQuickfinder" value="false" />
+                                <!--  <property name="quickfinder">
+                                      <null></null>
+                                  </property>-->
+                            </bean>
+                            <bean id="sourceType_edit" parent="OlePatron-InputField" p:propertyName="source" p:label="Source" p:enableAutoDirectInquiry="false">
+                                <property name="optionsFinder">
+                                    <bean class="org.kuali.ole.deliver.keyvalue.OleSourceKeyValue" />
+                                </property>
+                                <property name="control">
+                                    <bean parent="Uif-DropdownControl" p:cssClasses="fixed-size-200-select"/>
+                                </property>
+                                <property name="enableAutoQuickfinder" value="false" />
+                            </bean>
+                            <bean id="attachImageFile_edit" parent="Uif-HorizontalFieldGroup" p:label="Upload Image"
+                                  p:rowSpan="2" p:fieldLabel.rowSpan="2">
+                                <property name="items">
+                                    <list>
+                                        <bean id="attachment_File_edit" parent="OlePatron-InputField"
+                                              p:propertyName="attachmentFile"
+                                              p:bindingInfo.bindingPath="attachmentFile" p:fieldLabel.render="false" p:render="@{#actionFlags[#Constants.KUALI_ACTION_CAN_ROUTE]}">
+                                            <property name="control">
+                                                <bean id="FileControlId_edit" parent="Uif-FileControl" p:size="10"/>
+                                            </property>
+                                        </bean>
+                                        <bean id="uploadButton_edit" parent="Uif-SecondaryActionButton-Small" p:methodToCall="uploadImage" p:actionLabel="Upload" p:style="float:left;margin-left:2em" p:render="@{#actionFlags[#Constants.KUALI_ACTION_CAN_ROUTE]}" p:successCallback="disableEnableBarcode();"/>
+                                        <bean id="deleteButton_edit" parent="Uif-SecondaryActionButton-Small" p:methodToCall="deleteImage" p:actionLabel="Delete" p:style="float:left;margin-left:2em" p:render="@{#actionFlags[#Constants.KUALI_ACTION_CAN_ROUTE] and document.newMaintainableObject.dataObject.patronPhotograph ne null}"/>
+                                    </list>
+                                </property>
+                            </bean>
+                            <bean id="patronImage_edit" parent="Uif-ImageField" p:altText=""
+                                  p:captionHeaderText="" p:cutlineText="" p:style="max-width:100px" p:source="patronMaintenance?methodToCall=getImage&amp;olePatronId=@{document.newMaintainableObject.dataObject.olePatronId}&amp;deleteImageFlag=@{document.newMaintainableObject.dataObject.deleteImageFlag}&amp;timeFlag=@{T(System).currentTimeMillis()}"  p:rowSpan="2" p:fieldLabel.rowSpan="2" p:label="Patron Photograph"/>
+
+                            <bean id="statisticalCategory_edit" parent="OlePatron-InputField" p:propertyName="statisticalCategory" p:label="Statistical Category" p:enableAutoDirectInquiry="false">
+                                <property name="optionsFinder">
+                                    <bean class="org.kuali.ole.deliver.keyvalue.OleStatisticalCategoryKeyValue" />
+                                </property>
+                                <property name="control">
+                                    <bean parent="Uif-DropdownControl" p:cssClasses="fixed-size-200-select"/>
+                                </property>
+                                <property name="enableAutoQuickfinder" value="false" />
+                            </bean>
+                            <bean id="activationDate_edit" p:id="OlePatronDocument-OverviewSection" parent="OlePatron-InputField" p:propertyName="activationDate" p:label="Activation Date" p:required="true" p:readOnly="false">
+                                <property name="control">
+                                    <bean parent="Uif-DateControl" p:size="10"/>
+                                </property>
+                            </bean>
+                            <bean id="expirationDate_edit" parent="OlePatron-InputField" p:propertyName="expirationDate" p:label="Expiration Date">
+                                <property name="control">
+                                    <bean parent="Uif-DateControl" p:size="10"/>
+                                </property>
+                            </bean>
+                            <bean id="activeIndicator_edit" parent="OlePatron-InputField" p:propertyName="activeIndicator" p:label="Active">
+                                <property name="control">
+                                    <bean parent="Uif-CheckboxControl"/>
+                                </property>
+                            </bean>
+                        </list>
+                    </property>
+                </bean>
+            </list>
+        </property>
+    </bean>
+
+
+    <bean id="OlePatronDocument-Affiliation-Wrapper" parent="Uif-VerticalBoxSection">
+    	<property name="items">
+    		<list>
+		      <bean parent="Uif-SectionHeader">
+		      	<property name="inlineComponents">
+		      		<list>
+		      			<bean  parent="Uif-ActionImage" p:hidden="@{filterAffiliation}"
+		      					p:methodToCall="refresh"
+			      				p:refreshId="OlePatronDocument-Affiliation-Wrapper">
+		      				<property name="actionImage">
+				      			<bean parent="Uif-Image" p:source="@{#ThemeImages}h2_expand.png"/>
+		      				</property>
+		      				<property name="additionalSubmitData">
+		      					<map>
+		      						<entry key="filterAffiliation" value="true" />
+		      					</map>
+		      				</property>
+		      			</bean>
+		      			<bean  parent="Uif-ActionImage" p:hidden="@{!filterAffiliation}"
+		      					p:methodToCall="refresh"
+			      				p:refreshId="OlePatronDocument-Affiliation-Wrapper">
+		      				<property name="actionImage">
+				      			<bean parent="Uif-Image" p:source="@{#ThemeImages}h2_collapse.png"/>
+		      				</property>
+		      				<property name="additionalSubmitData">
+		      					<map>
+		      						<entry key="filterAffiliation" value="false" />
+		      					</map>
+		      				</property>
+		      			</bean>
+		      			<bean parent="Uif-ActionLink" p:actionLabel="Affiliation"
+		      					p:methodToCall="refresh"
+			      				p:refreshId="OlePatronDocument-Affiliation-Wrapper" p:cssClasses="@{document.newMaintainableObject.dataObject.patronAffiliations ne null and document.newMaintainableObject.dataObject.patronAffiliations.size() &lt; 1?'disableColor':'enableColor'}">
+		      				<property name="additionalSubmitData">
+		      					<map>
+		      						<entry key="filterAffiliation" value="@{!filterAffiliation}" />
+		      					</map>
+		      				</property>
+		      			</bean>
+		      		</list>
+		      	</property>
+		      	<property name="headerText" value="[0][1] [2]" />
+		      </bean>
+              <bean parent="Uif-VerticalBoxGroup">
+                <property name="items">
+                  <list>
+                    <ref bean="OlePatronDocument-Affiliation" />
+                  </list>
+                </property>
+		      </bean>
+    		</list>
+    	</property>
+    </bean>
+    
+    <bean id="OlePatronDocument-Affiliation"
+    		parent="Uif-TableCollectionSection" p:filterModelProperty="filterAffiliation"
+    		p:layoutManager.numberOfColumns="2" p:componentSecurity.editAuthz="true" p:disclosure.defaultOpen="false">
+        <property name="collectionObjectClass" value="org.kuali.ole.deliver.bo.OlePatronAffiliation" />
+        <property name="propertyName" value="patronAffiliations" />
+        <property name="layoutManager.renderSequenceField" value="false" />
+        <property name="layoutManager.richTable.render" value="false"/>
+        <property name="showInactiveLines" value="true"/>
+        <property name="items">
+            <list>
+                <bean parent="OlePatron-InputField" p:propertyName="affiliationType.code" p:label="Affiliation Type">
+                    <property name="optionsFinder">
+                        <bean class="org.kuali.ole.deliver.keyvalue.OleAffiliationTypeKeyValues" />
+                    </property>
+                    <property name="control">
+                        <bean parent="Uif-DropdownControl" p:cssClasses="fixed-size-200-select"/>
+                    </property>
+
+                </bean>
+                <bean id="campusCode" parent="OlePatron-InputField" p:propertyName="campusCode" p:label="Campus Code">
+                    <property name="optionsFinder">
+                        <bean class="org.kuali.ole.deliver.keyvalue.OleCampusCodeKeyValues" />
+                    </property>
+                    <property name="control">
+                        <bean parent="Uif-DropdownControl" p:cssClasses="fixed-size-200-select"/>
+                    </property>
+                </bean>
+            </list>
+        </property>
+
+        <property name="subCollections">
+            <list>
+                <ref bean="OlePatronDocument-Employment"/>
+            </list>
+        </property>
+
+        <property name="lineActions">
+            <list>
+                <bean id="OlePatronDocument-Affiliation-delete" parent="Uif-PrimaryActionButton-Small" p:methodToCall="deletePatronAffiliations" p:actionLabel="Delete"  />
+            </list>
+        </property>
+    </bean>
+
+    <bean id="OlePatronDocument-Employment" parent="Uif-TableSubCollection-WithinSection" p:layoutManager.suppressLineWrapping="true"
+          p:fieldBindingObjectPath="patronAffiliations" p:renderInactiveToggleButton="false" >
+        <property name="headerText" value="Employment Information" />
+        <property name="collectionObjectClass" value="org.kuali.rice.kim.impl.identity.employment.EntityEmploymentBo" />
+        <property name="propertyName" value="employments" />
+        <property name="layoutManager.renderSequenceField" value="false" />
+        <property name="layoutManager.richTable.render" value="true" />
+        <property name="showInactiveLines" value="true"/>
+        <property name="items">
+            <list>
+                <bean parent="OlePatron-InputField" p:propertyName="employeeId" p:label="Employment Id">
+                    <property name="control">
+                        <bean parent="Uif-TextControl" p:size="30" p:maxLength="40"  />
+                    </property>
+                    <property name="validCharactersConstraint">
+                        <bean parent="AnyCharacterPatternConstraint" p:allowWhitespace="true" />
+                    </property>
+                </bean>
+                <bean parent="OlePatron-InputField" p:propertyName="primary" p:label="Primary">
+                    <property name="control">
+                        <bean parent="Uif-CheckboxControl"/>
+                    </property>
+                </bean>
+
+                <bean parent="OlePatron-InputField" p:propertyName="employeeStatusCode" p:label="Employee Status Code">
+                    <property name="optionsFinder">
+                        <bean class="org.kuali.ole.deliver.keyvalue.OleEmployeeStatusKeyValues" />
+                    </property>
+                    <property name="control">
+                        <bean parent="Uif-DropdownControl" p:cssClasses="fixed-size-200-select"/>
+                    </property>
+                </bean>
+
+                <bean parent="OlePatron-InputField" p:propertyName="employeeTypeCode" p:label="Employee Type">
+                    <property name="optionsFinder">
+                        <bean class="org.kuali.ole.deliver.keyvalue.OleEmployeeTypeKeyValues" />
+                    </property>
+                    <property name="control">
+                        <bean parent="Uif-DropdownControl" p:cssClasses="fixed-size-200-select"/>
+                    </property>
+                </bean>
+
+                <bean parent="OlePatron-InputField" p:propertyName="baseSalaryAmount" p:label="Base Salary Amount">
+                    <property name="control">
+                        <bean parent="Uif-TextControl" p:size="20" p:maxLength="20"/>
+                    </property>
+                </bean>
+
+                <bean parent="OlePatron-InputField" p:propertyName="primaryDepartmentCode" p:label="Primary Department Code">
+                    <property name="control">
+                        <bean parent="Uif-TextControl" p:size="20" p:maxLength="40"  />
+                    </property>
+                    <property name="validCharactersConstraint">
+                        <bean parent="AnyCharacterPatternConstraint" p:allowWhitespace="true" />
+                    </property>
+                </bean>
+                <bean parent="OlePatron-InputField" p:propertyName="active" p:label="Active" p:defaultValue="true">
+                    <property name="control">
+                        <bean parent="Uif-CheckboxControl"/>
+                    </property>
+                </bean>
+                <!--<property name="validationPattern">
+                    <bean parent="FixedPointValidationPattern" p:precision="19" p:allowNegative="true" p:scale="2"/>
+                </property>
+                <property name="control">
+                    <bean parent="CurrencyControlDefinition" p:formattedMaxLength="26" p:size="10"/>
+                </property>-->
+            </list>
+        </property>
+        <property name="lineActions">
+            <list>
+                <bean id="OlePatronDocument-Employment-delete" parent="Uif-PrimaryActionButton-Small" p:methodToCall="deleteEmploymentBo" p:actionLabel="Delete"  />
+            </list>
+        </property>
+    </bean>
+
+    <bean id="OlePatronDocument-LibraryPoliciesSection-Wrapper" parent="Uif-VerticalBoxSection">
+    	<property name="items">
+    		<list>
+		      <bean parent="Uif-SectionHeader">
+		      	<property name="inlineComponents">
+		      		<list>
+		      			<bean parent="Uif-ActionImage" p:hidden="@{filterLibraryPolicies}"
+		      					p:methodToCall="refresh"
+			      				p:refreshId="OlePatronDocument-LibraryPoliciesSection-Wrapper">
+		      				<property name="actionImage">
+				      			<bean parent="Uif-Image" p:source="@{#ThemeImages}h2_expand.png"/>
+		      				</property>
+		      				<property name="additionalSubmitData">
+		      					<map>
+		      						<entry key="filterLibraryPolicies" value="true" />
+		      					</map>
+		      				</property>
+		      			</bean>
+		      			<bean parent="Uif-ActionImage" p:hidden="@{!filterLibraryPolicies}"
+		      					p:methodToCall="refresh"
+			      				p:refreshId="OlePatronDocument-LibraryPoliciesSection-Wrapper">
+		      				<property name="actionImage">
+				      			<bean parent="Uif-Image" p:source="@{#ThemeImages}h2_collapse.png"/>
+		      				</property>
+		      				<property name="additionalSubmitData">
+		      					<map>
+		      						<entry key="filterLibraryPolicies" value="false" />
+		      					</map>
+		      				</property>
+		      			</bean>
+		      			<bean parent="Uif-ActionLink" p:actionLabel="Library Policies"
+		      					p:methodToCall="refresh"
+			      				p:refreshId="OlePatronDocument-LibraryPoliciesSection-Wrapper">
+		      				<property name="additionalSubmitData">
+		      					<map>
+		      						<entry key="filterLibraryPolicies" value="@{!filterLibraryPolicies}" />
+		      					</map>
+		      				</property>
+		      			</bean>
+		      		</list>
+		      	</property>
+		      	<property name="headerText" value="[0][1] [2]" />
+		      </bean>
+              <ref bean="OlePatronDocument-LibraryPoliciesSection" />
+    		</list>
+    	</property>
+    </bean>
+    
+    <bean id="OlePatronDocument-LibraryPoliciesSection" p:disclosure.defaultOpen="false" parent="Uif-HorizontalBoxSection"
+          p:filterModelProperty="filterLibraryPolicies" p:componentSecurity.editAuthz="true">
+        <property name="items">
+            <list>
+                <bean id="generalBlock" parent="Uif-InputField" p:propertyName="generalBlock">
+                    <property name="control">
+                        <bean parent="Uif-CheckboxControl"/>
+                    </property>
+                </bean>
+                <bean id="generalBlockNotes" parent="Uif-InputField"  p:propertyName="generalBlockNotes">
+                    <property name="control">
+                        <bean parent="Uif-TextControl" p:size="30" p:textExpand="true"/>
+                    </property>
+                </bean>
+                <bean id="deliveryPrivilege" parent="Uif-InputField" p:propertyName="deliveryPrivilege" >
+                    <property name="control">
+                        <bean parent="Uif-CheckboxControl"/>
+                    </property>
+                </bean>
+                <bean id="pagingPrivilege" parent="Uif-InputField" p:propertyName="pagingPrivilege" >
+                    <property name="control">
+                        <bean parent="Uif-CheckboxControl"/>
+                    </property>
+                </bean>
+                <bean id="courtesyNotice" parent="Uif-InputField" p:propertyName="courtesyNotice">
+                    <property name="control">
+                        <bean parent="Uif-CheckboxControl"/>
+                    </property>
+                </bean>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="OlePatronDocument-ContactsSection" p:disclosure.defaultOpen="false" parent="Uif-Disclosure-VerticalBoxSection">
+        <property name="headerText" value="Contacts" />
+        <property name="items">
+            <list>
+                <bean parent="Uif-GridSection" p:layoutManager.numberOfColumns="1" >
+                    <property name="items">
+                        <list>
+                            <ref bean="OlePatronDocument-Name"/>
+                            <ref bean="OlePatronDocument-Address"/>
+                            <ref bean="OlePatronDocument-Phone"/>
+                            <ref bean="OlePatronDocument-Email"/>
+                        </list>
+                    </property>
+                </bean>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="OlePatronDocument-NotesSection-Wrapper" parent="Uif-VerticalBoxSection">
+    	<property name="items">
+    		<list>
+		      <bean parent="Uif-SectionHeader">
+		      	<property name="inlineComponents">
+		      		<list>
+		      			<bean parent="Uif-ActionImage" p:hidden="@{filterNotesSection}"
+		      					p:methodToCall="refresh"
+			      				p:refreshId="OlePatronDocument-NotesSection-Wrapper">
+		      				<property name="actionImage">
+				      			<bean parent="Uif-Image" p:source="@{#ThemeImages}h2_expand.png"/>
+		      				</property>
+		      				<property name="additionalSubmitData">
+		      					<map>
+		      						<entry key="filterNotesSection" value="true" />
+		      					</map>
+		      				</property>
+		      			</bean>
+		      			<bean parent="Uif-ActionImage" p:hidden="@{!filterNotesSection}"
+		      					p:methodToCall="refresh"
+			      				p:refreshId="OlePatronDocument-NotesSection-Wrapper">
+		      				<property name="actionImage">
+				      			<bean parent="Uif-Image" p:source="@{#ThemeImages}h2_collapse.png"/>
+		      				</property>
+		      				<property name="additionalSubmitData">
+		      					<map>
+		      						<entry key="filterNotesSection" value="false" />
+		      					</map>
+		      				</property>
+		      			</bean>
+		      			<bean parent="Uif-ActionLink" p:actionLabel="Note"
+		      					p:methodToCall="refresh"
+			      				p:refreshId="OlePatronDocument-NotesSection-Wrapper" p:cssClasses="@{document.newMaintainableObject.dataObject.notes ne null and document.newMaintainableObject.dataObject.notes.size() &lt; 1?'disableColor':'enableColor'}">
+		      				<property name="additionalSubmitData">
+		      					<map>
+		      						<entry key="filterNotesSection" value="@{!filterNotesSection}" />
+		      					</map>
+		      				</property>
+		      			</bean>
+		      		</list>
+		      	</property>
+		      	<property name="headerText" value="[0][1] [2]" />
+		      </bean>
+              <bean parent="Uif-VerticalBoxGroup">
+                <property name="items">
+                  <list>
+                    <ref bean="OlePatronDocument-NotesSection" />
+                  </list>
+                </property>
+		      </bean>
+    		</list>
+    	</property>
+    </bean>
+    
+    <bean id="OlePatronDocument-NotesSection" p:filterModelProperty="filterNotesSection" 
+    		parent="Uif-TableCollectionSection" p:disclosure.defaultOpen="false" p:layoutManager.numberOfColumns="2" p:componentSecurity.editAuthz="true">
+        <property name="collectionObjectClass" value="org.kuali.ole.deliver.bo.OlePatronNotes" />
+        <property name="propertyName" value="notes" />
+        <property name="layoutManager.renderSequenceField" value="false" />
+        <!--<property name="renderAddLine" value="@{document.newMaintainableObject.dataObject.expirationFlag}"/>
+        <property name="renderLineActions" value="@{document.newMaintainableObject.dataObject.expirationFlag}"/>-->
+        <property name="items">
+            <list>
+                <bean id="patronNoteTypeId" parent="OlePatron-InputField" p:propertyName="patronNoteTypeId" p:label="Note Type" p:required="true">
+                    <property name="optionsFinder">
+                        <bean class="org.kuali.ole.deliver.keyvalue.OleNoteTypeKeyValues" />
+                    </property>
+                    <property name="enableAutoQuickfinder" value="false" />
+                    <property name="control">
+                        <bean parent="Uif-DropdownControl" p:cssClasses="fixed-size-200-select"/>
+                    </property>
+                </bean>
+                <bean id="patronNoteText" parent="OlePatron-InputField" p:propertyName="patronNoteText" p:label="Note Text">
+                    <property name="control">
+                        <bean parent="Uif-LargeTextAreaControl" p:cssClasses="comments" p:watermarkText="size 800"/>
+                    </property>
+                </bean>
+                <bean id="noteOperatorId" parent="OlePatron-DataField" p:propertyName="operatorId" p:label="Operator Id">
+                </bean>
+                <bean id="noteAddedDate" parent="OlePatron-DataField" p:propertyName="noteCreatedOrUpdatedDate" p:label="Note Added/Updated Date">
+                </bean>
+
+            </list>
+        </property>
+        <property name="addLineActions">
+            <list>
+                <bean id="OlePatronDocument-NotesSection-add" parent="Uif-PrimaryActionButton-Small" p:methodToCall="addNotes" p:actionLabel="Add"  />
+            </list>
+        </property>
+        <property name="lineActions">
+            <list>
+                <bean id="OlePatronDocument-NotesSection-delete" parent="Uif-PrimaryActionButton-Small" p:methodToCall="deleteNotes" p:actionLabel="Delete"  />
+            </list>
+        </property>
+    </bean>
+
+    <bean id="OlePatronDocument-Name" parent="Uif-Disclosure-HorizontalBoxSection" p:componentSecurity.editAuthz="true">
+        <property name="headerText" value="Name"/>
+        <property name="items">
+            <list>
+                <bean id="nameType" parent="OlePatron-InputField" p:propertyName="name.nameType.name" p:label="Name Type" p:readOnly="true">
+                </bean>
+                <bean id="namePrefix" parent="OlePatron-InputField" p:propertyName="name.namePrefix" p:label="Title">
+                    <property name="optionsFinder">
+                        <bean class="org.kuali.rice.kim.bo.options.NamePrefixValuesFinder" />
+                    </property>
+                    <property name="control">
+                        <bean parent="Uif-DropdownControl" p:cssClasses="fixed-size-50-select"/>
+                    </property>
+                </bean>
+                <bean id="firstName" parent="OlePatron-InputField" p:propertyName="name.firstName" p:label="First Name" p:required="true">
+                    <property name="control">
+                        <bean parent="Uif-TextControl" p:size="40" p:maxLength="40"  />
+                    </property>
+                </bean>
+                <bean id="middleName" parent="OlePatron-InputField" p:propertyName="name.middleName" p:label="Middle Name">
+                    <property name="control">
+                        <bean parent="Uif-TextControl" p:size="20" p:maxLength="20" />
+                    </property>
+                </bean>
+                <bean id="lastName" parent="OlePatron-InputField" p:propertyName="name.lastName" p:label="Last Name" p:required="true">
+                    <property name="control">
+                        <bean parent="Uif-TextControl" p:size="40" p:maxLength="40"/>
+                    </property>
+                </bean>
+                <bean id="nameSuffix" parent="OlePatron-InputField" p:propertyName="name.nameSuffix" p:label="Suffix">
+                    <property name="optionsFinder">
+                        <bean class="org.kuali.rice.kim.bo.options.NameSuffixValuesFinder" />
+                    </property>
+                    <property name="control">
+                        <bean parent="Uif-DropdownControl" p:cssClasses="fixed-size-50-select"/>
+                    </property>
+                </bean>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="OlePatronDocument-Address" parent="Uif-Disclosure-TableCollectionSection" p:rowSpan="2"
+           p:layoutManager.numberOfColumns="7" p:componentSecurity.editAuthz="true">
+        <property name="headerText" value="Address"/>
+        <property name="collectionObjectClass" value="org.kuali.ole.deliver.bo.OleEntityAddressBo"/>
+        <property name="propertyName" value="oleEntityAddressBo"/>
+        <property name="layoutManager.renderSequenceField" value="false"/>
+        <property name="disclosure.defaultOpen" value="true" />
+        <property name="showInactiveLines" value="true"/>
+        <property name="layoutManager.rowDetailsOpen" value="true"/>
+        <property name="layoutManager.rowDetailsGroup" >
+            <bean parent="Uif-HorizontalBoxGroup" >
+                <property name="items">
+                    <list>
+                        <bean id="line1" parent="OlePatron-InputField" p:propertyName="entityAddressBo.line1"
+                              p:label="Line 1">
+                            <property name="control">
+                                <bean parent="Uif-TextControl" p:size="45" p:maxLength="45"/>
+                            </property>
+                        </bean>
+                        <bean id="line2" parent="OlePatron-InputField" p:propertyName="entityAddressBo.line2"
+                              p:label="Line 2">
+                            <property name="control">
+                                <bean parent="Uif-TextControl" p:size="45" p:maxLength="45"/>
+                            </property>
+                        </bean>
+                        <bean id="line3" parent="OlePatron-InputField" p:propertyName="entityAddressBo.line3"
+                              p:label="Line 3">
+                            <property name="control">
+                                <bean parent="Uif-TextControl" p:size="45" p:maxLength="45"/>
+                            </property>
+                        </bean>
+                        <bean id="city" parent="OlePatron-InputField" p:propertyName="entityAddressBo.city"
+                              p:label="City">
+                            <property name="control">
+                                <bean parent="Uif-TextControl" p:size="30" p:maxLength="30"/>
+                            </property>
+                        </bean>
+                        <bean id="state" parent="OlePatron-InputField" p:propertyName="entityAddressBo.stateProvinceCode"
+                              p:label="State">
+                            <property name="optionsFinder">
+                                <bean class="org.kuali.rice.location.framework.state.StateValuesFinder"/>
+                            </property>
+                            <property name="control">
+                                <bean parent="Uif-DropdownControl" p:cssClasses="fixed-size-200-select"/>
+                            </property>
+                        </bean>
+                        <bean id="postalCode" parent="OlePatron-InputField" p:propertyName="entityAddressBo.postalCode"
+                              p:label="Postal Code">
+                            <property name="control">
+                                <bean parent="Uif-TextControl" p:size="20" p:maxLength="20"/>
+                            </property>
+                        </bean>
+                        <bean id="country" parent="OlePatron-InputField" p:propertyName="entityAddressBo.countryCode"
+                              p:label="Country">
+                            <property name="optionsFinder">
+                                <bean class="org.kuali.rice.location.framework.country.CountryValuesFinder"/>
+                            </property>
+                            <property name="control">
+                                <bean parent="Uif-DropdownControl" p:cssClasses="fixed-size-200-select"/>
+                            </property>
+                        </bean>
+                    </list>
+                </property>
+            </bean>
+        </property>
+        <property name="items">
+            <list>
+
+
+                <bean id="addressTypeCode" parent="OlePatron-InputField"
+                      p:propertyName="entityAddressBo.addressType.code" p:label="Address Type" p:required="true" >
+                    <property name="optionsFinder">
+                        <bean class="org.kuali.ole.deliver.keyvalue.OleAddressTypeKeyValues"/>
+                    </property>
+                    <property name="control">
+                        <bean parent="Uif-DropdownControl" p:cssClasses="fixed-size-100-select"/>
+                    </property>
+                </bean>
+
+                <bean id="addressSource" parent="OlePatron-InputField" p:propertyName="oleAddressBo.addressSource"
+                      p:label="Address Source" p:required="true" p:enableAutoDirectInquiry="false">
+                    <property name="optionsFinder">
+                        <bean class="org.kuali.ole.deliver.keyvalue.OleAddressSourceKeyValue"/>
+                    </property>
+                    <property name="control">
+                        <bean parent="Uif-DropdownControl" p:cssClasses="fixed-size-200-select"/>
+                    </property>
+                    <property name="enableAutoQuickfinder" value="false" />
+                    <property name="quickfinder">
+                        <null></null>
+                    </property>
+                </bean>
+                <bean id="addressValidFrom" parent="OlePatron-InputField"
+                      p:propertyName="oleAddressBo.addressValidFrom" p:label="Begin Date">
+                    <property name="control">
+                        <bean parent="Uif-DateControl" p:size="15"/>
+                    </property>
+                    <property name="validCharactersConstraint">
+                        <bean parent="BasicDatePatternConstraint">
+                            <property name="allowedFormats">
+                                <list>
+                                    <value>${allowedFormats.dateFormat1}</value>
+                                    <value>${allowedFormats.dateFormat2}</value>
+                                    <value>${allowedFormats.dateFormat3}</value>
+                                    <value>${allowedFormats.dateFormat4}</value>
+                                </list>
+                            </property>
+                        </bean>
+                    </property>
+                </bean>
+                <bean id="addressValidTo" parent="OlePatron-InputField"
+                      p:propertyName="oleAddressBo.addressValidTo" p:label="End Date">
+                    <property name="control">
+                        <bean parent="Uif-DateControl" p:size="15"/>
+                    </property>
+                    <property name="validCharactersConstraint">
+                        <bean parent="BasicDatePatternConstraint">
+                            <property name="allowedFormats">
+                                <list>
+                                    <value>${allowedFormats.dateFormat1}</value>
+                                    <value>${allowedFormats.dateFormat2}</value>
+                                    <value>${allowedFormats.dateFormat3}</value>
+                                    <value>${allowedFormats.dateFormat4}</value>
+                                </list>
+                            </property>
+                        </bean>
+                    </property>
+                </bean>
+                <bean id="addressVerified" parent="OlePatron-InputField"
+                      p:propertyName="oleAddressBo.addressVerified" p:label="Address Verified">
+                    <property name="control">
+                        <bean parent="Uif-CheckboxControl"/>
+                    </property>
+                </bean>
+
+                <bean id="deliverAddress" parent="OlePatron-InputField"
+                      p:propertyName="oleAddressBo.deliverAddress" p:label="Deliver Address">
+                    <property name="control">
+                        <bean parent="Uif-CheckboxControl"/>
+                    </property>
+                </bean>
+
+                <bean id="defaultValue" parent="OlePatron-InputField"
+                      p:propertyName="entityAddressBo.defaultValue" p:label="Preferred Address">
+                    <property name="control">
+                        <bean parent="Uif-CheckboxControl"/>
+                    </property>
+                </bean>
+                <bean id="active" parent="OlePatron-InputField" p:propertyName="entityAddressBo.active"
+                      p:label="Active" p:defaultValue="true">
+                    <property name="control">
+                        <bean parent="Uif-CheckboxControl"/>
+                    </property>
+                </bean>
+            </list>
+        </property>
+
+        <property name="lineActions">
+            <list>
+                <bean id="OlePatronDocument-Address-delete" parent="Uif-PrimaryActionButton-Small" p:methodToCall="deleteAddress" p:actionLabel="Delete"  />
+            </list>
+        </property>
+    </bean>
+
+    <bean id="OlePatronDocument-Phone" parent="Uif-Disclosure-TableCollectionSection" p:layoutManager.numberOfColumns="6" p:renderInactiveToggleButton="false" p:componentSecurity.editAuthz="true">
+        <property name="headerText" value="Phone" />
+        <property name="collectionObjectClass" value="org.kuali.ole.deliver.bo.OleEntityPhoneBo" />
+        <property name="propertyName" value="oleEntityPhoneBo" />
+        <property name="showInactiveLines" value="true"/>
+        <property name="layoutManager.renderSequenceField" value="false" />
+        <property name="items">
+            <list>
+                <bean id="phoneTypeCode" parent="OlePatron-InputField" p:propertyName="entityPhoneBo.phoneType.code" p:label="Phone Type">
+                    <property name="optionsFinder">
+                        <bean class="org.kuali.ole.deliver.keyvalue.OlePhoneTypeKeyValues" />
+                    </property>
+                    <property name="control">
+                        <bean parent="Uif-DropdownControl" p:cssClasses="fixed-size-100-select"/>
+                    </property>
+                </bean>
+                <bean id="olePhoneNumberSource" parent="OlePatron-InputField" p:propertyName="olePhoneBo.phoneSource"
+                      p:label="Phone Number Source" p:enableAutoDirectInquiry="false">
+                    <property name="optionsFinder">
+                        <bean class="org.kuali.ole.deliver.keyvalue.OleAddressSourceKeyValue"/>
+                    </property>
+                    <property name="control">
+                        <bean parent="Uif-DropdownControl" p:cssClasses="fixed-size-200-select"/>
+                    </property>
+                    <property name="enableAutoQuickfinder" value="false" />
+                    <property name="quickfinder">
+                        <null></null>
+                    </property>
+                </bean>
+                <bean id="phoneNumber" parent="OlePatron-InputField" p:propertyName="entityPhoneBo.phoneNumber" p:label="Phone Number">
+                    <property name="control">
+                        <bean parent="Uif-TextControl" p:size="20" p:maxLength="20"/>
+                    </property>
+                    <!--<property name="validCharactersConstraint">
+                        <bean parent="AlphaNumericPatternConstraint" p:allowDash="true"/>
+                    </property>-->
+                </bean>
+                <bean id="extensionNumber" parent="OlePatron-InputField" p:propertyName="entityPhoneBo.extensionNumber" p:label="Extension Number">
+                    <property name="control">
+                        <bean parent="Uif-TextControl" p:size="8" p:maxLength="8"/>
+                    </property>
+                    <property name="validCharactersConstraint">
+                        <bean parent="AlphaNumericPatternConstraint" p:allowDash="true"/>
+                    </property>
+                </bean>
+                <bean id="countryCode" parent="OlePatron-InputField" p:propertyName="entityPhoneBo.countryCode" p:label="Country">
+                    <property name="control">
+                        <bean parent="Uif-DropdownControl"  p:cssClasses="fixed-size-200-select"/>
+                    </property>
+                    <property name="optionsFinder">
+                        <bean class="org.kuali.rice.location.framework.country.CountryValuesFinder"/>
+                    </property>
+                </bean>
+                <bean id="phoneNumber_defaultValue" parent="OlePatron-InputField" p:propertyName="entityPhoneBo.defaultValue" p:label="Preferred Number">
+                    <property name="control">
+                        <bean parent="Uif-CheckboxControl"/>
+                    </property>
+                </bean>
+                <bean id="phoneNumber_active" parent="OlePatron-InputField" p:propertyName="entityPhoneBo.active" p:label="Active" p:defaultValue="true">
+                    <property name="control">
+                        <bean parent="Uif-CheckboxControl"/>
+                    </property>
+                </bean>
+            </list>
+        </property>
+        <property name="addLineActions">
+            <list>
+                <bean id="OlePatronDocument-Phone-Add" parent="Uif-PrimaryActionButton-Small" p:methodToCall="addPhoneNumber" p:actionLabel="Add" p:ajaxSubmit="true"/>
+            </list>
+        </property>
+        <property name="lineActions">
+            <list>
+                <bean id="OlePatronDocument-Phone-delete" parent="Uif-PrimaryActionButton-Small" p:methodToCall="deletePhoneNumber" p:actionLabel="Delete"  />
+            </list>
+        </property>
+    </bean>
+    <bean id="OlePatronDocument-Email" parent="Uif-Disclosure-TableCollectionSection" p:layoutManager.numberOfColumns="4" p:renderInactiveToggleButton="false" p:componentSecurity.editAuthz="true">
+        <property name="headerText" value="Email" />
+        <property name="collectionObjectClass" value="org.kuali.ole.deliver.bo.OleEntityEmailBo" />
+        <property name="propertyName" value="oleEntityEmailBo" />
+        <property name="showInactiveLines" value="true"/>
+        <property name="layoutManager.renderSequenceField" value="false" />
+        <property name="items">
+            <list>
+                <bean id="emailTypeCode" parent="OlePatron-InputField" p:propertyName="entityEmailBo.emailType.code" p:label="Email Type">
+                    <property name="optionsFinder">
+                        <bean class="org.kuali.ole.deliver.keyvalue.OleEmailTypeKeyValues" />
+                    </property>
+                    <property name="control">
+                        <bean parent="Uif-DropdownControl" p:cssClasses="fixed-size-100-select"/>
+                    </property>
+                </bean>
+                <bean id="oleEmailAddressSource" parent="OlePatron-InputField" p:propertyName="oleEmailBo.emailSource"
+                      p:label="Email Address Source" p:enableAutoDirectInquiry="false">
+                    <property name="optionsFinder">
+                        <bean class="org.kuali.ole.deliver.keyvalue.OleAddressSourceKeyValue"/>
+                    </property>
+                    <property name="control">
+                        <bean parent="Uif-DropdownControl" p:cssClasses="fixed-size-200-select"/>
+                    </property>
+                    <property name="enableAutoQuickfinder" value="false" />
+                    <property name="quickfinder">
+                        <null></null>
+                    </property>
+                </bean>
+                <bean id="emailAddress" parent="OlePatron-InputField" p:propertyName="entityEmailBo.emailAddress" p:label="Email"  p:required="true">
+                    <property name="control">
+                        <bean parent="Uif-TextControl" p:size="100" p:maxLength="100" />
+                    </property>
+                    <property name="validCharactersConstraint">
+                        <bean parent="EmailAddressPatternConstraint" />
+                    </property>
+                </bean>
+                <bean id="email_defaultValue" parent="OlePatron-InputField" p:propertyName="entityEmailBo.defaultValue"  p:label="Preferred Email">
+                    <property name="control">
+                        <bean parent="Uif-CheckboxControl"/>
+                    </property>
+                </bean>
+                <bean id="email_active" parent="OlePatron-InputField" p:propertyName="entityEmailBo.active" p:label="Active" p:defaultValue="true">
+                    <property name="control">
+                        <bean parent="Uif-CheckboxControl"/>
+                    </property>
+                </bean>
+            </list>
+        </property>
+        <property name="addLineActions">
+            <list>
+                <bean id="OlePatronDocument-Email-Add" parent="Uif-PrimaryActionButton-Small" p:methodToCall="addEmailAddress" p:actionLabel="Add" p:ajaxSubmit="true"/>
+            </list>
+        </property>
+        <property name="lineActions">
+            <list>
+                <bean id="OlePatronDocument-Email-delete" parent="Uif-PrimaryActionButton-Small" p:methodToCall="deleteEmailAddress" p:actionLabel="Delete"  />
+            </list>
+        </property>
+    </bean>
+
+    <bean id="OlePatronDocument-ProxySection-Wrapper"  p:disclosure.defaultOpen="false" parent="Uif-VerticalBoxSection">
+    	<property name="items">
+    		<list>
+		      <bean parent="Uif-SectionHeader">
+		      	<property name="inlineComponents">
+		      		<list>
+		      			<bean parent="Uif-ActionImage" p:hidden="@{filterProxySection}"
+		      					p:methodToCall="refreshProxyPatron"
+			      				p:refreshId="OlePatronDocument-ProxySection-Wrapper">
+		      				<property name="actionImage">
+				      			<bean parent="Uif-Image" p:source="@{#ThemeImages}h2_expand.png"/>
+		      				</property>
+		      				<property name="additionalSubmitData">
+		      					<map>
+		      						<entry key="filterProxySection" value="true" />
+		      					</map>
+		      				</property>
+		      			</bean>
+		      			<bean parent="Uif-ActionImage" p:hidden="@{!filterProxySection}"
+		      					p:methodToCall="refreshProxyPatron"
+			      				p:refreshId="OlePatronDocument-ProxySection-Wrapper">
+		      				<property name="actionImage">
+				      			<bean parent="Uif-Image" p:source="@{#ThemeImages}h2_collapse.png"/>
+		      				</property>
+		      				<property name="additionalSubmitData">
+		      					<map>
+		      						<entry key="filterProxySection" value="false" />
+		      					</map>
+		      				</property>
+		      			</bean>
+		      			<bean parent="Uif-ActionLink" p:actionLabel="Proxy Patron"
+		      					p:methodToCall="refreshProxyPatron"
+			      				p:refreshId="OlePatronDocument-ProxySection-Wrapper" p:cssClasses="@{document.newMaintainableObject.dataObject.oleProxyPatronDocuments ne null and document.newMaintainableObject.dataObject.oleProxyPatronDocuments.size() &lt; 1?'disableColor':'enableColor'}">
+		      				<property name="additionalSubmitData">
+		      					<map>
+		      						<entry key="filterProxySection" value="@{!filterProxySection}" />
+		      					</map>
+		      				</property>
+		      			</bean>
+		      		</list>
+		      	</property>
+		      	<property name="headerText" value="[0][1] [2]" />
+		      </bean>
+              <bean parent="Uif-VerticalBoxGroup">
+                <property name="items">
+                  <list>
+                    <ref bean="OlePatronDocument-ProxySection" />
+                  </list>
+                </property>
+		      </bean>
+    		</list>
+    	</property>
+    </bean>
+    
+    <bean id="OlePatronDocument-ProxySection" p:layoutManager.numberOfColumns="5" p:componentSecurity.editAuthz="true"
+    		parent="Uif-TableCollectionSection" p:filterModelProperty="filterProxySection">
+        <property name="collectionObjectClass" value="org.kuali.ole.deliver.bo.OleProxyPatronDocument" />
+        <property name="propertyName" value="oleProxyPatronDocuments" />
+        <property name="layoutManager.renderSequenceField" value="false" />
+        <property name="renderAddLine" value="@{document.newMaintainableObject.dataObject.expirationFlag}"/>
+        <property name="renderLineActions" value="@{document.newMaintainableObject.dataObject.expirationFlag}"/>
+        <property name="items">
+            <list>
+                <!-- <bean id="olePatronId" parent="OlePatron-InputField" p:propertyName="proxyPatronId" p:label="Patron Id">
+                     <property name="control">
+                         <bean parent="Uif-TextControl" p:size="10" p:maxLength="20"/>
+                     </property>
+
+                 </bean>-->
+                <bean id="barcode_Proxy" parent="OlePatron-InputField" p:propertyName="proxyPatronBarcode" p:label="Barcode" p:readOnly="@{!document.newMaintainableObject.dataObject.expirationFlag}">
+
+                    <property name="quickfinder">
+                        <bean parent="Uif-QuickFinder" p:dataObjectClassName="org.kuali.ole.deliver.bo.OlePatronDocument"
+                              p:fieldConversions="olePatronId:proxyPatronId,entity.names[0].firstName:proxyPatronFirstName,entity.names[0].lastName:proxyPatronLastName,barcode:proxyPatronBarcode"/>
+                    </property>
+                    <property name="control">
+                        <bean parent="Uif-TextControl" p:size="20" p:maxLength="20"/>
+                    </property>
+                </bean>
+
+                <bean id="name.firstName" parent="OlePatron-InputField" p:propertyName="proxyPatronFirstName" p:label="First Name" p:readOnly="true">
+                    <property name="control">
+                        <bean parent="Uif-TextControl" p:size="40" p:maxLength="40"  />
+                    </property>
+                </bean>
+                <bean id="name.lastName" parent="OlePatron-InputField" p:propertyName="proxyPatronLastName" p:label="Last Name" p:readOnly="true">
+                    <property name="control">
+                        <bean parent="Uif-TextControl" p:size="40" p:maxLength="40"  />
+                    </property>
+                </bean>
+
+                <bean id="proxyPatronActivationDate_Proxy" parent="OlePatron-InputField" p:label="Activation Date" p:propertyName="proxyPatronActivationDate" p:readOnly="@{!document.newMaintainableObject.dataObject.expirationFlag}">
+                    <property name="control">
+                        <bean parent="Uif-DateControl" p:size="10"/>
+                    </property>
+                </bean>
+                <bean id="proxyPatronExpirationDate_Proxy" parent="OlePatron-InputField" p:label="Expiration Date" p:propertyName="proxyPatronExpirationDate" p:readOnly="@{!document.newMaintainableObject.dataObject.expirationFlag}">
+                    <property name="control">
+                        <bean parent="Uif-DateControl" p:size="10"/>
+                    </property>
+                </bean>
+            </list>
+        </property>
+        <property name="addLineActions">
+            <list>
+                <bean id="addProxyPatron" parent="Uif-PrimaryActionButton-Small" p:methodToCall="searchAddLine" p:actionLabel="add" />
+            </list>
+        </property>
+        <property name="lineActions">
+            <list>
+                <bean id="deleteProxyPatron" parent="Uif-PrimaryActionButton-Small" p:methodToCall="deleteProxyPatron" p:actionLabel="Delete"  />
+            </list>
+        </property>
+    </bean>
+    
+    <bean id="OlePatronDocument-ProxyForSection-Wrapper" parent="Uif-VerticalBoxSection">
+    	<property name="items">
+    		<list>
+		      <bean parent="Uif-SectionHeader">
+		      	<property name="inlineComponents">
+		      		<list>
+		      			<bean parent="Uif-ActionImage" p:hidden="@{filterProxyForSection}"
+		      					p:methodToCall="refresh"
+			      				p:refreshId="OlePatronDocument-ProxyForSection-Wrapper" >
+		      				<property name="actionImage">
+				      			<bean parent="Uif-Image" p:source="@{#ThemeImages}h2_expand.png"/>
+		      				</property>
+		      				<property name="additionalSubmitData">
+		      					<map>
+		      						<entry key="filterProxyForSection" value="true" />
+		      					</map>
+		      				</property>
+		      			</bean>
+		      			<bean parent="Uif-ActionImage" p:hidden="@{!filterProxyForSection}"
+		      					p:methodToCall="refresh"
+			      				p:refreshId="OlePatronDocument-ProxyForSection-Wrapper" >
+		      				<property name="actionImage">
+				      			<bean parent="Uif-Image" p:source="@{#ThemeImages}h2_collapse.png"/>
+		      				</property>
+		      				<property name="additionalSubmitData">
+		      					<map>
+		      						<entry key="filterProxyForSection" value="false" />
+		      					</map>
+		      				</property>
+		      			</bean>
+		      			<bean parent="Uif-ActionLink" p:actionLabel="Proxy For"
+		      					p:methodToCall="refresh"
+			      				p:refreshId="OlePatronDocument-ProxyForSection-Wrapper" p:cssClasses="@{document.newMaintainableObject.dataObject.oleProxyPatronDocumentList ne null and document.newMaintainableObject.dataObject.oleProxyPatronDocumentList.size() &lt; 1?'disableColor':'enableColor'}" >
+		      				<property name="additionalSubmitData">
+		      					<map>
+		      						<entry key="filterProxyForSection" value="@{!filterProxyForSection}" />
+		      					</map>
+		      				</property>
+		      			</bean>
+		      		</list>
+		      	</property>
+		      	<property name="headerText" value="[0][1] [2]" />
+		      </bean>
+              <bean parent="Uif-VerticalBoxGroup">
+                <property name="items">
+                  <list>
+                    <ref bean="OlePatronDocument-ProxyForSection" />
+                  </list>
+                </property>
+		      </bean>
+    		</list>
+    	</property>
+    </bean>
+    
+    <bean id="OlePatronDocument-ProxyForSection" p:layoutManager.numberOfColumns="5" p:componentSecurity.editAuthz="true"
+    		parent="Uif-TableCollectionSection" p:disclosure.defaultOpen="false" p:filterModelProperty="filterProxyForSection">
+        <property name="collectionObjectClass" value="org.kuali.ole.deliver.bo.OleProxyPatronDocument" />
+        <property name="propertyName" value="oleProxyPatronDocumentList" />
+        <property name="layoutManager.renderSequenceField" value="false" />
+        <property name="renderAddLine" value="false"/>
+        <property name="items">
+            <list>
+                <bean id="proxied-olePatronId" parent="OlePatron-DataField" p:propertyName="olePatronId" p:label="Patron Id" />
+                <bean id="proxied-name.firstName" parent="OlePatron-DataField" p:propertyName="proxyForPatronFirstName" p:label="First Name" />
+                <bean id="proxied-name.lastName" parent="OlePatron-DataField" p:propertyName="proxyForPatronLastName" p:label="Last Name" />
+                <bean id="proxied-proxyPatronActivationDate_Proxy" parent="OlePatron-DataField" p:label="Activation Date" p:propertyName="proxyPatronActivationDate" />
+                <bean id="proxied-proxyPatronExpirationDate_Proxy" parent="OlePatron-DataField" p:label="Expiration Date" p:propertyName="proxyPatronExpirationDate" />
+            </list>
+        </property>
+        <property name="renderLineActions" value="false"/>
+    </bean>
+
+    <bean id="OlePatronDocument-PatronLocalIdSection-Wrapper" parent="Uif-VerticalBoxSection">
+    	<property name="items">
+    		<list>
+		      <bean parent="Uif-SectionHeader">
+		      	<property name="inlineComponents">
+		      		<list>
+		      			<bean parent="Uif-ActionImage" p:hidden="@{filterPatronLocalIdSection}"
+		      					p:methodToCall="refresh"
+			      				p:refreshId="OlePatronDocument-PatronLocalIdSection-Wrapper">
+		      				<property name="actionImage">
+				      			<bean parent="Uif-Image" p:source="@{#ThemeImages}h2_expand.png"/>
+		      				</property>
+		      				<property name="additionalSubmitData">
+		      					<map>
+		      						<entry key="filterPatronLocalIdSection" value="true" />
+		      					</map>
+		      				</property>
+		      			</bean>
+		      			<bean parent="Uif-ActionImage" p:hidden="@{!filterPatronLocalIdSection}"
+		      					p:methodToCall="refresh"
+			      				p:refreshId="OlePatronDocument-PatronLocalIdSection-Wrapper">
+		      				<property name="actionImage">
+				      			<bean parent="Uif-Image" p:source="@{#ThemeImages}h2_collapse.png"/>
+		      				</property>
+		      				<property name="additionalSubmitData">
+		      					<map>
+		      						<entry key="filterPatronLocalIdSection" value="false" />
+		      					</map>
+		      				</property>
+		      			</bean>
+		      			<bean parent="Uif-ActionLink" p:actionLabel="Local Identification"
+		      					p:methodToCall="refresh"
+			      				p:refreshId="OlePatronDocument-PatronLocalIdSection-Wrapper" p:cssClasses="@{document.newMaintainableObject.dataObject.olePatronLocalIds ne null and document.newMaintainableObject.dataObject.olePatronLocalIds.size() &lt; 1?'disableColor':'enableColor'}">
+		      				<property name="additionalSubmitData">
+		      					<map>
+		      						<entry key="filterPatronLocalIdSection" value="@{!filterPatronLocalIdSection}" />
+		      					</map>
+		      				</property>
+		      			</bean>
+		      		</list>
+		      	</property>
+		      	<property name="headerText" value="[0][1] [2]" />
+		      </bean>
+              <bean parent="Uif-VerticalBoxGroup">
+                <property name="items">
+                  <list>
+                    <ref bean="OlePatronDocument-PatronLocalIdSection" />
+                  </list>
+                </property>
+		      </bean>
+    		</list>
+    	</property>
+    </bean>
+    
+    <bean id="OlePatronDocument-PatronLocalIdSection" p:disclosure.defaultOpen="false" parent="Uif-TableCollectionSection" p:layoutManager.numberOfColumns="1" p:componentSecurity.editAuthz="true"
+    		p:filterModelProperty="filterPatronLocalIdSection">
+        <property name="collectionObjectClass" value="org.kuali.ole.deliver.bo.OlePatronLocalIdentificationBo" />
+        <property name="propertyName" value="olePatronLocalIds" />
+        <property name="layoutManager.renderSequenceField" value="false" />
+        <property name="items">
+            <list>
+                <bean id="localId" parent="OlePatron-InputField" p:propertyName="localId"  p:label="Local Id">
+                    <property name="control">
+                        <bean parent="Uif-TextControl" p:size="20" p:maxLength="20"  />
+                    </property>
+                </bean>
+            </list>
+        </property>
+        <property name="lineActions">
+            <list>
+                <bean id="deletedOlePatronLocalIds" parent="Uif-PrimaryActionButton-Small" p:methodToCall="deleteOlePatronLocalIds" p:actionLabel="Delete"  />
+            </list>
+        </property>
+    </bean>
+
+    <bean id="OlePatronDocument-InvalidOrLostBarcodeSection-Wrapper" parent="Uif-VerticalBoxSection" p:render="@{maintenanceAction eq 'Edit'}">
+    	<property name="items">
+    		<list>
+		      <bean parent="Uif-SectionHeader">
+		      	<property name="inlineComponents">
+		      		<list>
+		      			<bean parent="Uif-ActionImage" p:hidden="@{filterInvalidOrLostBarcodeSection}"
+		      					p:methodToCall="refresh"
+			      				p:refreshId="OlePatronDocument-InvalidOrLostBarcodeSection-Wrapper">
+		      				<property name="actionImage">
+				      			<bean parent="Uif-Image" p:source="@{#ThemeImages}h2_expand.png"/>
+		      				</property>
+		      				<property name="additionalSubmitData">
+		      					<map>
+		      						<entry key="filterInvalidOrLostBarcodeSection" value="true" />
+		      					</map>
+		      				</property>
+		      			</bean>
+		      			<bean parent="Uif-ActionImage" p:hidden="@{!filterInvalidOrLostBarcodeSection}"
+		      					p:methodToCall="refresh"
+			      				p:refreshId="OlePatronDocument-InvalidOrLostBarcodeSection-Wrapper">
+		      				<property name="actionImage">
+				      			<bean parent="Uif-Image" p:source="@{#ThemeImages}h2_collapse.png"/>
+		      				</property>
+		      				<property name="additionalSubmitData">
+		      					<map>
+		      						<entry key="filterInvalidOrLostBarcodeSection" value="false" />
+		      					</map>
+		      				</property>
+		      			</bean>
+		      			<bean parent="Uif-ActionLink" p:actionLabel="Lost/Invalid Barcode Info"
+		      					p:methodToCall="refresh"
+			      				p:refreshId="OlePatronDocument-InvalidOrLostBarcodeSection-Wrapper" p:cssClasses="@{document.newMaintainableObject.dataObject.lostBarcodes ne null and document.newMaintainableObject.dataObject.lostBarcodes.size() &lt; 1?'disableColor':'enableColor'}">
+		      				<property name="additionalSubmitData">
+		      					<map>
+		      						<entry key="filterInvalidOrLostBarcodeSection" value="@{!filterInvalidOrLostBarcodeSection}" />
+		      					</map>
+		      				</property>
+		      			</bean>
+		      		</list>
+		      	</property>
+		      	<property name="headerText" value="[0][1] [2]" />
+		      </bean>
+              <bean parent="Uif-VerticalBoxGroup">
+                <property name="items">
+                  <list>
+                    <ref bean="OlePatronDocument-InvalidOrLostBarcodeSection" />
+                  </list>
+                </property>
+		      </bean>
+    		</list>
+    	</property>
+    </bean>
+    <bean id="OlePatronDocument-InvalidOrLostBarcodeSection" p:layoutManager.numberOfColumns="7" p:filterModelProperty="filterInvalidOrLostBarcodeSection" parent="Uif-TableCollectionSection" p:disclosure.defaultOpen="false" p:componentSecurity.editAuthz="true">
+        <property name="collectionObjectClass" value="org.kuali.ole.deliver.bo.OlePatronLostBarcode" />
+        <property name="propertyName" value="lostBarcodes" />
+        <property name="renderAddLine" value="false"/>
+        <!--  <property name="addLineLabel" value="false"/>-->
+        <!--<property name="layoutManager.richTable.render" value="true" />-->
+        <property name="layoutManager.renderSequenceField" value="false" />
+       <!-- <property name="layoutManager.richTable.templateOptions">
+            <map>
+                <entry key="aaSorting" value="[[0,'desc']]"/>
+            </map>
+        </property>-->
+        <property name="items">
+            <list>
+                <bean id="invalidOrLostSpaceForSort" parent="Uif-SpaceField" p:style="width:0px"/><!--<bean id="invalidOrLostId" parent="OlePatron-DataField" p:propertyName="active" p:label=" " p:style="width:0px" p:hidden="true"/>-->
+                <bean id="invalidOrLostBarcodeNumber" parent="OlePatron-DataField" p:propertyName="invalidOrLostBarcodeNumber" p:label="Lost/Invalid Barcode" p:readOnly="true"/>
+                <bean id="invalidOrLostBarcodeEffDate" parent="OlePatron-DataField" p:label="Effective date" p:propertyName="invalidOrLostBarcodeEffDate" p:readOnly="true"/>
+                <bean id="invalidOrLostStatusCode" parent="OlePatron-DataField" p:label="Status" p:propertyName="status" p:readOnly="true"/>
+                <bean id="invalidOrLostDescription" parent="OlePatron-DataField" p:label="Description" p:propertyName="description" p:readOnly="true"/>
+                <bean id="invalidOrLostStatusOperatorId" parent="OlePatron-DataField" p:label="Operator Name" p:propertyName="operatorName" p:readOnly="true"/>
+                <bean id="invalidOrLostReinstate" parent="OlePatron-InputField" p:label="Reinstate" p:propertyName="active"  p:readOnly="@{!document.newMaintainableObject.dataObject.expirationFlag}">
+                    <property name="control">
+                        <bean parent="Uif-CheckboxControl" p:onClickScript="reinstateDialog();" p:disabled="@{#line?.invalidOrLostBarcodeNumber eq document.newMaintainableObject.dataObject.barcode}"/>
+                    </property>
+                </bean>
+                <!--<bean id="revert" parent="Uif-SecondaryActionButton-Small" p:methodToCall="revertBarcode" p:actionLabel="Revert" p:label="Revert Barcode" p:render="@{#line.revertBarcode}"/>-->
+            </list>
+        </property>
+        <property name="renderLineActions" value="false"/>
+    </bean>
+
+    <bean id="OlePatronDocument-Barcode-Update-Section" parent="Uif-VerticalBoxSection" p:render="@{document.newMaintainableObject.dataObject.invalidateBarcode}">
+        <property name="items">
+            <list>
+                <bean id="OlePatronDocument-Activate-Message-Section" parent="Uif-MessageField" p:messageText="Deactivate Barcode" />
+                <!--<bean id="OlePatronDocument-Deactivate-Message-Section" parent="Uif-MessageField" p:messageText="Deactivate Barcode" p:render="@{deactivateBarcode}" p:render="@{activateBarcode}/>-->
+                <bean id="OlePatronDocument-Barcode-update-view" parent="OlePatron-DataField" p:label="Patron Barcode" p:propertyName="barcode" />
+                <bean parent="OlePatron-InputField" p:propertyName="lostStatus" p:label="Reason" p:required="true">
+                    <property name="control">
+                        <bean parent="Uif-DropdownControl">
+                            <property name="options">
+                                <list>
+                                    <bean parent="Uif-KeyLabelPair" p:key="LOST" p:value="LOST"/>
+                                    <bean parent="Uif-KeyLabelPair" p:key="STOLEN" p:value="STOLEN"/>
+                                    <bean parent="Uif-KeyLabelPair" p:key="OTHER" p:value="OTHER"/>
+                                </list>
+                            </property>
+                        </bean>
+                    </property>
+                </bean>
+                <bean id="OlePatronDocument-validation-Message-Section" parent="Uif-MessageField" p:messageText="Description is Required Field" p:style="color:#FF0000;"/>
+                <bean id="OlePatronDocument-reason-note" parent="OlePatron-InputField" p:label="Description" p:propertyName="lostDescription" p:required="true">
+                    <property name="control">
+                        <bean parent="Uif-TextAreaControl" p:rows="5" p:cols="50" />
+                    </property>
+                </bean>
+                <ref bean="OlePatronDocument-LostBarcodeButtonSection"/>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="OlePatronDocument-LostBarcodeButtonSection" parent="Uif-HorizontalBoxSection">
+        <property name="items">
+            <list>
+                <bean id="lostConfimButton" parent="Uif-SecondaryActionButton"  p:actionLabel="confirm" p:actionScript="confirm();" />
+                <bean id ="updateBarcodeBtn" parent="Uif-SecondaryActionButton" p:methodToCall="lostBarcode" p:hidden="true" />
+                <bean parent="Uif-SecondaryActionButton"  p:actionLabel="cancel" p:actionScript="closeUpdateBarcodeDialog();"/>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="OlePatronDocument-reinstateBarcode-section" parent="Uif-VerticalBoxSection" p:render="@{document.newMaintainableObject.dataObject.reinstateBarcode}">
+        <property name="items">
+            <list>
+                <bean id="OlePatronDocument-reinstate-Message-Section" parent="Uif-MessageField" p:messageText="Do you want To reinstate Barcode" />
+                <bean parent="OlePatron-InputField" p:propertyName="lostStatus" p:label="Reason" p:required="true">
+                    <property name="control">
+                        <bean parent="Uif-DropdownControl">
+                            <property name="options">
+                                <list>
+                                    <bean parent="Uif-KeyLabelPair" p:key="REINSTATE" p:value="REINSTATE"/>
+                                </list>
+                            </property>
+                        </bean>
+                    </property>
+                </bean>
+
+                <bean id="OlePatronDocument-validation-Message-Section-reinstate" parent="Uif-MessageField" p:messageText="Description is Required Field" p:style="color:#FF0000;"/>
+
+                <bean id="OlePatronDocument-reinstate-reason-note" parent="OlePatron-InputField" p:label="Description" p:propertyName="lostDescription" p:required="true">
+                    <property name="control">
+                        <bean parent="Uif-TextAreaControl" p:rows="5" p:cols="50" />
+                    </property>
+                </bean>
+                <ref bean="OlePatronDocument-reinstateBarcodeButtonSection"/>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="OlePatronDocument-reinstateBarcodeButtonSection" parent="Uif-HorizontalBoxSection">
+        <property name="items">
+            <list>
+                <bean parent="Uif-SecondaryActionButton"  p:actionLabel="confirm" p:actionScript="reinstate();" />
+                <bean id ="reinstateBarcodeBtn" parent="Uif-SecondaryActionButton" p:methodToCall="reinstateBarcode" p:hidden="true" p:successCallback="disableEnableBarcode();" />
+                <bean parent="Uif-SecondaryActionButton"  p:actionLabel="cancel" p:actionScript="closeReinstateDialog();"/>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="showReinstateDialogBox" parent="OlePatron-InputField" p:propertyName="reinstateBarcode" p:hidden="true" >
+        <property name="control">
+            <bean parent="Uif-HiddenControl"/>
+        </property>
+    </bean>
+    <bean id="showUpdateBarcodeDialogBox" parent="OlePatron-InputField" p:propertyName="invalidateBarcode" p:hidden="true" >
+        <property name="control">
+            <bean parent="Uif-HiddenControl"/>
+        </property>
+    </bean>
+    <bean id ="Refresh-OlePatronDocument-InvalidOrLostBarcodeSection" parent="Uif-SecondaryActionButton" p:methodToCall="refreshInvalidOrLostBarcodeSection" p:hidden="true" p:refreshId="OlePatronDocument-InvalidOrLostBarcodeSection"/>
+
+    <bean id="OlePatronDocument-barcodeEditable" parent="OlePatron-InputField" p:propertyName="barcodeEditable" p:hidden="true" >
+        <property name="control">
+            <bean parent="Uif-HiddenControl"/>
+        </property>
+    </bean>
+
+    <bean id="OlePatronDocument-messagePopupSection" parent="Uif-VerticalBoxSection" p:render="@{document.newMaintainableObject.dataObject.popupDialog}">
+        <property name="items">
+            <list>
+                <bean id="OlePatronDocument-messagePopupSection-message" parent="Uif-MessageField"  p:messageText="@{document.newMaintainableObject.dataObject.patronMessage}" p:cssClasses="@{document.newMaintainableObject.dataObject.uiMessageType}" />
+                <ref bean="OlePatronDocument-messagePopupSection-button"/>
+            </list>
+        </property>
+    </bean>
+    <bean id="OlePatronDocument-messagePopupSection-button" parent="Uif-HorizontalBoxSection">
+        <property name="items">
+            <list>
+                <bean parent="Uif-SecondaryActionButton"  p:actionLabel="Continue" p:methodToCall="route" p:actionScript="continueSubmit()" p:successCallback="openPatronMessagePopup()"/>
+                <bean parent="Uif-SecondaryActionButton"  p:actionLabel="Cancel" p:actionScript="closePatronMessagePopup();"/>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="OlePatronDocument-popupDialog" parent="OlePatron-InputField" p:propertyName="popupDialog" p:hidden="true" >
+        <property name="control">
+            <bean parent="Uif-HiddenControl"/>
+        </property>
+    </bean>
+</beans>

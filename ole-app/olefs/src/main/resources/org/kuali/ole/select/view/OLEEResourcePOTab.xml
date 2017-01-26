@@ -1,0 +1,192 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:p="http://www.springframework.org/schema/p"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans         http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
+
+    <bean id="OLEEResourceRecordView-E-ResourcePOTab" parent="E-Res-Uif-DocumentPage">
+        <property name="items">
+            <list>
+                <ref bean="OLEEResourceRecordView-CreatePOLink"/>
+                <ref bean="OLEEResourceRecordView-Overview"/>
+                <ref bean="OLEEResourceRecordView-PO"/>
+                <ref bean="eResPOSpaceField"/>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="OLEEResourceRecordView-CreatePOLink" parent="Uif-Disclosure-HorizontalBoxSection">
+        <property name="items">
+            <list>
+                <bean parent="Uif-HorizontalBoxSection">
+                    <property name="items">
+                        <list>
+                            <bean id="CreatePOsButton" parent="Uif-PrimaryActionButton"
+                                  p:style="float:left;margin-left:20em"
+                                  p:actionScript="window.open('oleERSController?viewId=EResourcePOView&amp;methodToCall=getEResourcesAndInstances&amp;oleERSIdentifier=@{document.oleERSIdentifier}');"
+                                  p:actionLabel="Create Purchase Orders"
+                                  p:render="@{!(document.documentHeader.workflowDocument.initiated or document.documentHeader.workflowDocument.final)}"/>
+                            <bean id="PriceIncreaseAnalysisButton" parent="Uif-PrimaryActionButton"
+                                  p:actionScript="showLightboxComponent('OLEEResourceRecordView-PriceIncreaseAnalysis');"
+                                  p:actionLabel="Price Increase Analysis"
+                                  p:render="@{!(document.documentHeader.workflowDocument.initiated or document.documentHeader.workflowDocument.final)}"/>
+                            <bean parent="Uif-PrimaryActionButton" p:ajaxSubmit="false" p:methodToCall="save"
+                                  p:actionLabel="Save" p:performClientSideValidation="true"
+                                  p:render="@{!(document.documentHeader.workflowDocument.initiated or document.documentHeader.workflowDocument.final)}"/>
+                        </list>
+                    </property>
+                </bean>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="OLEEResourceRecordView-PriceIncreaseAnalysis" parent="Uif-HorizontalBoxSection"
+          p:style="width:500px;height:80px;">
+        <property name="headerText" value="Price increase analysis"/>
+        <property name="hidden" value="true"/>
+        <property name="items">
+            <list>
+                <bean id="OLEEResourceRecordView-PriceIncreaseAnalysis-FiscalYearCost" parent="Uif-InputField" p:propertyName="fiscalYearCost" p:label="Previous fiscal year cost"
+                      p:style="float:center;margin-left:5em"/>
+                <bean id="OLEEResourceRecordView-PriceIncreaseAnalysis-YearPriceQuote" parent="Uif-InputField" p:propertyName="yearPriceQuote" p:label="Current year price quote"
+                      p:style="float:center;margin-left:5em"/>
+                <bean parent="Uif-SecondaryActionButton-Small" p:methodToCall="calculateIncrease"
+                      p:actionLabel="Calculate" p:style="float:center;margin-left:25em" p:successCallback="showLightboxComponent('OLEEResourceRecordView-PriceIncreaseAnalysis-EmailInfo');clearPriceIncreaseAnalysisTab()" p:refreshId="OLEEResourceRecordView-PriceIncreaseAnalysis-EmailInfo"/>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="OLEEResourceRecordView-PriceIncreaseAnalysis-EmailInfo" parent="Uif-HorizontalBoxSection" p:hidden="@{document.showEmailAnalysis}">
+        <property name="items">
+            <list>
+                <bean id="OLEEResourceRecordView-PriceIncreaseAnalysis-CostIncrease" parent="Uif-DataField" p:propertyName="costIncrease" p:label="Cost increase"
+                      p:style="float:center;margin-left:5em"/>
+                <bean id="OLEEResourceRecordView-PriceIncreaseAnalysis-percentageIncrease" parent="Uif-DataField" p:propertyName="percentageIncrease" p:label="Percent increase"
+                      p:style="float:center;margin-left:5em"/>
+                <bean id="OLEEResourceRecordView-PriceIncreaseAnalysis-EmailText" parent="Uif-InputField"
+                      p:propertyName="emailText" p:label="Current year price quote"
+                      p:style="float:center;margin-left:5em" >
+                    <property name="control">
+                        <bean parent="Uif-TextAreaControl" p:cols="50" p:rows="3"/>
+                    </property>
+                </bean>
+                <!--<ref bean="OLEEResourceRecordView-PriceIncreaseAnalysis-Info"/>-->
+                <bean parent="Uif-SecondaryActionButton-Small"
+                      p:actionLabel="Generate Approval Email Text" p:methodToCall="generateEmailText"
+                      p:style="float:center;margin-left:5em" p:refreshId="OLEEResourceRecordView-PriceIncreaseAnalysis-EmailInfo"/>
+                <bean parent="Uif-SecondaryActionButton-Small" p:actionLabel="Copy to Clipboard"
+                      p:actionScript="copyToClipBoard()" p:style="float:center;margin-left:5em"/>
+                <bean parent="Uif-SecondaryActionButton-Small" p:actionLabel="Save Results to Event Log"
+                      p:methodToCall="saveResultToEventlog" p:style="float:center;margin-left:5em"/>
+                <bean parent="Uif-SecondaryActionButton-Small" p:actionLabel="Download csv" p:methodToCall="downloadCsv"
+                      p:disableBlocking="true" p:ajaxSubmit="false" p:style="float:center;margin-left:7em"/>
+                <bean parent="Uif-SecondaryActionButton-Small" p:methodToCall="closeDialog"
+                      p:actionLabel="Close" p:successCallback="clearPriceIncreaseAnalysisInfoTab();closePriceIncreaseWidget();" p:style="float:left;margin-left:20em" p:refreshId="OLEEResourceRecordView-PriceIncreaseAnalysis-EmailInfo"/>
+                <bean parent="Uif-SecondaryActionButton-Small" p:methodToCall="closeDialog"
+                      p:actionLabel="Close" p:successCallback="clearPriceIncreaseAnalysisInfoTab();closePriceIncreaseWidget();" p:style="float:left;margin-left:30em" p:refreshId="OLEEResourceRecordView-PriceIncreaseAnalysis-EmailInfo" p:hidden="true"/>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="OLEEResourceRecordView-Overview" parent="Uif-Disclosure-VerticalBoxSection">
+        <property name="headerText" value="Overview"/>
+        <property name="items">
+            <list>
+                <bean parent="Uif-GridGroup" p:layoutManager.numberOfColumns="6"
+                      p:layoutManager.cssClasses="fl-container-flex">
+                    <property name="items">
+
+                        <list>
+                            <bean parent="Uif-DataField" p:propertyName="title" p:required="true"/>
+                            <bean id="statusId" parent="Uif-DataField" p:propertyName="statusName" p:label="Status"
+                                  p:required="true"/>
+                            <bean parent="Uif-DataField" p:propertyName="oleERSIdentifier"/>
+
+                            <bean parent="Uif-Label" p:labelText="Publisher"/>
+                            <bean parent="Uif-HorizontalBoxSection">
+                                <property name="items">
+                                    <list>
+                                        <bean parent="Uif-DataField" p:propertyName="publisher" p:label=" " p:render="@{document.activePublisher}"/>
+                                        <bean parent="Uif-DataField" p:propertyName="publisher" p:label=" " p:render="@{!document.activePublisher}" p:cssClasses="InactiveVendor"/>
+                                    </list>
+                                </property>
+                            </bean>
+
+                            <bean parent="Uif-DataField" p:propertyName="statusDate" />
+                            <bean parent="Uif-DataField" p:propertyName="isbn" />
+
+                            <bean parent="Uif-Label" p:labelText="Vendor Name"/>
+                            <bean parent="Uif-HorizontalBoxSection">
+                                <property name="items">
+                                    <list>
+                                        <bean parent="Uif-DataField" p:propertyName="vendorName" p:label=" " p:render="@{document.activeVendor}"/>
+                                        <bean parent="Uif-DataField" p:propertyName="vendorName" p:label=" " p:render="@{!document.activeVendor}" p:cssClasses="InactiveVendor"/>
+                                    </list>
+                                </property>
+                            </bean>
+
+                            <bean parent="Uif-DataField" p:propertyName="platformProvider"/>
+                            <bean parent="Uif-DataField" p:propertyName="gokbIdentifier"/>
+                        </list>
+                    </property>
+                </bean>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="OLEEResourceRecordView-PO" parent="Uif-Disclosure-VerticalBoxSection" >
+        <property name="headerText" value="PO details"/>
+        <property name="items">
+            <list>
+                <ref bean="OLEEResourceRecordView-POItemDetails"/>
+                <bean parent="Uif-MessageField"
+                      p:messageText="There are currently no Purchase Orders attached to the E-Resource Record."
+                      p:render="@{document.linkedERSPOItems eq null or document.linkedERSPOItems.size()==0}"/>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="OLEEResourceRecordView-POItemDetails" parent="Uif-Disclosure-TableCollectionSection"
+          p:layoutManager.numberOfColumns="1">
+        <property name="collectionObjectClass" value="org.kuali.ole.select.document.OLEEResourcePO"/>
+        <property name="propertyName" value="linkedERSPOItems"/>
+        <property name="layoutManager.renderSequenceField" value="false"/>
+        <property name="renderAddLine" value="false"/>
+        <property name="layoutManager.richTable.render" value="true"/>
+        <property name="layoutManager.richTable.disableTableSort" value="false"/>
+        <property name="layoutManager.totalLabel.labelText" value="Sum of Payments (all POs)"/>
+        <property name="layoutManager.renderOnlyLeftTotalLabels" value="true"/>
+        <property name="layoutManager.columnCalculations">
+            <list>
+                <bean parent="Uif-ColumnCalculationInfo-Sum" p:propertyName="paidAmountCurrentFY"/>
+                <bean parent="Uif-ColumnCalculationInfo-Sum" p:propertyName="paidAmountPreviousFY"/>
+                <bean parent="Uif-ColumnCalculationInfo-Sum" p:propertyName="paidAmountTwoYearsPreviousFY"/>
+            </list>
+        </property>
+        <property name="items">
+            <list>
+                <bean id="olePOItemId" parent="Uif-LinkField" p:linkText="@{#line.olePOItemId}" p:target="_blank"
+                      p:label="PO Number" p:href="@{#line.redirectUrl}"/>
+                <bean id="title_PO" parent="Uif-DataField" p:propertyName="title" p:label="Title"/>
+                <bean id="purpose" parent="Uif-DataField" p:propertyName="purpose" p:label="Purpose"/>
+                <bean id="paidAmountCurrentFY" parent="Uif-DataField" p:propertyName="paidAmountCurrentFY"
+                      p:label="Paid Amount CurrentFY"/>
+                <bean id="paidAmountPreviousFY" parent="Uif-DataField" p:propertyName="paidAmountPreviousFY"
+                      p:label="Paid Amount PreviousFY"/>
+                <bean id="paidAmountTwoYearsPreviousFY" parent="Uif-DataField"
+                      p:propertyName="paidAmountTwoYearsPreviousFY" p:label="Paid Amount Two Years PreviousFY"/>
+                <bean id="poStatus" parent="Uif-DataField"
+                      p:propertyName="poStatus" p:label="PO Status"/>
+                <!--<bean id="Remove" parent="Uif-LinkField" p:style="font-weight:bold;" p:link.href="@{#line.removeInstance()}"  p:link.linkText="X"  p:target="_blank"  p:label="Remove"/>-->
+            </list>
+        </property>
+        <property name="renderLineActions" value="false"/>
+    </bean>
+
+    <bean id="eResPOSpaceField" parent="Uif-VerticalBoxSection" p:align="center" p:render="@{document.linkedERSPOItems eq null or document.linkedERSPOItems.size()==0}">
+        <property name="items">
+            <list>
+            </list>
+        </property>
+    </bean>
+
+</beans>

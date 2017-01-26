@@ -1,0 +1,36 @@
+div.blockOverlay{
+    display:none !important;
+}
+
+div.blockUI{
+    display:none !important;
+}
+
+.messageClass{
+    color: red;
+    font-size: 18px;
+}
+
+.dataTables_filter {
+    float: right;
+    text-align: right;
+    width: 50%;
+}
+
+.creditFont{
+    color: green;
+}
+
+.creditRemainingFont{
+    color: green;
+}
+
+.fancybox-skin {
+    width: auto;
+    height: auto;
+    display: block;
+    position: fixed;
+    top: 30px !important;
+    left: 468px;
+    opacity: 1;
+}
